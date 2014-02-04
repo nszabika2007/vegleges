@@ -1,0 +1,46 @@
+Diff\LoginBundle\Entity\Bills:
+    type: entity
+    table: bills
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        date:
+            type: date
+            nullable: false
+            comment: ''
+        orderId:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+            default: '0'
+            column: order_id
+        tripId:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+            default: '0'
+            column: trip_id
+        amount:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            comment: ''
+        fileName:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: file_name
+    lifecycleCallbacks: {  }

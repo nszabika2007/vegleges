@@ -1,0 +1,10 @@
+/**
+ * 	Images that are going to be renderd to PDF .
+ */
+
+img.img-for-pdf
+{
+	max-width:100% ;
+	display:block ;
+	margin:0 auto;
+}

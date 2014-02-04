@@ -1,0 +1,42 @@
+Diff\LoginBundle\Entity\Product:
+    type: entity
+    table: product
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        productname:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: ProductName
+        price:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            comment: ''
+            column: Price
+        producturl:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: ProductURL
+        orderid:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: OrderID
+    lifecycleCallbacks: {  }

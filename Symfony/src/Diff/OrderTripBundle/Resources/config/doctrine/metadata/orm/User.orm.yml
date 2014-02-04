@@ -1,0 +1,62 @@
+User:
+    type: entity
+    table: user
+    uniqueConstraints:
+        userName:
+            columns:
+                - userName
+        email:
+            columns:
+                - email
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        username:
+            type: string
+            nullable: false
+            length: 40
+            fixed: false
+            comment: ''
+            column: userName
+        password:
+            type: string
+            nullable: false
+            length: 260
+            fixed: false
+            comment: ''
+        firstname:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: firstName
+        lastname:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: lastName
+        role:
+            type: string
+            nullable: false
+            length: 6
+            fixed: false
+            comment: ''
+            default: USER
+        email:
+            type: string
+            nullable: false
+            length: 60
+            fixed: false
+            comment: ''
+    lifecycleCallbacks: {  }

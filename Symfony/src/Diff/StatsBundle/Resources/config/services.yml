@@ -1,0 +1,7 @@
+parameters:
+    StatsForm.Class: Diff\StatsBundle\Form\StatsForm
+
+services:
+    StatsForm:
+        class: %StatsForm.Class%
+        arguments: [@form.factory , @router]

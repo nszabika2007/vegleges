@@ -1,0 +1,42 @@
+Diff\LoginBundle\Entity\Files:
+    type: entity
+    table: files
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        fileName:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+            column: file_name
+        tripId:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+            default: '0'
+            column: trip_id
+        orderId:
+            type: integer
+            nullable: true
+            unsigned: false
+            comment: ''
+            default: '0'
+            column: order_id
+        desription:
+            type: text
+            nullable: false
+            length: null
+            fixed: false
+            comment: ''
+    lifecycleCallbacks: {  }

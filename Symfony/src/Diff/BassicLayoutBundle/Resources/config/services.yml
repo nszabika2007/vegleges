@@ -1,0 +1,12 @@
+parameters:
+   BasicLayoutHelper.Class: Diff\BassicLayoutBundle\Helper\BasicLayoutHelper
+   CITableHelper.Class: Diff\BassicLayoutBundle\Helper\CITableHelper
+# arguments: ["janos"]
+services:
+    BasicLayoutHelper:
+       class: %BasicLayoutHelper.Class%
+       calls:
+             - [Set_TemplatingDependency, ["@templating"]]
+             - [Set_UserHelper , ["@UserHelper"]]
+    CITableHelper:
+        class: %CITableHelper.Class%		

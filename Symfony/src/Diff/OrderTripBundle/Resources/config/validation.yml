@@ -1,0 +1,6 @@
+Diff\OrderTripBundle\Form\OrdersForm:
+    properties:
+        ProvidedAmount:
+            - NotBlank: { groups: [Orders] }
+        Created:
+            - NotBlank: { groups: [Orders] }

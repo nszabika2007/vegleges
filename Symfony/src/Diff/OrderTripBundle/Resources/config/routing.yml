@@ -1,0 +1,30 @@
+order_trip_homepage:
+    pattern: /orders
+    defaults: { _controller:OrderTripBundle:Order:index }
+view_order:
+    pattern: /orders/view/{OrderID}/{Finalize}
+    defaults: { _controller:OrderTripBundle:Order:view , Finalize:"" }
+view_trip:
+    pattern: /trips/view/{TripID}/{Finalize}
+    defaults: { _controller:OrderTripBundle:Trip:view , Finalize:"" }
+trip_homepage:
+    pattern: /trips
+    defaults: { _controller:OrderTripBundle:Trip:index}
+trip_upload:
+    pattern: /trips/upload/{TripID}
+    defaults: { _controller:OrderTripBundle:Trip:upload ,TripID:0}
+finalize_trip:
+    pattern: /trips/finalize/{TripID}
+    defaults: { _controller:OrderTripBundle:Trip:finalizeTrip }
+submit_order_bill:
+    pattern: /orders/bill/{OrderID}
+    defaults: { _controller:OrderTripBundle:Order:OrderBill }
+trip_cerere:
+    pattern: /trip/cerere/{TripID}
+    defaults: { _controller:OrderTripBundle:Trip:cerere }
+trip_declaratie:
+    pattern: /trip/declaratie/{TripID}
+    defaults: { _controller:OrderTripBundle:Trip:declaratie }
+logout_page:
+     pattern: /logoutt
+     defaults: { _controller: LoginBundle:Login:logout }

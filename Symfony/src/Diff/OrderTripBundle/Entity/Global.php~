@@ -1,0 +1,83 @@
+<?php
+
+namespace Diff\LoginBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Global
+ */
+class Global
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var float
+     */
+    private $globaltrip;
+
+    /**
+     * @var float
+     */
+    private $globalorder;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set globaltrip
+     *
+     * @param float $globaltrip
+     * @return Global
+     */
+    public function setGlobaltrip($globaltrip)
+    {
+        $this->globaltrip = $globaltrip;
+
+        return $this;
+    }
+
+    /**
+     * Get globaltrip
+     *
+     * @return float 
+     */
+    public function getGlobaltrip()
+    {
+        return $this->globaltrip;
+    }
+
+    /**
+     * Set globalorder
+     *
+     * @param float $globalorder
+     * @return Global
+     */
+    public function setGlobalorder($globalorder)
+    {
+        $this->globalorder = $globalorder;
+
+        return $this;
+    }
+
+    /**
+     * Get globalorder
+     *
+     * @return float 
+     */
+    public function getGlobalorder()
+    {
+        return $this->globalorder;
+    }
+}

@@ -1,0 +1,46 @@
+<?php
+
+namespace Diff\OrderTripBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Order
+ *
+ * @ORM\Table(name="order")
+ * @ORM\Entity
+ */
+class Order
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="ID", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="OrderDate", type="datetime", nullable=false)
+     */
+    private $orderdate;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="UserID", type="integer", nullable=false)
+     */
+    private $userid;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="ProvidedAmount", type="float", precision=10, scale=0, nullable=false)
+     */
+    private $providedamount;
+
+
+}

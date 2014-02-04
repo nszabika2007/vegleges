@@ -1,0 +1,19 @@
+parameters:
+    PDFHandler.Class: Diff\FileHandlerBundle\Libraries\PDFHandler\PDFHandler
+    MergeHelper.Class: Diff\FileHandlerBundle\Libraries\MergeHelper
+    MergeAPI.Class: Diff\FileHandlerBundle\Libraries\MergeAPI
+    DIRHelper.Class: Diff\FileHandlerBundle\Libraries\DIRHelper
+
+services:
+    PDFHandler:
+       class: %PDFHandler.Class%
+       arguments: [ @knp.snappy.pdf , @BasicLayoutHelper ]
+    MergeHelper:
+       class: %MergeHelper.Class%
+       arguments: [ @PDFHandler , @templating , @MergeAPI ]
+    MergeAPI:
+       class: %MergeAPI.Class%
+       arguments: [ @UserHelper ]
+    DIRHelper:
+       class: %DIRHelper.Class%
+       arguments: [ ]   

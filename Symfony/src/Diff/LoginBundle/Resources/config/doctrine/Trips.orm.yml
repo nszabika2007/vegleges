@@ -1,0 +1,54 @@
+Diff\LoginBundle\Entity\Trips:
+    type: entity
+    table: trips
+    indexes:
+        UserID:
+            columns:
+                - UserID
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        startdate:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: StartDate
+        enddate:
+            type: datetime
+            nullable: true
+            comment: ''
+            column: EndDate
+        userid:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: UserID
+        finalize:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '0'
+        providedamount:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            comment: ''
+            default: '0'
+            column: ProvidedAmount
+        destination:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+    lifecycleCallbacks: {  }

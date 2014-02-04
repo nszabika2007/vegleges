@@ -1,0 +1,212 @@
+Diff\LoginBundle\Entity\Cerereordins:
+    type: entity
+    table: cerereordins
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        tripid:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: TripID
+        cci:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        date1:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        dlocality:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        dcountry:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        dscop:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        droute:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        preiod:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        dgo:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        dcome:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        cheltuieli:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        csalariale:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        datecreated:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        nrgf:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        namef:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        transpif:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        transpintf:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        diaurinaf:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        cazaref:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        taxaf:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        altchelf:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        totalf:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        datef:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        nrgd:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        named:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        tranpsid:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        transpintd:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        diaurnad:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        cazared:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        taxad:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        altcheld:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        totald:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+        dated:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+    lifecycleCallbacks: {  }

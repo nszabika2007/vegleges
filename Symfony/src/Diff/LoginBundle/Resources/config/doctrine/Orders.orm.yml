@@ -1,0 +1,53 @@
+Diff\LoginBundle\Entity\Orders:
+    type: entity
+    table: orders
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        created:
+            type: datetime
+            nullable: false
+            comment: ''
+            column: Created
+        userid:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            column: UserID
+        providedamount:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            comment: ''
+            column: ProvidedAmount
+        finalized:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '0'
+            column: Finalized
+        pdfName:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: PDF_Name
+        billfilename:
+            type: text
+            nullable: true
+            length: null
+            fixed: false
+            comment: ''
+            column: BillFileName
+    lifecycleCallbacks: {  }

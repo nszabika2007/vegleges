@@ -1,0 +1,36 @@
+stats:
+    resource: "@StatsBundle/Resources/config/routing.yml"
+    prefix:   /
+
+file_handler:
+    resource: "@FileHandlerBundle/Resources/config/routing.yml"
+    prefix:   /
+
+order_trip:
+    resource: "@OrderTripBundle/Resources/config/routing.yml"
+    prefix:   /
+
+login:
+    pattern: /login
+    defaults: { _controller: LoginBundle:Login:login }
+ 
+login_check:
+    pattern: /login_check
+ 
+logout:
+    pattern: /logout
+    defaults: { _controller: LoginBundle:Login:logout }
+
+admin:
+    resource: "@AdminBundle/Resources/config/routing.php"
+    prefix:   /
+
+bassic_layout:
+    resource: "@BassicLayoutBundle/Resources/config/routing.yml"
+    prefix:   /
+
+user:
+    resource: "@UserBundle/Resources/config/routing.php"
+    prefix:   /
+
+

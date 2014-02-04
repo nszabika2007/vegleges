@@ -1,0 +1,29 @@
+Diff\LoginBundle\Entity\Global:
+    type: entity
+    table: global
+    id:
+        id:
+            type: integer
+            nullable: false
+            unsigned: false
+            comment: ''
+            id: true
+            column: ID
+            generator:
+                strategy: IDENTITY
+    fields:
+        globaltrip:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            comment: ''
+            column: GlobalTrip
+        globalorder:
+            type: float
+            nullable: false
+            precision: 10
+            scale: 0
+            comment: ''
+            column: GlobalOrder
+    lifecycleCallbacks: {  }

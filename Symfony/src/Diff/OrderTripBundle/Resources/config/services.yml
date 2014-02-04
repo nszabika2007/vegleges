@@ -1,0 +1,46 @@
+parameters:
+    OrdersForm.Class: Diff\OrderTripBundle\Form\OrdersForm
+    ProductForm.Class: Diff\OrderTripBundle\Form\ProductForm
+    TripForm.Class: Diff\OrderTripBundle\Form\TripForm
+    UploadTrip.Class: Diff\OrderTripBundle\Library\UploadTrip
+    BillForm.Class: Diff\OrderTripBundle\Form\BillForm
+    CerereOrdinForm.Class: Diff\OrderTripBundle\Form\CerereOrdinForm
+    CerereDeOridinHandler.Class: Diff\OrderTripBundle\Library\CerereDeOridinHandler
+    DeclaratieForm.Class: Diff\OrderTripBundle\Form\DeclaratieForm
+    AmountHelper.Class: Diff\OrderTripBundle\Library\AmountHelper
+    DeclaratieHelper.Class: Diff\OrderTripBundle\Library\DeclaratieHelper
+    GlobalHelper.Class: Diff\OrderTripBundle\Library\GlobalHelper
+
+services:
+    OrdersForm:
+        class: %OrdersForm.Class%
+        arguments: [@form.factory , @UserHelper , @doctrine.orm.entity_manager]
+    TripForm:
+        class: %TripForm.Class%
+        arguments: [@form.factory , @UserHelper , @doctrine.orm.entity_manager]
+    ProductForm:
+        class: %ProductForm.Class%
+        arguments: [@form.factory , @doctrine.orm.entity_manager]
+    BillForm:
+        class: %BillForm.Class%
+        arguments: [@form.factory , @doctrine.orm.entity_manager]
+    UploadTrip:
+        class: %UploadTrip.Class%
+    CerereOrdinForm:
+        class: %CerereOrdinForm.Class%
+        arguments: [ @form.factory , @doctrine.orm.entity_manager ]
+    CerereDeOridinHandler:
+        class: %CerereDeOridinHandler.Class%
+        arguments: [ ]
+    DeclaratieForm:
+        class: %DeclaratieForm.Class%
+        arguments: [ @form.factory , @doctrine.orm.entity_manager ]    
+    AmountHelper:
+        class: %AmountHelper.Class%
+        arguments: [ @doctrine.orm.entity_manager , @templating ]
+    DeclaratieHelper:
+        class: %DeclaratieHelper.Class%
+        arguments: [  ]
+    GlobalHelper:
+        class: %GlobalHelper.Class%
+        arguments: [ @doctrine.orm.entity_manager ]
