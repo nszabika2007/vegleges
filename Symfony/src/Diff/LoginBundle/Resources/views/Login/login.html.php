@@ -16,7 +16,7 @@ Echo $view->render(
 	<br />
 	<div class='col-md-4' > </div> 
 	<div class='col-md-4 well' >
-	<h1 class='text-center' >Please Login.</h1>
+	<h1 class='text-center' >Please Login</h1>
 	<?php if ($error): ?>
     <div class='alert alert-danger text-center' ><b> <?php echo $error->getMessage() ?> </b></div>
 	<?php endif; ?>

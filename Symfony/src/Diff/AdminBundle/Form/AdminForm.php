@@ -57,6 +57,14 @@ Class AdminForm
 								'label' => 'Email',
 								'attr' 	=> array( 'class' => 'form-control' )
 							) )
+				-> add( 'tel' , 'text' , array( 
+					'label' => 'Phone Number',
+					'attr' 	=> array( 'class' => 'form-control' )
+				) )
+				-> add( 'university' , 'text' , array( 
+					'label' => 'University',
+					'attr' 	=> array( 'class' => 'form-control' )
+				) )
 				-> add( 'Save' , 'submit' , array(
 								'attr'	=> array( 
 												'class' => 'btn btn-primary pull-right'						
@@ -80,7 +88,9 @@ Class AdminForm
 						-> setFirstname( $FormData[ 'firstName' ] )
 						-> setLastname( $FormData[ 'lastName' ] )
 						-> setRole( $FormData[ 'role' ])
-						-> setEmail( $FormData[ 'email' ] );
+						-> setEmail( $FormData[ 'email' ] )
+						-> setTel( $FormData[ 'tel' ])
+						-> setUniversity( $FormData[ 'university' ] );
 				$this -> EntityManager -> persist( $Admin );	
 				$this -> EntityManager -> flush( );
 			}

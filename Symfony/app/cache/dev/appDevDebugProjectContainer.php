@@ -343,7 +343,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getAnnotationReaderService()
     {
-        return $this->services['annotation_reader'] = new \Doctrine\Common\Annotations\FileCacheReader(new \Doctrine\Common\Annotations\AnnotationReader(), '/opt/lampp/htdocs/Symfony/app/cache/dev/annotations', true);
+        return $this->services['annotation_reader'] = new \Doctrine\Common\Annotations\FileCacheReader(new \Doctrine\Common\Annotations\AnnotationReader(), '/var/www/DiffProj/Symfony/app/cache/dev/annotations', true);
     }
 
     /**
@@ -359,12 +359,12 @@ class appDevDebugProjectContainer extends Container
         $a = $this->get('assetic.asset_factory');
         $b = $this->get('templating.loader');
 
-        $c = new \Assetic\Cache\ConfigCache('/opt/lampp/htdocs/Symfony/app/cache/dev/assetic/config');
+        $c = new \Assetic\Cache\ConfigCache('/var/www/DiffProj/Symfony/app/cache/dev/assetic/config');
 
         $this->services['assetic.asset_manager'] = $instance = new \Assetic\Factory\LazyAssetManager($a, array('twig' => new \Assetic\Factory\Loader\CachedFormulaLoader(new \Assetic\Extension\Twig\TwigFormulaLoader($this->get('twig')), $c, true), 'php' => new \Assetic\Factory\Loader\CachedFormulaLoader(new \Symfony\Bundle\AsseticBundle\Factory\Loader\AsseticHelperFormulaLoader($a), $c, true)));
 
-        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($b, '', '/opt/lampp/htdocs/Symfony/app/Resources/views', '/\\.[^.]+\\.twig$/'), 'twig');
-        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($b, '', '/opt/lampp/htdocs/Symfony/app/Resources/views', '/\\.[^.]+\\.php$/'), 'php');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($b, '', '/var/www/DiffProj/Symfony/app/Resources/views', '/\\.[^.]+\\.twig$/'), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($b, '', '/var/www/DiffProj/Symfony/app/Resources/views', '/\\.[^.]+\\.php$/'), 'php');
 
         return $instance;
     }
@@ -533,7 +533,7 @@ class appDevDebugProjectContainer extends Container
         $a = $this->get('kernel');
         $b = $this->get('templating.filename_parser');
 
-        $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, '/opt/lampp/htdocs/Symfony/app/Resources');
+        $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, '/var/www/DiffProj/Symfony/app/Resources');
 
         return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, $this->get('templating.locator')), 1 => new \Symfony\Bundle\AsseticBundle\CacheWarmer\AssetManagerCacheWarmer($this), 2 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 3 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c), 4 => new \Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer($this->get('doctrine'))));
     }
@@ -853,18 +853,18 @@ class appDevDebugProjectContainer extends Container
         $a = $this->get('annotation_reader');
 
         $b = new \Doctrine\Common\Cache\ArrayCache();
-        $b->setNamespace('sf2orm_default_5ed450564c4fc379192ad9fa993ce77325835eea49acfa8741cdf0edd90aadd7');
+        $b->setNamespace('sf2orm_default_74046c01e0034473bfc2296bfdd6900e49cd3e281f93486c74e47104adbe4129');
 
         $c = new \Doctrine\Common\Cache\ArrayCache();
-        $c->setNamespace('sf2orm_default_5ed450564c4fc379192ad9fa993ce77325835eea49acfa8741cdf0edd90aadd7');
+        $c->setNamespace('sf2orm_default_74046c01e0034473bfc2296bfdd6900e49cd3e281f93486c74e47104adbe4129');
 
         $d = new \Doctrine\Common\Cache\ArrayCache();
-        $d->setNamespace('sf2orm_default_5ed450564c4fc379192ad9fa993ce77325835eea49acfa8741cdf0edd90aadd7');
+        $d->setNamespace('sf2orm_default_74046c01e0034473bfc2296bfdd6900e49cd3e281f93486c74e47104adbe4129');
 
-        $e = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/opt/lampp/htdocs/Symfony/src/Diff/UserBundle/Resources/config/doctrine' => 'Diff\\UserBundle\\Entity', '/opt/lampp/htdocs/Symfony/src/Diff/BassicLayoutBundle/Resources/config/doctrine' => 'Diff\\BassicLayoutBundle\\Entity', '/opt/lampp/htdocs/Symfony/src/Diff/LoginBundle/Resources/config/doctrine' => 'Diff\\LoginBundle\\Entity'));
+        $e = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/var/www/DiffProj/Symfony/src/Diff/UserBundle/Resources/config/doctrine' => 'Diff\\UserBundle\\Entity', '/var/www/DiffProj/Symfony/src/Diff/BassicLayoutBundle/Resources/config/doctrine' => 'Diff\\BassicLayoutBundle\\Entity', '/var/www/DiffProj/Symfony/src/Diff/LoginBundle/Resources/config/doctrine' => 'Diff\\LoginBundle\\Entity'));
         $e->setGlobalBasename('mapping');
 
-        $f = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($a, array(0 => '/opt/lampp/htdocs/Symfony/src/Diff/AdminBundle/Entity', 1 => '/opt/lampp/htdocs/Symfony/src/Diff/OrderTripBundle/Entity'));
+        $f = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($a, array(0 => '/var/www/DiffProj/Symfony/src/Diff/AdminBundle/Entity', 1 => '/var/www/DiffProj/Symfony/src/Diff/OrderTripBundle/Entity'));
 
         $g = new \Doctrine\ORM\Mapping\Driver\DriverChain();
         $g->addDriver($e, 'Diff\\UserBundle\\Entity');
@@ -879,7 +879,7 @@ class appDevDebugProjectContainer extends Container
         $h->setQueryCacheImpl($c);
         $h->setResultCacheImpl($d);
         $h->setMetadataDriverImpl($g);
-        $h->setProxyDir('/opt/lampp/htdocs/Symfony/app/cache/dev/doctrine/orm/Proxies');
+        $h->setProxyDir('/var/www/DiffProj/Symfony/app/cache/dev/doctrine/orm/Proxies');
         $h->setProxyNamespace('Proxies');
         $h->setAutoGenerateProxyClasses(true);
         $h->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
@@ -942,7 +942,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getFileLocatorService()
     {
-        return $this->services['file_locator'] = new \Symfony\Component\HttpKernel\Config\FileLocator($this->get('kernel'), '/opt/lampp/htdocs/Symfony/app/Resources');
+        return $this->services['file_locator'] = new \Symfony\Component\HttpKernel\Config\FileLocator($this->get('kernel'), '/var/www/DiffProj/Symfony/app/Resources');
     }
 
     /**
@@ -1649,7 +1649,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getKnp_Snappy_PdfService()
     {
-        return $this->services['knp.snappy.pdf'] = new \Knp\Snappy\Pdf('/usr/local/bin/wkhtmltopdf', array('lowquality' => false, 'enable-javascript' => false, 'debug-javascript' => false));
+        return $this->services['knp.snappy.pdf'] = new \Knp\Snappy\Pdf('/usr/bin/wkhtmltopdf', array('lowquality' => false, 'enable-javascript' => false, 'debug-javascript' => false));
     }
 
     /**
@@ -1746,7 +1746,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getMonolog_Handler_MainService()
     {
-        return $this->services['monolog.handler.main'] = new \Monolog\Handler\StreamHandler('/opt/lampp/htdocs/Symfony/app/logs/dev.log', 100, true);
+        return $this->services['monolog.handler.main'] = new \Monolog\Handler\StreamHandler('/var/www/DiffProj/Symfony/app/logs/dev.log', 100, true);
     }
 
     /**
@@ -1993,7 +1993,7 @@ class appDevDebugProjectContainer extends Container
         $d = new \Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector($this->get('doctrine'));
         $d->addLogger('default', $this->get('doctrine.dbal.logger.profiling.default'));
 
-        $this->services['profiler'] = $instance = new \Symfony\Component\HttpKernel\Profiler\Profiler(new \Symfony\Component\HttpKernel\Profiler\FileProfilerStorage('file:/opt/lampp/htdocs/Symfony/app/cache/dev/profiler', '', '', 86400), $a);
+        $this->services['profiler'] = $instance = new \Symfony\Component\HttpKernel\Profiler\Profiler(new \Symfony\Component\HttpKernel\Profiler\FileProfilerStorage('file:/var/www/DiffProj/Symfony/app/cache/dev/profiler', '', '', 86400), $a);
 
         $instance->add($c);
         $instance->add($this->get('data_collector.request'));
@@ -2091,7 +2091,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getRouterService()
     {
-        return $this->services['router'] = new \Symfony\Bundle\FrameworkBundle\Routing\Router($this, '/opt/lampp/htdocs/Symfony/app/cache/dev/assetic/routing.yml', array('cache_dir' => '/opt/lampp/htdocs/Symfony/app/cache/dev', 'debug' => true, 'generator_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper', 'generator_cache_class' => 'appDevUrlGenerator', 'matcher_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_base_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper', 'matcher_cache_class' => 'appDevUrlMatcher', 'strict_requirements' => true), $this->get('router.request_context', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('monolog.logger.router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['router'] = new \Symfony\Bundle\FrameworkBundle\Routing\Router($this, '/var/www/DiffProj/Symfony/app/cache/dev/assetic/routing.yml', array('cache_dir' => '/var/www/DiffProj/Symfony/app/cache/dev', 'debug' => true, 'generator_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper', 'generator_cache_class' => 'appDevUrlGenerator', 'matcher_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_base_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper', 'matcher_cache_class' => 'appDevUrlMatcher', 'strict_requirements' => true), $this->get('router.request_context', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('monolog.logger.router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     /**
@@ -2221,7 +2221,7 @@ class appDevDebugProjectContainer extends Container
         $g = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($d, array('login_path' => '/login', 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false));
         $g->setProviderKey('main');
 
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('security.user.provider.concrete.user_db')), 'main', $b, $c), 2 => $f, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'main', $g, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('check_path' => '/login_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '52f009613426d', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b));
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('security.user.provider.concrete.user_db')), 'main', $b, $c), 2 => $f, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'main', $g, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('check_path' => '/login_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '52f1478dc9a95', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b));
     }
 
     /**
@@ -2272,7 +2272,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_SecureRandomService()
     {
-        return $this->services['security.secure_random'] = new \Symfony\Component\Security\Core\Util\SecureRandom('/opt/lampp/htdocs/Symfony/app/cache/dev/secure_random.seed', $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['security.secure_random'] = new \Symfony\Component\Security\Core\Util\SecureRandom('/var/www/DiffProj/Symfony/app/cache/dev/secure_random.seed', $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     /**
@@ -2298,7 +2298,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSensioDistribution_WebconfiguratorService()
     {
-        return $this->services['sensio_distribution.webconfigurator'] = new \Sensio\Bundle\DistributionBundle\Configurator\Configurator('/opt/lampp/htdocs/Symfony/app');
+        return $this->services['sensio_distribution.webconfigurator'] = new \Sensio\Bundle\DistributionBundle\Configurator\Configurator('/var/www/DiffProj/Symfony/app');
     }
 
     /**
@@ -2459,7 +2459,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSession_Storage_FilesystemService()
     {
-        return $this->services['session.storage.filesystem'] = new \Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage('/opt/lampp/htdocs/Symfony/app/cache/dev/sessions', 'MOCKSESSID', $this->get('session.storage.metadata_bag'));
+        return $this->services['session.storage.filesystem'] = new \Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage('/var/www/DiffProj/Symfony/app/cache/dev/sessions', 'MOCKSESSID', $this->get('session.storage.metadata_bag'));
     }
 
     /**
@@ -2539,7 +2539,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['siphoc.pdf.css_to_html'] = $instance = new \Siphoc\PdfBundle\Converter\CssToHTML($this->get('siphoc.buzz_request_handler'));
 
-        $instance->setBasePath('/opt/lampp/htdocs/Symfony/app/../web');
+        $instance->setBasePath('/var/www/DiffProj/Symfony/app/../web');
 
         return $instance;
     }
@@ -2569,7 +2569,7 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['siphoc.pdf.js_to_html'] = $instance = new \Siphoc\PdfBundle\Converter\JSToHTML($this->get('siphoc.buzz_request_handler'));
 
-        $instance->setBasePath('/opt/lampp/htdocs/Symfony/app/../web');
+        $instance->setBasePath('/var/www/DiffProj/Symfony/app/../web');
 
         return $instance;
     }
@@ -2792,7 +2792,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getTemplating_Helper_CodeService()
     {
-        return $this->services['templating.helper.code'] = new \Symfony\Bundle\FrameworkBundle\Templating\Helper\CodeHelper(NULL, '/opt/lampp/htdocs/Symfony/app', 'UTF-8');
+        return $this->services['templating.helper.code'] = new \Symfony\Bundle\FrameworkBundle\Templating\Helper\CodeHelper(NULL, '/var/www/DiffProj/Symfony/app', 'UTF-8');
     }
 
     /**
@@ -3326,7 +3326,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getTranslator_DefaultService()
     {
-        return $this->services['translator.default'] = new \Symfony\Bundle\FrameworkBundle\Translation\Translator($this, $this->get('translator.selector'), array('translation.loader.php' => array(0 => 'php'), 'translation.loader.yml' => array(0 => 'yml'), 'translation.loader.xliff' => array(0 => 'xlf', 1 => 'xliff'), 'translation.loader.po' => array(0 => 'po'), 'translation.loader.mo' => array(0 => 'mo'), 'translation.loader.qt' => array(0 => 'ts'), 'translation.loader.csv' => array(0 => 'csv'), 'translation.loader.res' => array(0 => 'res'), 'translation.loader.dat' => array(0 => 'dat'), 'translation.loader.ini' => array(0 => 'ini'), 'translation.loader.json' => array(0 => 'json')), array('cache_dir' => '/opt/lampp/htdocs/Symfony/app/cache/dev/translations', 'debug' => true));
+        return $this->services['translator.default'] = new \Symfony\Bundle\FrameworkBundle\Translation\Translator($this, $this->get('translator.selector'), array('translation.loader.php' => array(0 => 'php'), 'translation.loader.yml' => array(0 => 'yml'), 'translation.loader.xliff' => array(0 => 'xlf', 1 => 'xliff'), 'translation.loader.po' => array(0 => 'po'), 'translation.loader.mo' => array(0 => 'mo'), 'translation.loader.qt' => array(0 => 'ts'), 'translation.loader.csv' => array(0 => 'csv'), 'translation.loader.res' => array(0 => 'res'), 'translation.loader.dat' => array(0 => 'dat'), 'translation.loader.ini' => array(0 => 'ini'), 'translation.loader.json' => array(0 => 'json')), array('cache_dir' => '/var/www/DiffProj/Symfony/app/cache/dev/translations', 'debug' => true));
     }
 
     /**
@@ -3352,14 +3352,14 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getTwigService()
     {
-        $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader'), array('debug' => true, 'strict_variables' => true, 'exception_controller' => 'twig.controller.exception:showAction', 'autoescape_service' => NULL, 'autoescape_service_method' => NULL, 'cache' => '/opt/lampp/htdocs/Symfony/app/cache/dev/twig', 'charset' => 'UTF-8', 'paths' => array()));
+        $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader'), array('debug' => true, 'strict_variables' => true, 'exception_controller' => 'twig.controller.exception:showAction', 'autoescape_service' => NULL, 'autoescape_service_method' => NULL, 'cache' => '/var/www/DiffProj/Symfony/app/cache/dev/twig', 'charset' => 'UTF-8', 'paths' => array()));
 
         $instance->addExtension(new \Symfony\Bundle\SecurityBundle\Twig\Extension\LogoutUrlExtension($this->get('templating.helper.logout_url')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\SecurityExtension($this->get('security.context', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($this->get('translator')));
         $instance->addExtension(new \Symfony\Bundle\TwigBundle\Extension\AssetsExtension($this));
         $instance->addExtension(new \Symfony\Bundle\TwigBundle\Extension\ActionsExtension($this));
-        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\CodeExtension(NULL, '/opt/lampp/htdocs/Symfony/app', 'UTF-8'));
+        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\CodeExtension(NULL, '/var/www/DiffProj/Symfony/app', 'UTF-8'));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\RoutingExtension($this->get('router')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\YamlExtension());
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\StopwatchExtension($this->get('debug.stopwatch', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
@@ -3413,23 +3413,23 @@ class appDevDebugProjectContainer extends Container
     {
         $this->services['twig.loader'] = $instance = new \Symfony\Bundle\TwigBundle\Loader\FilesystemLoader($this->get('templating.locator'), $this->get('templating.name_parser'));
 
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views', 'Framework');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views', 'Security');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views', 'Twig');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/swiftmailer-bundle/Symfony/Bundle/SwiftmailerBundle/Resources/views', 'Swiftmailer');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views', 'Doctrine');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/UserBundle/Resources/views', 'User');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/BassicLayoutBundle/Resources/views', 'BassicLayout');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/AdminBundle/Resources/views', 'Admin');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/LoginBundle/Resources/views', 'Login');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/OrderTripBundle/Resources/views', 'OrderTrip');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/FileHandlerBundle/Resources/views', 'FileHandler');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/StatsBundle/Resources/views', 'Stats');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Acme/DemoBundle/Resources/views', 'AcmeDemo');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/views', 'SensioDistribution');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/app/Resources/views');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views', 'Framework');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views', 'Security');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views', 'Twig');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/swiftmailer-bundle/Symfony/Bundle/SwiftmailerBundle/Resources/views', 'Swiftmailer');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views', 'Doctrine');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/UserBundle/Resources/views', 'User');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/BassicLayoutBundle/Resources/views', 'BassicLayout');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/AdminBundle/Resources/views', 'Admin');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/LoginBundle/Resources/views', 'Login');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/OrderTripBundle/Resources/views', 'OrderTrip');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/FileHandlerBundle/Resources/views', 'FileHandler');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/StatsBundle/Resources/views', 'Stats');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Acme/DemoBundle/Resources/views', 'AcmeDemo');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/views', 'SensioDistribution');
+        $instance->addPath('/var/www/DiffProj/Symfony/app/Resources/views');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form');
 
         return $instance;
     }
@@ -3583,7 +3583,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getAssetic_AssetFactoryService()
     {
-        $this->services['assetic.asset_factory'] = $instance = new \Symfony\Bundle\AsseticBundle\Factory\AssetFactory($this->get('kernel'), $this, $this->getParameterBag(), '/opt/lampp/htdocs/Symfony/app/../web', true);
+        $this->services['assetic.asset_factory'] = $instance = new \Symfony\Bundle\AsseticBundle\Factory\AssetFactory($this->get('kernel'), $this, $this->getParameterBag(), '/var/www/DiffProj/Symfony/app/../web', true);
 
         $instance->addWorker(new \Symfony\Bundle\AsseticBundle\Factory\Worker\UseControllerWorker());
 
@@ -3604,7 +3604,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getAssetic_CacheService()
     {
-        return $this->services['assetic.cache'] = new \Assetic\Cache\FilesystemCache('/opt/lampp/htdocs/Symfony/app/cache/dev/assetic/assets');
+        return $this->services['assetic.cache'] = new \Assetic\Cache\FilesystemCache('/var/www/DiffProj/Symfony/app/cache/dev/assetic/assets');
     }
 
     /**
@@ -3757,7 +3757,7 @@ class appDevDebugProjectContainer extends Container
 
         $c = new \Symfony\Component\Security\Core\User\UserChecker();
 
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $c, 'main', $b, true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('52f009613426d'), 2 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $c, 'secured_area', $b, true)), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $c, 'main', $b, true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('52f1478dc9a95'), 2 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $c, 'secured_area', $b, true)), true);
 
         $instance->setEventDispatcher($this->get('debug.event_dispatcher'));
 
@@ -3933,7 +3933,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getTemplating_LocatorService()
     {
-        return $this->services['templating.locator'] = new \Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator($this->get('file_locator'), '/opt/lampp/htdocs/Symfony/app/cache/dev');
+        return $this->services['templating.locator'] = new \Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator($this->get('file_locator'), '/var/www/DiffProj/Symfony/app/cache/dev');
     }
 
     /**
@@ -3984,7 +3984,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getValidator_Mapping_ClassMetadataFactoryService()
     {
-        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array(0 => '/opt/lampp/htdocs/Symfony/src/Diff/OrderTripBundle/Resources/config/validation.yml')))), NULL);
+        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array(0 => '/var/www/DiffProj/Symfony/src/Diff/OrderTripBundle/Resources/config/validation.yml')))), NULL);
     }
 
     /**
@@ -4038,12 +4038,12 @@ class appDevDebugProjectContainer extends Container
     protected function getDefaultParameters()
     {
         return array(
-            'kernel.root_dir' => '/opt/lampp/htdocs/Symfony/app',
+            'kernel.root_dir' => '/var/www/DiffProj/Symfony/app',
             'kernel.environment' => 'dev',
             'kernel.debug' => true,
             'kernel.name' => 'app',
-            'kernel.cache_dir' => '/opt/lampp/htdocs/Symfony/app/cache/dev',
-            'kernel.logs_dir' => '/opt/lampp/htdocs/Symfony/app/logs',
+            'kernel.cache_dir' => '/var/www/DiffProj/Symfony/app/cache/dev',
+            'kernel.logs_dir' => '/var/www/DiffProj/Symfony/app/logs',
             'kernel.bundles' => array(
                 'FrameworkBundle' => 'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
                 'SecurityBundle' => 'Symfony\\Bundle\\SecurityBundle\\SecurityBundle',
@@ -4131,7 +4131,7 @@ class appDevDebugProjectContainer extends Container
             'debug.errors_logger_listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\ErrorsLoggerListener',
             'debug.event_dispatcher.class' => 'Symfony\\Component\\HttpKernel\\Debug\\TraceableEventDispatcher',
             'debug.stopwatch.class' => 'Symfony\\Component\\Stopwatch\\Stopwatch',
-            'debug.container.dump' => '/opt/lampp/htdocs/Symfony/app/cache/dev/appDevDebugProjectContainer.xml',
+            'debug.container.dump' => '/var/www/DiffProj/Symfony/app/cache/dev/appDevDebugProjectContainer.xml',
             'debug.controller_resolver.class' => 'Symfony\\Component\\HttpKernel\\Controller\\TraceableControllerResolver',
             'kernel.secret' => 'd381918b172dad2177ca830f3c853005e44367ef',
             'kernel.http_method_override' => true,
@@ -4156,7 +4156,7 @@ class appDevDebugProjectContainer extends Container
             'session.storage.options' => array(
 
             ),
-            'session.save_path' => '/opt/lampp/htdocs/Symfony/app/cache/dev/sessions',
+            'session.save_path' => '/var/www/DiffProj/Symfony/app/cache/dev/sessions',
             'session.metadata.update_threshold' => '0',
             'security.secure_random.class' => 'Symfony\\Component\\Security\\Core\\Util\\SecureRandom',
             'form.resolved_type_factory.class' => 'Symfony\\Component\\Form\\ResolvedFormTypeFactory',
@@ -4216,10 +4216,10 @@ class appDevDebugProjectContainer extends Container
             'validator.mapping.loader.yaml_files_loader.class' => 'Symfony\\Component\\Validator\\Mapping\\Loader\\YamlFilesLoader',
             'validator.validator_factory.class' => 'Symfony\\Bundle\\FrameworkBundle\\Validator\\ConstraintValidatorFactory',
             'validator.mapping.loader.xml_files_loader.mapping_files' => array(
-                0 => '/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml',
+                0 => '/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml',
             ),
             'validator.mapping.loader.yaml_files_loader.mapping_files' => array(
-                0 => '/opt/lampp/htdocs/Symfony/src/Diff/OrderTripBundle/Resources/config/validation.yml',
+                0 => '/var/www/DiffProj/Symfony/src/Diff/OrderTripBundle/Resources/config/validation.yml',
             ),
             'validator.expression.class' => 'Symfony\\Component\\Validator\\Constraints\\ExpressionValidator',
             'validator.translation_domain' => 'validators',
@@ -4240,7 +4240,7 @@ class appDevDebugProjectContainer extends Container
             'data_collector.form.extractor.class' => 'Symfony\\Component\\Form\\Extension\\DataCollector\\FormDataExtractor',
             'profiler_listener.only_exceptions' => false,
             'profiler_listener.only_master_requests' => false,
-            'profiler.storage.dsn' => 'file:/opt/lampp/htdocs/Symfony/app/cache/dev/profiler',
+            'profiler.storage.dsn' => 'file:/var/www/DiffProj/Symfony/app/cache/dev/profiler',
             'profiler.storage.username' => '',
             'profiler.storage.password' => '',
             'profiler.storage.lifetime' => 86400,
@@ -4264,7 +4264,7 @@ class appDevDebugProjectContainer extends Container
             'router.request_context.host' => 'localhost',
             'router.request_context.scheme' => 'http',
             'router.request_context.base_url' => '',
-            'router.resource' => '/opt/lampp/htdocs/Symfony/app/cache/dev/assetic/routing.yml',
+            'router.resource' => '/var/www/DiffProj/Symfony/app/cache/dev/assetic/routing.yml',
             'router.cache_class_prefix' => 'appDev',
             'request_listener.http_port' => 80,
             'request_listener.https_port' => 443,
@@ -4385,7 +4385,7 @@ class appDevDebugProjectContainer extends Container
                 'exception_controller' => 'twig.controller.exception:showAction',
                 'autoescape_service' => NULL,
                 'autoescape_service_method' => NULL,
-                'cache' => '/opt/lampp/htdocs/Symfony/app/cache/dev/twig',
+                'cache' => '/var/www/DiffProj/Symfony/app/cache/dev/twig',
                 'charset' => 'UTF-8',
                 'paths' => array(
 
@@ -4449,7 +4449,7 @@ class appDevDebugProjectContainer extends Container
             'swiftmailer.mailer.default.transport.smtp.auth_mode' => NULL,
             'swiftmailer.mailer.default.transport.smtp.timeout' => 30,
             'swiftmailer.mailer.default.transport.smtp.source_ip' => NULL,
-            'swiftmailer.spool.default.memory.path' => '/opt/lampp/htdocs/Symfony/app/cache/dev/swiftmailer/spool/default',
+            'swiftmailer.spool.default.memory.path' => '/var/www/DiffProj/Symfony/app/cache/dev/swiftmailer/spool/default',
             'swiftmailer.mailer.default.spool.enabled' => true,
             'swiftmailer.mailer.default.single_address' => NULL,
             'swiftmailer.spool.enabled' => true,
@@ -4474,7 +4474,7 @@ class appDevDebugProjectContainer extends Container
             'assetic.node.paths' => array(
 
             ),
-            'assetic.cache_dir' => '/opt/lampp/htdocs/Symfony/app/cache/dev/assetic',
+            'assetic.cache_dir' => '/var/www/DiffProj/Symfony/app/cache/dev/assetic',
             'assetic.bundles' => array(
 
             ),
@@ -4486,8 +4486,8 @@ class appDevDebugProjectContainer extends Container
             'assetic.debug' => true,
             'assetic.use_controller' => true,
             'assetic.enable_profiler' => false,
-            'assetic.read_from' => '/opt/lampp/htdocs/Symfony/app/../web',
-            'assetic.write_to' => '/opt/lampp/htdocs/Symfony/app/../web',
+            'assetic.read_from' => '/var/www/DiffProj/Symfony/app/../web',
+            'assetic.write_to' => '/var/www/DiffProj/Symfony/app/../web',
             'assetic.variables' => array(
 
             ),
@@ -4560,7 +4560,7 @@ class appDevDebugProjectContainer extends Container
             'doctrine.orm.naming_strategy.default.class' => 'Doctrine\\ORM\\Mapping\\DefaultNamingStrategy',
             'doctrine.orm.naming_strategy.underscore.class' => 'Doctrine\\ORM\\Mapping\\UnderscoreNamingStrategy',
             'doctrine.orm.auto_generate_proxy_classes' => true,
-            'doctrine.orm.proxy_dir' => '/opt/lampp/htdocs/Symfony/app/cache/dev/doctrine/orm/Proxies',
+            'doctrine.orm.proxy_dir' => '/var/www/DiffProj/Symfony/app/cache/dev/doctrine/orm/Proxies',
             'doctrine.orm.proxy_namespace' => 'Proxies',
             'sensio_framework_extra.view.guesser.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Templating\\TemplateGuesser',
             'sensio_framework_extra.controller.listener.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\EventListener\\ControllerListener',
@@ -4591,13 +4591,13 @@ class appDevDebugProjectContainer extends Container
             'mergehelper.class' => 'Diff\\FileHandlerBundle\\Libraries\\MergeHelper',
             'mergeapi.class' => 'Diff\\FileHandlerBundle\\Libraries\\MergeAPI',
             'dirhelper.class' => 'Diff\\FileHandlerBundle\\Libraries\\DIRHelper',
-            'siphoc_pdf.basepath' => '/opt/lampp/htdocs/Symfony/app/../web',
+            'siphoc_pdf.basepath' => '/var/www/DiffProj/Symfony/app/../web',
             'siphoc_pdf.options' => array(
                 'lowquality' => false,
                 'enable-javascript' => false,
                 'debug-javascript' => false,
             ),
-            'siphoc_pdf.binary' => '/usr/local/bin/wkhtmltopdf',
+            'siphoc_pdf.binary' => '/usr/bin/wkhtmltopdf',
             'statsform.class' => 'Diff\\StatsBundle\\Form\\StatsForm',
             'web_profiler.controller.profiler.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController',
             'web_profiler.controller.router.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\RouterController',

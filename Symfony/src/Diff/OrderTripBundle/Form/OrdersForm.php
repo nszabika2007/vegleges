@@ -43,8 +43,7 @@ Class OrdersForm
 				-> add( 'Created' , 'text' , array( 
 								'label' => 'Order Date',
 								'attr' 	=> array( 
-													'class' => 'form-control',
-													'id'	=> 'DatePicker'						
+													'class' => 'form-control datepicker',					
 								)
 							) )
 				-> add( 'Save' , 'submit' , array(

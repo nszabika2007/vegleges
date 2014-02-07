@@ -58,7 +58,7 @@ Class BillForm implements UploadInterface
 		$this 	-> FormBuilder
 		 		-> add( 'date' , 'text' , array( 
 								'label' => 'Date',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
 				-> add( 'amount' , 'text' , array( 
 								'label' => 'Amount',

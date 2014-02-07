@@ -38,10 +38,13 @@ class StatsController extends Controller implements UploadInterface
 		$this -> Redirect_URL = 'http://' .$Request -> getHttpHost( ) . $Request -> getBasePath( ) . self :: BASE_FILE_PATH;
 		
 		if ( $Type == "ORDER" )
-			$this -> orderHandler( ) ;
+			$Comd = $this -> orderHandler( ) ;
 		else if ( $Type == 'TRIP' )
-			$this -> tripHandler( ) ;
+			$Comd = $this -> tripHandler( ) ;
 		
+		if ( $Comd === FALSE )
+			return $this -> redirect( $this -> generateURL( 'user_homepage' ) );
+					
 		$this -> Redirect_URL .= '.pdf' ;
 		return $this -> redirect( $this -> Redirect_URL );
     }
@@ -59,6 +62,9 @@ class StatsController extends Controller implements UploadInterface
 		  -> setParameter( 'fin' , 1 );
 		$Orders = $Query->getResult();
 		
+		if( count( $Orders ) < 1 )
+			return FALSE ;
+		
 		$this -> MergeAPI ->Is_MergeTypeOrder();
 		
 		foreach( $Orders AS $num => $Order )
@@ -70,6 +76,7 @@ class StatsController extends Controller implements UploadInterface
 				$this -> MergeAPI -> Add_ID( $Order -> getId() ) ;
 		}
 		$this -> MergeAPI -> ExecuteCall();
+		return TRUE ;
 	}
 	
 	private function tripHandler( )
@@ -87,13 +94,16 @@ class StatsController extends Controller implements UploadInterface
 		  -> setParameter( 'start' , $this -> ToDate );
 		$Trips = $Query->getResult();
 		
+		if( count( $Trips ) < 1 )
+			return FALSE ; 
+		  
 		$this -> MergeAPI ->Is_MergeTypeTrip();
 		
 		foreach( $Trips AS $num => $Trip )
 			$this -> MergeAPI -> Add_ID( $Trip -> getId() );
 		
 		$this -> MergeAPI -> ExecuteCall();
-	
+		return TRUE ;
 	}
 	
 }

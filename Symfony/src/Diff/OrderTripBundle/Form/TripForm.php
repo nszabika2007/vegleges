@@ -37,7 +37,9 @@ Class TripForm
 		$this 	-> FormBuilder
 		 		-> add( 'StartDate' , 'text' , array( 
 								'label' => 'Start Date',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 
+										'class' => 'form-control datepicker' 
+									)
 							) )
 				-> add( 'ProvidedAmount' , 'text' , array( 
 								'label' => 'Provided Amount',

@@ -1,5 +1,7 @@
 <h1 class='text-center' > My Trips </h1>
+<a href='<?php echo  $view['router']->generate( 'trip_user_stats' ); ?>' target='_blank' > View Usage For All Users </a>
 <h3> The Global Amount is: <?php echo $GlobalAmount ?> You have spent so far: <?php echo $SumBills ?> </h3>
+
 <button class="pull-right btn btn-success btn-lg" style='margin:10px;' data-toggle="modal" data-target="#myModal">
 	New Trip
 </button>

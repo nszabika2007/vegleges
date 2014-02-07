@@ -19,6 +19,7 @@ class appProdProjectContainer extends Container
         $this->scopeChildren = array('request' => array());
         $this->methodMap = array(
             'adminform' => 'getAdminformService',
+            'amounthelper' => 'getAmounthelperService',
             'annotation_reader' => 'getAnnotationReaderService',
             'assetic.asset_factory' => 'getAssetic_AssetFactoryService',
             'assetic.asset_manager' => 'getAssetic_AssetManagerService',
@@ -26,14 +27,20 @@ class appProdProjectContainer extends Container
             'assetic.filter_manager' => 'getAssetic_FilterManagerService',
             'assetic.helper.static' => 'getAssetic_Helper_StaticService',
             'basiclayouthelper' => 'getBasiclayouthelperService',
+            'billform' => 'getBillformService',
             'buzz.client' => 'getBuzz_ClientService',
             'buzz.request' => 'getBuzz_RequestService',
             'buzz.response' => 'getBuzz_ResponseService',
             'cache_clearer' => 'getCacheClearerService',
             'cache_warmer' => 'getCacheWarmerService',
+            'cereredeoridinhandler' => 'getCereredeoridinhandlerService',
+            'cerereordinform' => 'getCerereordinformService',
             'citablehelper' => 'getCitablehelperService',
             'controller_name_converter' => 'getControllerNameConverterService',
             'debug.emergency_logger_listener' => 'getDebug_EmergencyLoggerListenerService',
+            'declaratieform' => 'getDeclaratieformService',
+            'declaratiehelper' => 'getDeclaratiehelperService',
+            'dirhelper' => 'getDirhelperService',
             'doctrine' => 'getDoctrineService',
             'doctrine.dbal.connection_factory' => 'getDoctrine_Dbal_ConnectionFactoryService',
             'doctrine.dbal.default_connection' => 'getDoctrine_Dbal_DefaultConnectionService',
@@ -91,11 +98,14 @@ class appProdProjectContainer extends Container
             'fragment.renderer.esi' => 'getFragment_Renderer_EsiService',
             'fragment.renderer.hinclude' => 'getFragment_Renderer_HincludeService',
             'fragment.renderer.inline' => 'getFragment_Renderer_InlineService',
+            'globalhelper' => 'getGlobalhelperService',
             'http_kernel' => 'getHttpKernelService',
             'kernel' => 'getKernelService',
             'knp.snappy.pdf' => 'getKnp_Snappy_PdfService',
             'locale_listener' => 'getLocaleListenerService',
             'logger' => 'getLoggerService',
+            'mergeapi' => 'getMergeapiService',
+            'mergehelper' => 'getMergehelperService',
             'monolog.handler.console' => 'getMonolog_Handler_ConsoleService',
             'monolog.handler.main' => 'getMonolog_Handler_MainService',
             'monolog.handler.nested' => 'getMonolog_Handler_NestedService',
@@ -157,6 +167,7 @@ class appProdProjectContainer extends Container
             'siphoc.pdf.css_to_html' => 'getSiphoc_Pdf_CssToHtmlService',
             'siphoc.pdf.generator' => 'getSiphoc_Pdf_GeneratorService',
             'siphoc.pdf.js_to_html' => 'getSiphoc_Pdf_JsToHtmlService',
+            'statsform' => 'getStatsformService',
             'streamed_response_listener' => 'getStreamedResponseListenerService',
             'swiftmailer.email_sender.listener' => 'getSwiftmailer_EmailSender_ListenerService',
             'swiftmailer.mailer.default' => 'getSwiftmailer_Mailer_DefaultService',
@@ -219,6 +230,7 @@ class appProdProjectContainer extends Container
             'twig.exception_listener' => 'getTwig_ExceptionListenerService',
             'twig.loader' => 'getTwig_LoaderService',
             'twig.translation.extractor' => 'getTwig_Translation_ExtractorService',
+            'uploadtrip' => 'getUploadtripService',
             'uri_signer' => 'getUriSignerService',
             'userhelper' => 'getUserhelperService',
             'validator' => 'getValidatorService',
@@ -240,18 +252,22 @@ class appProdProjectContainer extends Container
     {
         return $this->services['adminform'] = new \Diff\AdminBundle\Form\AdminForm($this->get('form.factory'), $this->get('userhelper'), $this->get('doctrine.orm.default_entity_manager'));
     }
+    protected function getAmounthelperService()
+    {
+        return $this->services['amounthelper'] = new \Diff\OrderTripBundle\Library\AmountHelper($this->get('doctrine.orm.default_entity_manager'), $this->get('templating'));
+    }
     protected function getAnnotationReaderService()
     {
-        return $this->services['annotation_reader'] = new \Doctrine\Common\Annotations\FileCacheReader(new \Doctrine\Common\Annotations\AnnotationReader(), '/opt/lampp/htdocs/Symfony/app/cache/prod/annotations', false);
+        return $this->services['annotation_reader'] = new \Doctrine\Common\Annotations\FileCacheReader(new \Doctrine\Common\Annotations\AnnotationReader(), '/var/www/DiffProj/Symfony/app/cache/prod/annotations', false);
     }
     protected function getAssetic_AssetManagerService()
     {
         $a = $this->get('assetic.asset_factory');
         $b = $this->get('templating.loader');
-        $c = new \Assetic\Cache\ConfigCache('/opt/lampp/htdocs/Symfony/app/cache/prod/assetic/config');
+        $c = new \Assetic\Cache\ConfigCache('/var/www/DiffProj/Symfony/app/cache/prod/assetic/config');
         $this->services['assetic.asset_manager'] = $instance = new \Assetic\Factory\LazyAssetManager($a, array('twig' => new \Assetic\Factory\Loader\CachedFormulaLoader(new \Assetic\Extension\Twig\TwigFormulaLoader($this->get('twig')), $c, false), 'php' => new \Assetic\Factory\Loader\CachedFormulaLoader(new \Symfony\Bundle\AsseticBundle\Factory\Loader\AsseticHelperFormulaLoader($a), $c, false)));
-        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($b, '', '/opt/lampp/htdocs/Symfony/app/Resources/views', '/\\.[^.]+\\.twig$/'), 'twig');
-        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($b, '', '/opt/lampp/htdocs/Symfony/app/Resources/views', '/\\.[^.]+\\.php$/'), 'php');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($b, '', '/var/www/DiffProj/Symfony/app/Resources/views', '/\\.[^.]+\\.twig$/'), 'twig');
+        $instance->addResource(new \Symfony\Bundle\AsseticBundle\Factory\Resource\DirectoryResource($b, '', '/var/www/DiffProj/Symfony/app/Resources/views', '/\\.[^.]+\\.php$/'), 'php');
         return $instance;
     }
     protected function getAssetic_Filter_CssrewriteService()
@@ -276,6 +292,10 @@ class appProdProjectContainer extends Container
         $instance->Set_UserHelper($this->get('userhelper'));
         return $instance;
     }
+    protected function getBillformService()
+    {
+        return $this->services['billform'] = new \Diff\OrderTripBundle\Form\BillForm($this->get('form.factory'), $this->get('doctrine.orm.default_entity_manager'));
+    }
     protected function getBuzz_ClientService()
     {
         return $this->services['buzz.client'] = new \Buzz\Client\FileGetContents();
@@ -296,8 +316,16 @@ class appProdProjectContainer extends Container
     {
         $a = $this->get('kernel');
         $b = $this->get('templating.filename_parser');
-        $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, '/opt/lampp/htdocs/Symfony/app/Resources');
+        $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, '/var/www/DiffProj/Symfony/app/Resources');
         return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, $this->get('templating.locator')), 1 => new \Symfony\Bundle\AsseticBundle\CacheWarmer\AssetManagerCacheWarmer($this), 2 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 3 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c), 4 => new \Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer($this->get('doctrine'))));
+    }
+    protected function getCereredeoridinhandlerService()
+    {
+        return $this->services['cereredeoridinhandler'] = new \Diff\OrderTripBundle\Library\CerereDeOridinHandler();
+    }
+    protected function getCerereordinformService()
+    {
+        return $this->services['cerereordinform'] = new \Diff\OrderTripBundle\Form\CerereOrdinForm($this->get('form.factory'), $this->get('doctrine.orm.default_entity_manager'));
     }
     protected function getCitablehelperService()
     {
@@ -306,6 +334,18 @@ class appProdProjectContainer extends Container
     protected function getDebug_EmergencyLoggerListenerService()
     {
         return $this->services['debug.emergency_logger_listener'] = new \Symfony\Component\HttpKernel\EventListener\ErrorsLoggerListener('emergency', $this->get('monolog.logger.emergency', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+    }
+    protected function getDeclaratieformService()
+    {
+        return $this->services['declaratieform'] = new \Diff\OrderTripBundle\Form\DeclaratieForm($this->get('form.factory'), $this->get('doctrine.orm.default_entity_manager'));
+    }
+    protected function getDeclaratiehelperService()
+    {
+        return $this->services['declaratiehelper'] = new \Diff\OrderTripBundle\Library\DeclaratieHelper();
+    }
+    protected function getDirhelperService()
+    {
+        return $this->services['dirhelper'] = new \Diff\FileHandlerBundle\Libraries\DIRHelper();
     }
     protected function getDoctrineService()
     {
@@ -323,27 +363,27 @@ class appProdProjectContainer extends Container
     {
         $a = $this->get('annotation_reader');
         $b = new \Doctrine\Common\Cache\ArrayCache();
-        $b->setNamespace('sf2orm_default_762ab648bd5cb8bda460316dba80783779243afea8777d3e286d47cc3ecc9cbf');
+        $b->setNamespace('sf2orm_default_ca4a4f7970c1b03e7f91b2dd4c94162e128a390ae8c0e4b3249d7b0c08a729ed');
         $c = new \Doctrine\Common\Cache\ArrayCache();
-        $c->setNamespace('sf2orm_default_762ab648bd5cb8bda460316dba80783779243afea8777d3e286d47cc3ecc9cbf');
+        $c->setNamespace('sf2orm_default_ca4a4f7970c1b03e7f91b2dd4c94162e128a390ae8c0e4b3249d7b0c08a729ed');
         $d = new \Doctrine\Common\Cache\ArrayCache();
-        $d->setNamespace('sf2orm_default_762ab648bd5cb8bda460316dba80783779243afea8777d3e286d47cc3ecc9cbf');
-        $e = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/opt/lampp/htdocs/Symfony/src/Diff/UserBundle/Resources/config/doctrine' => 'Diff\\UserBundle\\Entity', '/opt/lampp/htdocs/Symfony/src/Diff/BassicLayoutBundle/Resources/config/doctrine' => 'Diff\\BassicLayoutBundle\\Entity'));
+        $d->setNamespace('sf2orm_default_ca4a4f7970c1b03e7f91b2dd4c94162e128a390ae8c0e4b3249d7b0c08a729ed');
+        $e = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/var/www/DiffProj/Symfony/src/Diff/UserBundle/Resources/config/doctrine' => 'Diff\\UserBundle\\Entity', '/var/www/DiffProj/Symfony/src/Diff/BassicLayoutBundle/Resources/config/doctrine' => 'Diff\\BassicLayoutBundle\\Entity', '/var/www/DiffProj/Symfony/src/Diff/LoginBundle/Resources/config/doctrine' => 'Diff\\LoginBundle\\Entity'));
         $e->setGlobalBasename('mapping');
-        $f = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($a, array(0 => '/opt/lampp/htdocs/Symfony/src/Diff/AdminBundle/Entity', 1 => '/opt/lampp/htdocs/Symfony/src/Diff/OrderTripBundle/Entity', 2 => '/opt/lampp/htdocs/Symfony/src/Diff/FileHandlerBundle/Entity'));
+        $f = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($a, array(0 => '/var/www/DiffProj/Symfony/src/Diff/AdminBundle/Entity', 1 => '/var/www/DiffProj/Symfony/src/Diff/OrderTripBundle/Entity'));
         $g = new \Doctrine\ORM\Mapping\Driver\DriverChain();
         $g->addDriver($e, 'Diff\\UserBundle\\Entity');
         $g->addDriver($e, 'Diff\\BassicLayoutBundle\\Entity');
+        $g->addDriver($e, 'Diff\\LoginBundle\\Entity');
         $g->addDriver($f, 'Diff\\AdminBundle\\Entity');
         $g->addDriver($f, 'Diff\\OrderTripBundle\\Entity');
-        $g->addDriver($f, 'Diff\\FileHandlerBundle\\Entity');
         $h = new \Doctrine\ORM\Configuration();
-        $h->setEntityNamespaces(array('UserBundle' => 'Diff\\UserBundle\\Entity', 'BassicLayoutBundle' => 'Diff\\BassicLayoutBundle\\Entity', 'AdminBundle' => 'Diff\\AdminBundle\\Entity', 'OrderTripBundle' => 'Diff\\OrderTripBundle\\Entity', 'FileHandlerBundle' => 'Diff\\FileHandlerBundle\\Entity'));
+        $h->setEntityNamespaces(array('UserBundle' => 'Diff\\UserBundle\\Entity', 'BassicLayoutBundle' => 'Diff\\BassicLayoutBundle\\Entity', 'AdminBundle' => 'Diff\\AdminBundle\\Entity', 'LoginBundle' => 'Diff\\LoginBundle\\Entity', 'OrderTripBundle' => 'Diff\\OrderTripBundle\\Entity'));
         $h->setMetadataCacheImpl($b);
         $h->setQueryCacheImpl($c);
         $h->setResultCacheImpl($d);
         $h->setMetadataDriverImpl($g);
-        $h->setProxyDir('/opt/lampp/htdocs/Symfony/app/cache/prod/doctrine/orm/Proxies');
+        $h->setProxyDir('/var/www/DiffProj/Symfony/app/cache/prod/doctrine/orm/Proxies');
         $h->setProxyNamespace('Proxies');
         $h->setAutoGenerateProxyClasses(false);
         $h->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
@@ -389,7 +429,7 @@ class appProdProjectContainer extends Container
     }
     protected function getFileLocatorService()
     {
-        return $this->services['file_locator'] = new \Symfony\Component\HttpKernel\Config\FileLocator($this->get('kernel'), '/opt/lampp/htdocs/Symfony/app/Resources');
+        return $this->services['file_locator'] = new \Symfony\Component\HttpKernel\Config\FileLocator($this->get('kernel'), '/var/www/DiffProj/Symfony/app/Resources');
     }
     protected function getFilesystemService()
     {
@@ -593,6 +633,10 @@ class appProdProjectContainer extends Container
         $instance->setFragmentPath('/_fragment');
         return $instance;
     }
+    protected function getGlobalhelperService()
+    {
+        return $this->services['globalhelper'] = new \Diff\OrderTripBundle\Library\GlobalHelper($this->get('doctrine.orm.default_entity_manager'));
+    }
     protected function getHttpKernelService()
     {
         return $this->services['http_kernel'] = new \Symfony\Component\HttpKernel\DependencyInjection\ContainerAwareHttpKernel($this->get('event_dispatcher'), $this, new \Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver($this, $this->get('controller_name_converter'), $this->get('monolog.logger.request', ContainerInterface::NULL_ON_INVALID_REFERENCE)), $this->get('request_stack'));
@@ -603,7 +647,7 @@ class appProdProjectContainer extends Container
     }
     protected function getKnp_Snappy_PdfService()
     {
-        return $this->services['knp.snappy.pdf'] = new \Knp\Snappy\Pdf('/usr/local/bin/wkhtmltopdf', array('lowquality' => false, 'enable-javascript' => false, 'debug-javascript' => false));
+        return $this->services['knp.snappy.pdf'] = new \Knp\Snappy\Pdf('/usr/bin/wkhtmltopdf', array('lowquality' => false, 'enable-javascript' => false, 'debug-javascript' => false));
     }
     protected function getLocaleListenerService()
     {
@@ -616,6 +660,14 @@ class appProdProjectContainer extends Container
         $instance->pushHandler($this->get('monolog.handler.main'));
         return $instance;
     }
+    protected function getMergeapiService()
+    {
+        return $this->services['mergeapi'] = new \Diff\FileHandlerBundle\Libraries\MergeAPI($this->get('userhelper'));
+    }
+    protected function getMergehelperService()
+    {
+        return $this->services['mergehelper'] = new \Diff\FileHandlerBundle\Libraries\MergeHelper($this->get('pdfhandler'), $this->get('templating'), $this->get('mergeapi'));
+    }
     protected function getMonolog_Handler_ConsoleService()
     {
         return $this->services['monolog.handler.console'] = new \Symfony\Bridge\Monolog\Handler\ConsoleHandler(NULL, true, array());
@@ -626,7 +678,7 @@ class appProdProjectContainer extends Container
     }
     protected function getMonolog_Handler_NestedService()
     {
-        return $this->services['monolog.handler.nested'] = new \Monolog\Handler\StreamHandler('/opt/lampp/htdocs/Symfony/app/logs/prod.log', 100, true);
+        return $this->services['monolog.handler.nested'] = new \Monolog\Handler\StreamHandler('/var/www/DiffProj/Symfony/app/logs/prod.log', 100, true);
     }
     protected function getMonolog_Logger_DoctrineService()
     {
@@ -696,7 +748,7 @@ class appProdProjectContainer extends Container
     }
     protected function getRouterService()
     {
-        return $this->services['router'] = new \Symfony\Bundle\FrameworkBundle\Routing\Router($this, '/opt/lampp/htdocs/Symfony/app/config/routing.yml', array('cache_dir' => '/opt/lampp/htdocs/Symfony/app/cache/prod', 'debug' => false, 'generator_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper', 'generator_cache_class' => 'appProdUrlGenerator', 'matcher_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_base_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper', 'matcher_cache_class' => 'appProdUrlMatcher', 'strict_requirements' => NULL), $this->get('router.request_context', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('monolog.logger.router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['router'] = new \Symfony\Bundle\FrameworkBundle\Routing\Router($this, '/var/www/DiffProj/Symfony/app/config/routing.yml', array('cache_dir' => '/var/www/DiffProj/Symfony/app/cache/prod', 'debug' => false, 'generator_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper', 'generator_cache_class' => 'appProdUrlGenerator', 'matcher_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_base_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper', 'matcher_cache_class' => 'appProdUrlMatcher', 'strict_requirements' => NULL), $this->get('router.request_context', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('monolog.logger.router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
     protected function getRouterListenerService()
     {
@@ -747,7 +799,7 @@ class appProdProjectContainer extends Container
         $f->addHandler($this->get('security.logout.handler.session'));
         $g = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($d, array('login_path' => '/login', 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false));
         $g->setProviderKey('main');
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('security.user.provider.concrete.user_db')), 'main', $b, $c), 2 => $f, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'main', $g, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('check_path' => '/login_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '52e698a9597e3', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b));
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('security.user.provider.concrete.user_db')), 'main', $b, $c), 2 => $f, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy'), $d, 'main', $g, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $b), array('check_path' => '/login_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $b, $c), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '52f4d1ce1fe07', $b), 5 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'main', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b));
     }
     protected function getSecurity_Firewall_Map_Context_SecuredAreaService()
     {
@@ -768,7 +820,7 @@ class appProdProjectContainer extends Container
     }
     protected function getSecurity_SecureRandomService()
     {
-        return $this->services['security.secure_random'] = new \Symfony\Component\Security\Core\Util\SecureRandom('/opt/lampp/htdocs/Symfony/app/cache/prod/secure_random.seed', $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['security.secure_random'] = new \Symfony\Component\Security\Core\Util\SecureRandom('/var/www/DiffProj/Symfony/app/cache/prod/secure_random.seed', $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
     protected function getSecurity_Validator_UserPasswordService()
     {
@@ -823,7 +875,7 @@ class appProdProjectContainer extends Container
     }
     protected function getSession_Storage_FilesystemService()
     {
-        return $this->services['session.storage.filesystem'] = new \Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage('/opt/lampp/htdocs/Symfony/app/cache/prod/sessions', 'MOCKSESSID', $this->get('session.storage.metadata_bag'));
+        return $this->services['session.storage.filesystem'] = new \Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage('/var/www/DiffProj/Symfony/app/cache/prod/sessions', 'MOCKSESSID', $this->get('session.storage.metadata_bag'));
     }
     protected function getSession_Storage_NativeService()
     {
@@ -848,7 +900,7 @@ class appProdProjectContainer extends Container
     protected function getSiphoc_Pdf_CssToHtmlService()
     {
         $this->services['siphoc.pdf.css_to_html'] = $instance = new \Siphoc\PdfBundle\Converter\CssToHTML($this->get('siphoc.buzz_request_handler'));
-        $instance->setBasePath('/opt/lampp/htdocs/Symfony/app/../web');
+        $instance->setBasePath('/var/www/DiffProj/Symfony/app/../web');
         return $instance;
     }
     protected function getSiphoc_Pdf_GeneratorService()
@@ -858,8 +910,12 @@ class appProdProjectContainer extends Container
     protected function getSiphoc_Pdf_JsToHtmlService()
     {
         $this->services['siphoc.pdf.js_to_html'] = $instance = new \Siphoc\PdfBundle\Converter\JSToHTML($this->get('siphoc.buzz_request_handler'));
-        $instance->setBasePath('/opt/lampp/htdocs/Symfony/app/../web');
+        $instance->setBasePath('/var/www/DiffProj/Symfony/app/../web');
         return $instance;
+    }
+    protected function getStatsformService()
+    {
+        return $this->services['statsform'] = new \Diff\StatsBundle\Form\StatsForm($this->get('form.factory'), $this->get('router'));
     }
     protected function getStreamedResponseListenerService()
     {
@@ -926,7 +982,7 @@ class appProdProjectContainer extends Container
     }
     protected function getTemplating_Helper_CodeService()
     {
-        return $this->services['templating.helper.code'] = new \Symfony\Bundle\FrameworkBundle\Templating\Helper\CodeHelper(NULL, '/opt/lampp/htdocs/Symfony/app', 'UTF-8');
+        return $this->services['templating.helper.code'] = new \Symfony\Bundle\FrameworkBundle\Templating\Helper\CodeHelper(NULL, '/var/www/DiffProj/Symfony/app', 'UTF-8');
     }
     protected function getTemplating_Helper_FormService()
     {
@@ -1109,7 +1165,7 @@ class appProdProjectContainer extends Container
     }
     protected function getTranslator_DefaultService()
     {
-        return $this->services['translator.default'] = new \Symfony\Bundle\FrameworkBundle\Translation\Translator($this, $this->get('translator.selector'), array('translation.loader.php' => array(0 => 'php'), 'translation.loader.yml' => array(0 => 'yml'), 'translation.loader.xliff' => array(0 => 'xlf', 1 => 'xliff'), 'translation.loader.po' => array(0 => 'po'), 'translation.loader.mo' => array(0 => 'mo'), 'translation.loader.qt' => array(0 => 'ts'), 'translation.loader.csv' => array(0 => 'csv'), 'translation.loader.res' => array(0 => 'res'), 'translation.loader.dat' => array(0 => 'dat'), 'translation.loader.ini' => array(0 => 'ini'), 'translation.loader.json' => array(0 => 'json')), array('cache_dir' => '/opt/lampp/htdocs/Symfony/app/cache/prod/translations', 'debug' => false));
+        return $this->services['translator.default'] = new \Symfony\Bundle\FrameworkBundle\Translation\Translator($this, $this->get('translator.selector'), array('translation.loader.php' => array(0 => 'php'), 'translation.loader.yml' => array(0 => 'yml'), 'translation.loader.xliff' => array(0 => 'xlf', 1 => 'xliff'), 'translation.loader.po' => array(0 => 'po'), 'translation.loader.mo' => array(0 => 'mo'), 'translation.loader.qt' => array(0 => 'ts'), 'translation.loader.csv' => array(0 => 'csv'), 'translation.loader.res' => array(0 => 'res'), 'translation.loader.dat' => array(0 => 'dat'), 'translation.loader.ini' => array(0 => 'ini'), 'translation.loader.json' => array(0 => 'json')), array('cache_dir' => '/var/www/DiffProj/Symfony/app/cache/prod/translations', 'debug' => false));
     }
     protected function getTripformService()
     {
@@ -1117,13 +1173,13 @@ class appProdProjectContainer extends Container
     }
     protected function getTwigService()
     {
-        $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader'), array('debug' => false, 'strict_variables' => false, 'exception_controller' => 'twig.controller.exception:showAction', 'autoescape_service' => NULL, 'autoescape_service_method' => NULL, 'cache' => '/opt/lampp/htdocs/Symfony/app/cache/prod/twig', 'charset' => 'UTF-8', 'paths' => array()));
+        $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader'), array('debug' => false, 'strict_variables' => false, 'exception_controller' => 'twig.controller.exception:showAction', 'autoescape_service' => NULL, 'autoescape_service_method' => NULL, 'cache' => '/var/www/DiffProj/Symfony/app/cache/prod/twig', 'charset' => 'UTF-8', 'paths' => array()));
         $instance->addExtension(new \Symfony\Bundle\SecurityBundle\Twig\Extension\LogoutUrlExtension($this->get('templating.helper.logout_url')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\SecurityExtension($this->get('security.context', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($this->get('translator')));
         $instance->addExtension(new \Symfony\Bundle\TwigBundle\Extension\AssetsExtension($this));
         $instance->addExtension(new \Symfony\Bundle\TwigBundle\Extension\ActionsExtension($this));
-        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\CodeExtension(NULL, '/opt/lampp/htdocs/Symfony/app', 'UTF-8'));
+        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\CodeExtension(NULL, '/var/www/DiffProj/Symfony/app', 'UTF-8'));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\RoutingExtension($this->get('router')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\YamlExtension());
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\StopwatchExtension(NULL));
@@ -1146,24 +1202,29 @@ class appProdProjectContainer extends Container
     protected function getTwig_LoaderService()
     {
         $this->services['twig.loader'] = $instance = new \Symfony\Bundle\TwigBundle\Loader\FilesystemLoader($this->get('templating.locator'), $this->get('templating.name_parser'));
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views', 'Framework');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views', 'Security');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views', 'Twig');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/swiftmailer-bundle/Symfony/Bundle/SwiftmailerBundle/Resources/views', 'Swiftmailer');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views', 'Doctrine');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/UserBundle/Resources/views', 'User');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/BassicLayoutBundle/Resources/views', 'BassicLayout');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/AdminBundle/Resources/views', 'Admin');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/LoginBundle/Resources/views', 'Login');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/OrderTripBundle/Resources/views', 'OrderTrip');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/src/Diff/FileHandlerBundle/Resources/views', 'FileHandler');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/app/Resources/views');
-        $instance->addPath('/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views', 'Framework');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views', 'Security');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views', 'Twig');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/swiftmailer-bundle/Symfony/Bundle/SwiftmailerBundle/Resources/views', 'Swiftmailer');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views', 'Doctrine');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/UserBundle/Resources/views', 'User');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/BassicLayoutBundle/Resources/views', 'BassicLayout');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/AdminBundle/Resources/views', 'Admin');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/LoginBundle/Resources/views', 'Login');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/OrderTripBundle/Resources/views', 'OrderTrip');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/FileHandlerBundle/Resources/views', 'FileHandler');
+        $instance->addPath('/var/www/DiffProj/Symfony/src/Diff/StatsBundle/Resources/views', 'Stats');
+        $instance->addPath('/var/www/DiffProj/Symfony/app/Resources/views');
+        $instance->addPath('/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form');
         return $instance;
     }
     protected function getTwig_Translation_ExtractorService()
     {
         return $this->services['twig.translation.extractor'] = new \Symfony\Bridge\Twig\Translation\TwigExtractor($this->get('twig'));
+    }
+    protected function getUploadtripService()
+    {
+        return $this->services['uploadtrip'] = new \Diff\OrderTripBundle\Library\UploadTrip();
     }
     protected function getUriSignerService()
     {
@@ -1186,7 +1247,7 @@ class appProdProjectContainer extends Container
     }
     protected function getAssetic_AssetFactoryService()
     {
-        return $this->services['assetic.asset_factory'] = new \Symfony\Bundle\AsseticBundle\Factory\AssetFactory($this->get('kernel'), $this, $this->getParameterBag(), '/opt/lampp/htdocs/Symfony/app/../web', false);
+        return $this->services['assetic.asset_factory'] = new \Symfony\Bundle\AsseticBundle\Factory\AssetFactory($this->get('kernel'), $this, $this->getParameterBag(), '/var/www/DiffProj/Symfony/app/../web', false);
     }
     protected function getControllerNameConverterService()
     {
@@ -1212,6 +1273,7 @@ class appProdProjectContainer extends Container
         $instance->add(new \Symfony\Component\HttpFoundation\RequestMatcher('^/admin'), array(0 => 'ROLE_ADMIN'), NULL);
         $instance->add(new \Symfony\Component\HttpFoundation\RequestMatcher('^/user'), array(0 => 'ROLE_USER'), NULL);
         $instance->add(new \Symfony\Component\HttpFoundation\RequestMatcher('^/order'), array(0 => 'ROLE_USER'), NULL);
+        $instance->add(new \Symfony\Component\HttpFoundation\RequestMatcher('^/trip'), array(0 => 'ROLE_USER'), NULL);
         $instance->add(new \Symfony\Component\HttpFoundation\RequestMatcher('/login'), array(0 => 'IS_AUTHENTICATED_ANONYMOUSLY'), NULL);
         $instance->add(new \Symfony\Component\HttpFoundation\RequestMatcher('/.*'), array(0 => 'IS_AUTHENTICATED_ANONYMOUSLY'), NULL);
         return $instance;
@@ -1221,7 +1283,7 @@ class appProdProjectContainer extends Container
         $a = $this->get('security.user.provider.concrete.user_db');
         $b = $this->get('security.encoder_factory');
         $c = new \Symfony\Component\Security\Core\User\UserChecker();
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $c, 'main', $b, true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('52e698a9597e3'), 2 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $c, 'secured_area', $b, true)), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $c, 'main', $b, true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('52f4d1ce1fe07'), 2 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($a, $c, 'secured_area', $b, true)), true);
         $instance->setEventDispatcher($this->get('event_dispatcher'));
         return $instance;
     }
@@ -1277,7 +1339,7 @@ class appProdProjectContainer extends Container
     }
     protected function getTemplating_LocatorService()
     {
-        return $this->services['templating.locator'] = new \Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator($this->get('file_locator'), '/opt/lampp/htdocs/Symfony/app/cache/prod');
+        return $this->services['templating.locator'] = new \Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator($this->get('file_locator'), '/var/www/DiffProj/Symfony/app/cache/prod');
     }
     protected function getTranslator_SelectorService()
     {
@@ -1285,7 +1347,7 @@ class appProdProjectContainer extends Container
     }
     protected function getValidator_Mapping_ClassMetadataFactoryService()
     {
-        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array(0 => '/opt/lampp/htdocs/Symfony/src/Diff/OrderTripBundle/Resources/config/validation.yml')))), NULL);
+        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array(0 => '/var/www/DiffProj/Symfony/src/Diff/OrderTripBundle/Resources/config/validation.yml')))), NULL);
     }
     public function getParameter($name)
     {
@@ -1314,12 +1376,12 @@ class appProdProjectContainer extends Container
     protected function getDefaultParameters()
     {
         return array(
-            'kernel.root_dir' => '/opt/lampp/htdocs/Symfony/app',
+            'kernel.root_dir' => '/var/www/DiffProj/Symfony/app',
             'kernel.environment' => 'prod',
             'kernel.debug' => false,
             'kernel.name' => 'app',
-            'kernel.cache_dir' => '/opt/lampp/htdocs/Symfony/app/cache/prod',
-            'kernel.logs_dir' => '/opt/lampp/htdocs/Symfony/app/logs',
+            'kernel.cache_dir' => '/var/www/DiffProj/Symfony/app/cache/prod',
+            'kernel.logs_dir' => '/var/www/DiffProj/Symfony/app/logs',
             'kernel.bundles' => array(
                 'FrameworkBundle' => 'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
                 'SecurityBundle' => 'Symfony\\Bundle\\SecurityBundle\\SecurityBundle',
@@ -1336,6 +1398,7 @@ class appProdProjectContainer extends Container
                 'OrderTripBundle' => 'Diff\\OrderTripBundle\\OrderTripBundle',
                 'FileHandlerBundle' => 'Diff\\FileHandlerBundle\\FileHandlerBundle',
                 'SiphocPdfBundle' => 'Siphoc\\PdfBundle\\SiphocPdfBundle',
+                'StatsBundle' => 'Diff\\StatsBundle\\StatsBundle',
             ),
             'kernel.charset' => 'UTF-8',
             'kernel.container_class' => 'appProdProjectContainer',
@@ -1420,7 +1483,7 @@ class appProdProjectContainer extends Container
             'session_listener.class' => 'Symfony\\Bundle\\FrameworkBundle\\EventListener\\SessionListener',
             'session.storage.options' => array(
             ),
-            'session.save_path' => '/opt/lampp/htdocs/Symfony/app/cache/prod/sessions',
+            'session.save_path' => '/var/www/DiffProj/Symfony/app/cache/prod/sessions',
             'session.metadata.update_threshold' => '0',
             'security.secure_random.class' => 'Symfony\\Component\\Security\\Core\\Util\\SecureRandom',
             'form.resolved_type_factory.class' => 'Symfony\\Component\\Form\\ResolvedFormTypeFactory',
@@ -1479,10 +1542,10 @@ class appProdProjectContainer extends Container
             'validator.mapping.loader.yaml_files_loader.class' => 'Symfony\\Component\\Validator\\Mapping\\Loader\\YamlFilesLoader',
             'validator.validator_factory.class' => 'Symfony\\Bundle\\FrameworkBundle\\Validator\\ConstraintValidatorFactory',
             'validator.mapping.loader.xml_files_loader.mapping_files' => array(
-                0 => '/opt/lampp/htdocs/Symfony/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml',
+                0 => '/var/www/DiffProj/Symfony/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml',
             ),
             'validator.mapping.loader.yaml_files_loader.mapping_files' => array(
-                0 => '/opt/lampp/htdocs/Symfony/src/Diff/OrderTripBundle/Resources/config/validation.yml',
+                0 => '/var/www/DiffProj/Symfony/src/Diff/OrderTripBundle/Resources/config/validation.yml',
             ),
             'validator.expression.class' => 'Symfony\\Component\\Validator\\Constraints\\ExpressionValidator',
             'validator.translation_domain' => 'validators',
@@ -1509,7 +1572,7 @@ class appProdProjectContainer extends Container
             'router.request_context.host' => 'localhost',
             'router.request_context.scheme' => 'http',
             'router.request_context.base_url' => '',
-            'router.resource' => '/opt/lampp/htdocs/Symfony/app/config/routing.yml',
+            'router.resource' => '/var/www/DiffProj/Symfony/app/config/routing.yml',
             'router.cache_class_prefix' => 'appProd',
             'request_listener.http_port' => 80,
             'request_listener.https_port' => 443,
@@ -1629,7 +1692,7 @@ class appProdProjectContainer extends Container
                 'exception_controller' => 'twig.controller.exception:showAction',
                 'autoescape_service' => NULL,
                 'autoescape_service_method' => NULL,
-                'cache' => '/opt/lampp/htdocs/Symfony/app/cache/prod/twig',
+                'cache' => '/var/www/DiffProj/Symfony/app/cache/prod/twig',
                 'charset' => 'UTF-8',
                 'paths' => array(
                 ),
@@ -1692,7 +1755,7 @@ class appProdProjectContainer extends Container
             'swiftmailer.mailer.default.transport.smtp.auth_mode' => NULL,
             'swiftmailer.mailer.default.transport.smtp.timeout' => 30,
             'swiftmailer.mailer.default.transport.smtp.source_ip' => NULL,
-            'swiftmailer.spool.default.memory.path' => '/opt/lampp/htdocs/Symfony/app/cache/prod/swiftmailer/spool/default',
+            'swiftmailer.spool.default.memory.path' => '/var/www/DiffProj/Symfony/app/cache/prod/swiftmailer/spool/default',
             'swiftmailer.mailer.default.spool.enabled' => true,
             'swiftmailer.mailer.default.single_address' => NULL,
             'swiftmailer.spool.enabled' => true,
@@ -1716,7 +1779,7 @@ class appProdProjectContainer extends Container
             'assetic.value_supplier.class' => 'Symfony\\Bundle\\AsseticBundle\\DefaultValueSupplier',
             'assetic.node.paths' => array(
             ),
-            'assetic.cache_dir' => '/opt/lampp/htdocs/Symfony/app/cache/prod/assetic',
+            'assetic.cache_dir' => '/var/www/DiffProj/Symfony/app/cache/prod/assetic',
             'assetic.bundles' => array(
             ),
             'assetic.twig_extension.class' => 'Symfony\\Bundle\\AsseticBundle\\Twig\\AsseticExtension',
@@ -1727,8 +1790,8 @@ class appProdProjectContainer extends Container
             'assetic.debug' => false,
             'assetic.use_controller' => false,
             'assetic.enable_profiler' => false,
-            'assetic.read_from' => '/opt/lampp/htdocs/Symfony/app/../web',
-            'assetic.write_to' => '/opt/lampp/htdocs/Symfony/app/../web',
+            'assetic.read_from' => '/var/www/DiffProj/Symfony/app/../web',
+            'assetic.write_to' => '/var/www/DiffProj/Symfony/app/../web',
             'assetic.variables' => array(
             ),
             'assetic.java.bin' => '/usr/bin/java',
@@ -1793,7 +1856,7 @@ class appProdProjectContainer extends Container
             'doctrine.orm.naming_strategy.default.class' => 'Doctrine\\ORM\\Mapping\\DefaultNamingStrategy',
             'doctrine.orm.naming_strategy.underscore.class' => 'Doctrine\\ORM\\Mapping\\UnderscoreNamingStrategy',
             'doctrine.orm.auto_generate_proxy_classes' => false,
-            'doctrine.orm.proxy_dir' => '/opt/lampp/htdocs/Symfony/app/cache/prod/doctrine/orm/Proxies',
+            'doctrine.orm.proxy_dir' => '/var/www/DiffProj/Symfony/app/cache/prod/doctrine/orm/Proxies',
             'doctrine.orm.proxy_namespace' => 'Proxies',
             'sensio_framework_extra.view.guesser.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\Templating\\TemplateGuesser',
             'sensio_framework_extra.controller.listener.class' => 'Sensio\\Bundle\\FrameworkExtraBundle\\EventListener\\ControllerListener',
@@ -1812,14 +1875,26 @@ class appProdProjectContainer extends Container
             'ordersform.class' => 'Diff\\OrderTripBundle\\Form\\OrdersForm',
             'productform.class' => 'Diff\\OrderTripBundle\\Form\\ProductForm',
             'tripform.class' => 'Diff\\OrderTripBundle\\Form\\TripForm',
+            'uploadtrip.class' => 'Diff\\OrderTripBundle\\Library\\UploadTrip',
+            'billform.class' => 'Diff\\OrderTripBundle\\Form\\BillForm',
+            'cerereordinform.class' => 'Diff\\OrderTripBundle\\Form\\CerereOrdinForm',
+            'cereredeoridinhandler.class' => 'Diff\\OrderTripBundle\\Library\\CerereDeOridinHandler',
+            'declaratieform.class' => 'Diff\\OrderTripBundle\\Form\\DeclaratieForm',
+            'amounthelper.class' => 'Diff\\OrderTripBundle\\Library\\AmountHelper',
+            'declaratiehelper.class' => 'Diff\\OrderTripBundle\\Library\\DeclaratieHelper',
+            'globalhelper.class' => 'Diff\\OrderTripBundle\\Library\\GlobalHelper',
             'pdfhandler.class' => 'Diff\\FileHandlerBundle\\Libraries\\PDFHandler\\PDFHandler',
-            'siphoc_pdf.basepath' => '/opt/lampp/htdocs/Symfony/app/../web',
+            'mergehelper.class' => 'Diff\\FileHandlerBundle\\Libraries\\MergeHelper',
+            'mergeapi.class' => 'Diff\\FileHandlerBundle\\Libraries\\MergeAPI',
+            'dirhelper.class' => 'Diff\\FileHandlerBundle\\Libraries\\DIRHelper',
+            'siphoc_pdf.basepath' => '/var/www/DiffProj/Symfony/app/../web',
             'siphoc_pdf.options' => array(
                 'lowquality' => false,
                 'enable-javascript' => false,
                 'debug-javascript' => false,
             ),
-            'siphoc_pdf.binary' => '/usr/local/bin/wkhtmltopdf',
+            'siphoc_pdf.binary' => '/usr/bin/wkhtmltopdf',
+            'statsform.class' => 'Diff\\StatsBundle\\Form\\StatsForm',
             'console.command.ids' => array(
             ),
         );

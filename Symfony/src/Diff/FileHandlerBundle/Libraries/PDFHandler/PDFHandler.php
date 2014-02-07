@@ -84,9 +84,9 @@ Class PDFHandler
 		$this -> PDF = $this -> KnpSnappyPDF -> getOutputFromHtml(
 					$this -> PDF_Content,
                     array(
-							'orientation'	=> 'Landscape' ,
+						
 							'encoding' => 'utf-8',
-							'default-header'=> TRUE
+							'default-header'=> false
 						) );
 		try
 		{

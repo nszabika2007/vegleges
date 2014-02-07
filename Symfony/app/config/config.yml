@@ -70,7 +70,7 @@ swiftmailer:
 
 siphoc_pdf:
     basepath: "%kernel.root_dir%/../web"
-    binary: "/usr/local/bin/wkhtmltopdf"
+    binary: "/usr/bin/wkhtmltopdf"
     options:
         'lowquality': false
         'enable-javascript': false

@@ -28,3 +28,9 @@ trip_declaratie:
 logout_page:
      pattern: /logoutt
      defaults: { _controller: LoginBundle:Login:logout }
+trip_user_stats:
+     pattern: /usage/trips
+     defaults: { _controller: OrderTripBundle:OrderTripUserStats:trip }
+order_user_stats:
+     pattern: /usage/orders
+     defaults: { _controller: OrderTripBundle:OrderTripUserStats:order }

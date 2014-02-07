@@ -194,12 +194,25 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
-        if (0 === strpos($pathinfo, '/log')) {
-            // logout_page
-            if ($pathinfo === '/logoutt') {
-                return array (  '_controller' => 'Diff\\LoginBundle\\Controller\\LoginController::logoutAction',  '_route' => 'logout_page',);
+        // logout_page
+        if ($pathinfo === '/logoutt') {
+            return array (  '_controller' => 'Diff\\LoginBundle\\Controller\\LoginController::logoutAction',  '_route' => 'logout_page',);
+        }
+
+        if (0 === strpos($pathinfo, '/usage')) {
+            // trip_user_stats
+            if ($pathinfo === '/usage/trips') {
+                return array (  '_controller' => 'Diff\\OrderTripBundle\\Controller\\OrderTripUserStatsController::tripAction',  '_route' => 'trip_user_stats',);
             }
 
+            // order_user_stats
+            if ($pathinfo === '/usage/orders') {
+                return array (  '_controller' => 'Diff\\OrderTripBundle\\Controller\\OrderTripUserStatsController::orderAction',  '_route' => 'order_user_stats',);
+            }
+
+        }
+
+        if (0 === strpos($pathinfo, '/log')) {
             if (0 === strpos($pathinfo, '/login')) {
                 // login
                 if ($pathinfo === '/login') {

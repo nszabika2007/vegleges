@@ -48,11 +48,11 @@ Class StatsForm
 		$this 	-> FormBuilder
 		 		-> add( 'from_date' , 'text' , array( 
 								'label' => 'From Date',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
 				-> add( 'to_date' , 'text' , array( 
 								'label' => 'To Date',
-								'attr' 	=> array( 'class' => 'form-control' ) ,
+								'attr' 	=> array( 'class' => 'form-control datepicker' ) ,
 							) )		
 				-> add( 'type' , 'hidden' , array( 
 								'label' => 'File',

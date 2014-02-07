@@ -36,7 +36,7 @@ Class CerereOrdinForm
 							) )
 				-> add( 'Aprobat' , 'text' , array( 
 								'label' => 'Aprobat',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
 				-> add( 'Destination' , 'text' , array( 
 								'label' => 'Destiantia Localitatea',
@@ -60,11 +60,11 @@ Class CerereOrdinForm
 							) )
 				-> add( 'Data' , 'text' , array( 
 								'label' => 'Data plecarii',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
 				-> add( 'Data2' , 'text' , array( 
 								'label' => 'Data sosirii',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
 				-> add( 'cheltuieri' , 'text' , array( 
 								'label' => 'Cheltuieri salariale',
@@ -76,7 +76,7 @@ Class CerereOrdinForm
 							) )
 				-> add( 'today' , 'text' , array( 
 								'label' => 'Data(azi)',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
 				-> add( 'dedirector' , 'text' , array( 
 								'label' => ' ',
@@ -124,7 +124,7 @@ Class CerereOrdinForm
 							) )
 				-> add( 'datef' , 'text' , array( 
 								'label' => 'Data',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
 				-> add( 'dedecan' , 'text' , array( 
 								'label' => ' ',
@@ -133,14 +133,6 @@ Class CerereOrdinForm
 										'class' => 'form-control',
 										'readonly'=>'readonly'
 									)
-							) )
-				-> add( 'nrcontactd' , 'text' , array( 
-								'label' => 'Nr. contact',
-								'attr' 	=> array( 'class' => 'form-control' )
-							) )
-				-> add( 'named' , 'text' , array( 
-								'label' => 'Nume Prenume director',
-								'attr' 	=> array( 'class' => 'form-control' )
 							) )
 				-> add( 'Transportd' , 'text' , array( 
 								'label' => 'Transport',
@@ -172,7 +164,7 @@ Class CerereOrdinForm
 							) )
 				-> add( 'dated' , 'text' , array( 
 								'label' => 'Data',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
 
 				-> add( 'Save' , 'submit' , array(
@@ -191,7 +183,6 @@ Class CerereOrdinForm
 		if ( $this -> Form -> isValid( ) ) 
 		{
 			$FormData = $this -> Form -> getData( );
-			
 			$Cerereordins = new Cerereordins();
 			
 				$Cerereordins-> setTripid( $TripID )
@@ -217,8 +208,8 @@ Class CerereOrdinForm
 				-> setAltchelf($FormData['cheltiueli_af'])
 				-> setTotalf($FormData['Totalf'])
 				-> setDatef($FormData['datef'])
-				-> setNrgd($FormData['nrcontactd'])
-				-> setNamed($FormData['named'])
+				-> setNrgd('Someth')
+				-> setNamed('Someth')
 				-> setTranpsid($FormData['Transportd'])
 				-> setTranspintd($FormData['Transport_internd'])
 				-> setDiaurnad($FormData['Diurnad'])

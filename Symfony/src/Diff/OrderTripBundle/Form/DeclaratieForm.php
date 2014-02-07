@@ -36,9 +36,9 @@ Class DeclaratieForm
 								'label' => 'Director Proiect',
 								'attr' 	=> array( 'class' => 'form-control' )
 							) )
-				-> add( 'date' , 'date' , array( 
+				-> add( 'date' , 'text' , array( 
 								'label' => 'Data',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
 
 				-> add( 'Save' , 'submit' , array(
