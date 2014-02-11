@@ -272,9 +272,17 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return array (  '_controller' => 'Diff\\UserBundle\\Controller\\UserController::indexAction',  '_route' => 'user_homepage',);
             }
 
-            // edit_user
-            if ($pathinfo === '/user/edit') {
-                return array (  '_controller' => 'Diff\\UserBundle\\Controller\\UserController::editAction',  '_route' => 'edit_user',);
+            if (0 === strpos($pathinfo, '/user/edit')) {
+                // edit_user
+                if ($pathinfo === '/user/edit') {
+                    return array (  '_controller' => 'Diff\\UserBundle\\Controller\\UserController::editAction',  '_route' => 'edit_user',);
+                }
+
+                // edit_password
+                if ($pathinfo === '/user/editpassword') {
+                    return array (  '_controller' => 'Diff\\UserBundle\\Controller\\UserController::editpasswordAction',  '_route' => 'edit_password',);
+                }
+
             }
 
         }

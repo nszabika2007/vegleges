@@ -13,4 +13,8 @@ $collection->add('edit_user', new Route('user/edit', array(
     '_controller' 		=> 'UserBundle:User:edit'
 )));
 
+$collection->add('edit_password', new Route('user/editpassword', array(
+    '_controller' 		=> 'UserBundle:User:editpassword'
+)));
+
 return $collection;

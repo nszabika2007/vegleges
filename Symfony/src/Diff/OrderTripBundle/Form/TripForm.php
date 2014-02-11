@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request AS Request ;
 use Symfony\Component\Form\FormFactory AS FormFactory ;
 use Diff\UserBundle\Helper\UserHelper AS UserHelper ;
 use Doctrine\ORM\EntityManager AS EntityManager ;
+use Diff\BassicLayoutBundle\Helper\SessionHelper AS SessionHelper;
+use Diff\OrderTripBundle\Library\SumHelper AS SumHelper;
 
 Class TripForm
 {
@@ -21,11 +23,22 @@ Class TripForm
 	
 	private $TripsRepository ;
 	
-	function __construct( FormFactory $FormFactory , UserHelper $UserHelper , EntityManager $EntityManager  )
+	private $SessionHelper ;
+	
+	private $SumHelper ;
+	
+	public $GlobalAmount = 0;
+	
+	function __construct( FormFactory $FormFactory , UserHelper $UserHelper , 
+						EntityManager $EntityManager , SessionHelper $SessionHelper ,SumHelper $SumHelper  )
 	{
 		$this -> FormBuilder = $FormFactory -> createBuilder( 'form' ) ;
 		
 		$this -> UserHelper = $UserHelper ;
+		
+		$this -> SumHelper = $SumHelper -> IsForTrip( ) -> Load_Totals( );
+		
+		$this -> SessionHelper = $SessionHelper ;
 		
 		$this -> EntityManager = $EntityManager ;
 		
@@ -67,7 +80,19 @@ Class TripForm
 		if ( $this -> Form -> isValid( ) )
 		{
 			$FormData = $this -> Form -> getData( );
-		
+			
+			
+			$TotalProvided = $this -> SumHelper -> get_Total( ) ;
+			$RemainingToProvide = $this -> GlobalAmount - $TotalProvided ;
+			$Remaining = $RemainingToProvide - $FormData[ 'ProvidedAmount' ] ;
+			if( $Remaining < 1 )
+			{
+				$this -> SessionHelper -> set_ErrorFlashData( "You have only $RemainingToProvide amount left for spending!" );
+				$this -> SessionHelper -> RedirectPageTo( "trip_homepage" );
+				return ;
+			}
+			
+			
 			$UserID = $this -> UserHelper -> Get_UserID( );
 			$Trips = new Trips();
 			$Trips -> setStartdate( $FormData[ 'StartDate' ] )

@@ -10,7 +10,8 @@ parameters:
     AmountHelper.Class: Diff\OrderTripBundle\Library\AmountHelper
     DeclaratieHelper.Class: Diff\OrderTripBundle\Library\DeclaratieHelper
     GlobalHelper.Class: Diff\OrderTripBundle\Library\GlobalHelper
-    SumHelper.Class: Diff\OrderTripBundle\Library\SumHelper 
+    SumHelper.Class: Diff\OrderTripBundle\Library\SumHelper
+    BillBundleDelete.Class: Diff\OrderTripBundle\Library\BillBundleDelete
 
 services:
     OrdersForm:
@@ -48,3 +49,6 @@ services:
     SumHelper:
         class: %SumHelper.Class%
         arguments: [ @UserHelper , @doctrine.orm.entity_manager , @AmountHelper ]
+    BillBundleDelete:
+        class: %BillBundleDelete.Class%    
+        arguments: [ @UserHelper , @doctrine.orm.entity_manager ]

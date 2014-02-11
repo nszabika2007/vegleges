@@ -19,9 +19,9 @@ Class SumHelper
 	
 	private $UserID = 0 ;
 	
-	private $Total ;
+	private $Total =0;
 	
-	private $TotalBilled ;
+	private $TotalBilled = 0;
 	
 	function __construct( UserHelper $UserHelper , EntityManager $EntityManager , AmountHelper $AmountHelper )
 	{
@@ -50,6 +50,8 @@ Class SumHelper
 	
 	public function Load_Totals()
 	{
+		$this -> Total = 0;
+		$this -> TotalBilled = 0 ;
 		if ( $this -> CondTrip === TRUE )
 			$this -> MakeCalcForTrip( );
 		else if ( $this -> CondOrder === TRUE )

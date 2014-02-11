@@ -69,7 +69,6 @@ Class BillController extends Controller
 		
 		$File = $PathToOrderBundle . $this -> BillObject -> getFilename( ) ;
 		$GlobalOrder = $this -> UserObj -> getGlobalorder( ) + $this -> BillObject -> getAmount( ) ;
-		d( $GlobalOrder ,1 );
 		$this -> UserObj -> setGlobalorder( $GlobalOrder ) ; 
 		
 		if ( file_exists( $File ) )
@@ -90,7 +89,6 @@ Class BillController extends Controller
 		$File = $PathToTripBundle . $this -> BillObject -> getFilename( ) ;
 		
 		$GlobalTrip = $this -> UserObj -> getGlobaltrip( ) + $this -> BillObject -> getAmount( ) ;
-		d( $GlobalTrip ,1 );
 		
 		$this -> UserObj -> setGlobaltrip( $GlobalTrip ) ;
 		

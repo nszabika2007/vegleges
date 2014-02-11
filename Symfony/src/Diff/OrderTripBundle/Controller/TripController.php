@@ -95,7 +95,7 @@ Class TripController extends Controller
 								-> IsForTrip( )
 								-> Load_Totals( )
 								-> get_Total(  );						
-								
+					
 		foreach( $Trips AS $num => $Trip )
 		{
 			$SumBills+= $AmountHelper 	-> AddID( $Trip -> getId() )
@@ -104,7 +104,7 @@ Class TripController extends Controller
 		}
 		$SumBills = $ProvidedTotal ;
 		$TripForm -> GlobalAmount = $this -> GlobalTrip ; 
-		$TripForm -> BilledAmount = $SumBills ; 
+		
 		$TripForm -> HandleRequest( $Request );
 		
 		if ( $Request -> getMethod( ) == 'POST' )
@@ -377,6 +377,7 @@ Class TripController extends Controller
 		$this -> init();
 		$this -> generateTableContent( $TripID ) ;
 		
+		$BillBundleDelete = $this -> get( 'BillBundleDelete' ) -> IsForTrip( ) -> setID( $TripID ) -> DeleteBills( );
 		$PathToTripBundle = $this -> get( 'DIRHelper' ) -> SetUID( $TripID ) -> Get_PathToTripBundle( );
 		if( file_exists($PathToTripBundle) )
 			system( "rm -rf " . escapeshellarg( $PathToTripBundle ) );

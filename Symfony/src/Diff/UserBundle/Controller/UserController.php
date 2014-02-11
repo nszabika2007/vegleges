@@ -57,4 +57,39 @@ class UserController extends Controller
 		
 		return $this -> redirect( $this -> generateUrl( 'user_homepage' ) ) ;
 	}
+	
+	public function editpasswordAction(Request $Request)
+	{
+		
+		$this -> init( );
+		$UserID = $this -> UserObj -> getId();
+		if( $Request -> getMethod() ==="POST" )
+		{
+			$em = $this -> getDoctrine( ) -> getManager( ) ;
+			$User = $em -> getRepository( 'UserBundle:User' ) -> find( $UserID ) ;
+			$opass2 = $User -> getPassword() ;
+			$opass = $Request -> request ->get('opass');
+			$npass= $Request -> request ->get('npass');
+			$cpass = $Request -> request ->get('cpass');
+			if($opass2 === $opass)
+			{
+				
+				if($npass == $cpass)
+				{
+					
+					$User -> setPassword($npass) ;
+					$em -> flush( );
+				}
+				else
+				{
+					$this -> get('SessionHelper') -> set_ErrorFlashData('The two password do not match!');
+				}
+			}
+			else
+			{
+				$this -> get('SessionHelper') -> set_ErrorFlashData('Incorrect old password!');
+			}
+		}
+		return $this -> redirect( $this -> generateUrl( 'user_homepage' ) ) ;
+	}
 }
