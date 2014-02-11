@@ -5,6 +5,7 @@ namespace Diff\BassicLayoutBundle\Helper;
 use Symfony\Bundle\FrameworkBundle\Templating\DelegatingEngine AS SymfonyTemplating;
 use Symfony\Component\HttpFoundation\Response;
 use Diff\UserBundle\Helper\UserHelper AS UserHelper ;
+use Symfony\Component\HttpFoundation\Session\Session AS Session;
 
 Class BasicLayoutHelper 
 {
@@ -59,6 +60,12 @@ Class BasicLayoutHelper
 	
 	Private $UserObject ;
 	
+	/**
+	 * 
+	 */
+	
+	Private $Session ;
+	
 	function __construct(  )
 	{
 		
@@ -81,6 +88,15 @@ Class BasicLayoutHelper
 	public function Set_UserHelper( UserHelper $UserHelper )
 	{
 		$this -> UserHelper = $UserHelper;
+	}
+	
+	/**
+	 * 
+	 */
+	
+	public function set_Session( Session $Session )
+	{
+		$this -> Session = $Session ;
 	}
 	
 	/**
@@ -159,7 +175,8 @@ Class BasicLayoutHelper
 												'Content'		=> $this -> Content,
 												'Title'			=> $this -> PageTitle,
 												'UserObject'	=> $this -> UserObject,
-												'MenuDisplay'	=> $this -> MenuDisplay
+												'MenuDisplay'	=> $this -> MenuDisplay ,
+												'Session'		=> $this -> Session
 										)
 								); 
 	}

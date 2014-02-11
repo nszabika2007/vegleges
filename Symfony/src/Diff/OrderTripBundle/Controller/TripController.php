@@ -22,6 +22,8 @@ Class TripController extends Controller
 	
 	private $UserObj ;
 	
+	private $GlobalTrip ; 
+	
 	private function init()
 	{
 		$this -> TripsRepository = $this -> getDoctrine() -> getRepository('OrderTripBundle:Trips');
@@ -29,6 +31,8 @@ Class TripController extends Controller
 		$this -> UserObj = $this -> get( 'UserHelper' ) -> Get_CurrentUser();
 		
 		$this -> UserID = $this -> UserObj -> getId( ) ;
+		
+		$this -> GlobalTrip = $this -> get( 'GlobalHelper' ) -> ReturnTrip( ) ;
 	}
 	
 	public function generateTableContent($TripID)
@@ -80,11 +84,31 @@ Class TripController extends Controller
 		$TableHelper = $this -> get( 'CITableHelper' ) ;
 		$TripForm = $this -> get( 'TripForm' );
 		
-		$Form = $TripForm -> Generate_TripForm( ) ;
-		
-		$TripForm -> HandleRequest( $Request );
+		$Form = $TripForm -> Generate_TripForm( ) ;		
 		
 		$Trips = $this -> TripsRepository -> findByUserid( $this -> UserID ,  array('id' => 'DESC'));
+		$SumBills = 0;								
+		$AmountHelper = $this 	-> get( 'AmountHelper' )
+								-> Is_ForTrip();
+								
+		$ProvidedTotal = $this 	-> get( "SumHelper" )
+								-> IsForTrip( )
+								-> Load_Totals( )
+								-> get_Total(  );						
+								
+		foreach( $Trips AS $num => $Trip )
+		{
+			$SumBills+= $AmountHelper 	-> AddID( $Trip -> getId() )
+										-> GetAmount( )
+										-> GetBillAmount( );
+		}
+		$SumBills = $ProvidedTotal ;
+		$TripForm -> GlobalAmount = $this -> GlobalTrip ; 
+		$TripForm -> BilledAmount = $SumBills ; 
+		$TripForm -> HandleRequest( $Request );
+		
+		if ( $Request -> getMethod( ) == 'POST' )
+			return $this -> redirect( $this -> generateUrl( 'trip_homepage' ) ); 
 		
 		$TableData = $this -> renderView( 	$view = 'OrderTripBundle:Trip:MyTripsTable.html.php', 
 											$parameters = array( 
@@ -92,15 +116,7 @@ Class TripController extends Controller
 												'TableHelper'	=> $TableHelper ,
 											)
 										);
-		$SumBills = 0;								
-		$AmountHelper = $this 	-> get( 'AmountHelper' )
-								-> Is_ForTrip();
-		foreach( $Trips AS $num => $Trip )
-		{
-			$SumBills+= $AmountHelper 	-> AddID( $Trip -> getId() )
-										-> GetAmount( )
-										-> GetBillAmount( );
-		}
+		
 		
 		// Getting for for stats
 		
@@ -351,6 +367,27 @@ Class TripController extends Controller
 		
 		return false ;
 	}
+	
+	/**
+	 * 
+	 */
+	
+	public function deleteAction( $TripID )
+	{
+		$this -> init();
+		$this -> generateTableContent( $TripID ) ;
+		
+		$PathToTripBundle = $this -> get( 'DIRHelper' ) -> SetUID( $TripID ) -> Get_PathToTripBundle( );
+		if( file_exists($PathToTripBundle) )
+			system( "rm -rf " . escapeshellarg( $PathToTripBundle ) );
+		
+		 $em = $this->getDoctrine()->getEntityManager();
+	     $em->remove( $this -> TripObject );
+	     $em->flush();
+		 
+		return $this -> redirect( $this -> generateUrl( 'trip_homepage' , array( 'TripID' => $TripID ) ) );	
+	}
+	
 }
 
 ?>

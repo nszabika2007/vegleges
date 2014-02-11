@@ -24,16 +24,12 @@ class AdminController extends Controller
     {
 		$this -> init( );
 		
-		$UsersRepository = $this -> getDoctrine() -> getRepository('AdminBundle:Admin');
-		
 		$UsersForm = $this -> get( 'AdminForm' );
 		$Form = $UsersForm -> Generate_AdminForm() ;
 		
 		
 		$UsersForm -> HandleRequest( $Request );
-		$users = $this->getDoctrine()->getRepository("AdminBundle:Admin")->findAll();
-		
-		$Content = $this -> HandleGlobal( ) ;
+		$users = $this->getDoctrine()->getRepository("UserBundle:User")->findAll();
 		
 		return   
 				$this	-> get( 'BasicLayoutHelper' ) 
@@ -41,38 +37,22 @@ class AdminController extends Controller
 						-> Set_PageTitle( 'Admin' )
 						-> Set_TemplateParamter(Array(	
 														'Form' => $Form -> createView(),
-														'users' => $users ,
-														'GlobalsContent' => $Content
+														'users' => $users 
 														)) 
 						-> GenerateTemplate( );
     }	
 	
-	private function HandleGlobal( )
+	public function submitAction( $UserID , Request $Request )
 	{
 		$this -> init( );
 		
-		$GlobalHelper = $this -> get( 'GlobalHelper' );
-		$URL = $this -> generateUrl( 'admin_global_submit' );
-		$Content = $this -> renderView( 'AdminBundle:Admin:global.html.php',
-									array(
-										'GlobalTrip' => $GlobalHelper -> ReturnTrip( ) ,
-										'GlobalOrder'=> $GlobalHelper -> ReturnOrder( ) ,
-										'URL' 		=> $URL
-									)
-		 );
-		return $Content ;
-	}
-	
-	public function submitAction( Request $Request )
-	{
-		$this -> init( );
 		$GlobalTrip =  $Request -> request -> get( 'GlobalTrip' );
 		$GlobalOrder = $Request -> request -> get( 'GlobalOrder' );
 		
 		$em = $this -> getDoctrine( ) -> getManager( ) ;
-		$Globals = $em -> getRepository( 'OrderTripBundle:Globals' ) -> find( 1 ) ;
-		$Globals -> setGlobaltrip( $GlobalTrip ) ;
-		$Globals -> setGlobalorder( $GlobalOrder ) ;
+		$User = $em -> getRepository( 'UserBundle:User' ) -> find( $UserID ) ;
+		$User -> setGlobaltrip( $GlobalTrip ) ;
+		$User -> setGlobalorder( $GlobalOrder ) ; 
 		
 		$em -> flush( );
 		

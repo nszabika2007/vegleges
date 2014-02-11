@@ -212,6 +212,29 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        // trip_delete
+        if (0 === strpos($pathinfo, '/trips/delete') && preg_match('#^/trips/delete/(?P<TripID>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'trip_delete')), array (  '_controller' => 'Diff\\OrderTripBundle\\Controller\\TripController::deleteAction',));
+        }
+
+        if (0 === strpos($pathinfo, '/orders/delete')) {
+            // order_delete
+            if (preg_match('#^/orders/delete/(?P<OrderID>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'order_delete')), array (  '_controller' => 'Diff\\OrderTripBundle\\Controller\\OrderController::deleteAction',));
+            }
+
+            // product_delete
+            if (0 === strpos($pathinfo, '/orders/deleteProduct') && preg_match('#^/orders/deleteProduct/(?P<ProductID>[^/]++)/(?P<OrderID>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'product_delete')), array (  '_controller' => 'Diff\\OrderTripBundle\\Controller\\OrderController::deleteProductAction',  'Finalize' => '',));
+            }
+
+        }
+
+        // bill_delete
+        if (0 === strpos($pathinfo, '/bills/delete') && preg_match('#^/bills/delete/(?P<Type>[^/]++)/(?P<ID>[^/]++)/(?P<BillID>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'bill_delete')), array (  '_controller' => 'Diff\\OrderTripBundle\\Controller\\BillController::deleteAction',));
+        }
+
         if (0 === strpos($pathinfo, '/log')) {
             if (0 === strpos($pathinfo, '/login')) {
                 // login
@@ -239,13 +262,21 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
 
         // admin_global_submit
-        if ($pathinfo === '/global/submit') {
-            return array (  '_controller' => 'Diff\\AdminBundle\\Controller\\AdminController::submitAction',  '_route' => 'admin_global_submit',);
+        if (0 === strpos($pathinfo, '/global/submit') && preg_match('#^/global/submit/(?P<UserID>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'admin_global_submit')), array (  '_controller' => 'Diff\\AdminBundle\\Controller\\AdminController::submitAction',));
         }
 
-        // user_homepage
-        if ($pathinfo === '/user') {
-            return array (  '_controller' => 'Diff\\UserBundle\\Controller\\UserController::indexAction',  '_route' => 'user_homepage',);
+        if (0 === strpos($pathinfo, '/user')) {
+            // user_homepage
+            if ($pathinfo === '/user') {
+                return array (  '_controller' => 'Diff\\UserBundle\\Controller\\UserController::indexAction',  '_route' => 'user_homepage',);
+            }
+
+            // edit_user
+            if ($pathinfo === '/user/edit') {
+                return array (  '_controller' => 'Diff\\UserBundle\\Controller\\UserController::editAction',  '_route' => 'edit_user',);
+            }
+
         }
 
         // _welcome

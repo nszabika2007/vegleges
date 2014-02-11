@@ -60,12 +60,31 @@ Diff\UserBundle\Entity\User:
             fixed: false
             comment: ''
         tel:
-            type: string
+            type: text
             nullable: true
-            length: 30
+            length: null
+            fixed: false
+            comment: ''
         university:
-            type: string
+            type: text
             nullable: true
-            length: 260
-            comment: ''    
+            length: null
+            fixed: false
+            comment: ''
+        globaltrip:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            comment: ''
+            default: '0'
+            column: GlobalTrip
+        globalorder:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+            comment: ''
+            default: '0'
+            column: GlobalOrder
     lifecycleCallbacks: {  }

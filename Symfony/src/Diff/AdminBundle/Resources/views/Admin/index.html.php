@@ -22,32 +22,59 @@
   </div>
 </div>
 
-<?php
-	echo $GlobalsContent ;
-?>
-
 <br />
 <br />
 <br />
-
+<br />
+<br />
 	<?php
-		
+		$i=0;
 		foreach( $users AS $num => $user )
 		{
-			echo '<div class="panel panel-primary">';
-				echo '<div class="panel-heading">';
-					echo $user->getFirstname().' '.$user->getLastname().'('.$user->getUsername().')';
-				echo '</div>';
-				echo ' <div class="panel-body">';
-					echo '<strong>Email:</strong></br >'.$user->getEmail();
-					echo '<br />';
-					echo '<strong>Role:</strong></br >'.$user->getRole();
-					if($user->getRole()==="USER")
-					{
-						echo '<br />';
-						echo '<strong>Password:</strong></br >'.$user->getPassword();
-					}
-				echo '</div>';
+			echo '<div class="panel-group" id="accordion">';
+				echo '<div class="panel panel-default">';
+					echo '<div class="panel-heading ">';
+				 		 echo '<h4 class="panel-title">';
+				   			echo ' <a data-toggle="collapse" data-parent="#accordion" href="#collapse'.$i.'">';
+								echo $user->getFirstname().' '.$user->getLastname().'('.$user->getUsername().')';
+							echo '</a>';
+				  		echo '</h4>';
+					echo '</div>';
+					echo '<div id="collapse'.$i.'" class="panel-collapse collapse">';
+				  		echo '<div class="panel-body">';
+							echo '<strong>Email:</strong><br />'.$user->getEmail();
+							echo '<br />';
+							echo '<strong>Role:</strong><br />'.$user->getRole();
+							if($user->getRole()==="USER")
+							{
+								echo '<br />';
+								echo '<strong>Password:</strong><br />'.$user->getPassword();
+								echo '<br />';
+								if($user->getTel() !="")
+								{
+									echo '<strong>Phone number:</strong><br />'.$user->getTel();
+									echo '<br />';	
+								}
+								if($user->getUniversity() !="")
+								{
+									
+									echo '<strong>University:</strong><br />'.$user->getUniversity();
+									echo '<br />';
+								}
+							}
+
+							echo $view -> render( 
+							'AdminBundle:Admin:global.html.php',
+							array( 
+									'UserID' 			=> $user -> getId( ) ,
+									'GlobalTrip'	=> $user -> getGlobaltrip( ) ,
+									'GlobalOrder'	=> $user -> getGlobalorder( )
+									) 
+							);	
+						echo '</div>';
+					echo '</div>';
+			  	echo '</div>';
 			echo '</div>';
+			++$i;
 		}
 	?>

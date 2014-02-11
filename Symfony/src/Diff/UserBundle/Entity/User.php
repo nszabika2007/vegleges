@@ -77,6 +77,21 @@ class User implements UserInterface
      * @ORM\Column(name="university", type="text", nullable=false)
      */
     private $university;
+    
+	/**
+     * @var float
+     *
+     * @ORM\Column(name="GlobalTrip", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $globaltrip;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="GlobalOrder", type="float", precision=10, scale=0, nullable=true)
+     */
+    private $globalorder;
+	
 	
     public function getRole( )
     {
@@ -264,7 +279,53 @@ class User implements UserInterface
      */
     public function getUniversity()
     {
-        return $this->university;
+         return $this->university;
+    }
+	
+	 /**
+     * Set globaltrip
+     *
+     * @param float $globaltrip
+     * @return User
+     */
+    public function setGlobaltrip($globaltrip)
+    {
+        $this->globaltrip = $globaltrip;
+
+        return $this;
+    }
+
+    /**
+     * Get globaltrip
+     *
+     * @return float 
+     */
+    public function getGlobaltrip()
+    {
+        return $this->globaltrip;
+    }
+
+    /**
+     * Set globalorder
+     *
+     * @param float $globalorder
+     * @return User
+     */
+    public function setGlobalorder($globalorder)
+    {
+        $this->globalorder = $globalorder;
+
+        return $this;
+    }
+
+    /**
+     * Get globalorder
+     *
+     * @return float 
+     */
+    public function getGlobalorder()
+    {
+        return $this->globalorder;
     }
 	
 }

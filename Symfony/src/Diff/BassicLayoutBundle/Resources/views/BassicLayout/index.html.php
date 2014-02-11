@@ -25,6 +25,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $Host.$view['assets']->getUrl('assets/css/bootstrap.css') ?>">
 <link rel="stylesheet" type="text/css" href="<?php echo $Host.$view['assets']->getUrl('assets/css/bootstrap-fileupload.css') ?>">
 <link type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script src="<?php echo $Host.$view['assets']->getUrl('assets/js/JQuery.js') ?>" type="text/javascript"></script>
 <script src="<?php echo $Host.$view['assets']->getUrl('assets/js/bootstrap.min.js') ?>" type="text/javascript"></script>
@@ -44,12 +45,24 @@
 							'BassicLayoutBundle:BassicLayout:menu.html.php',
 							array( 'UserObject' => $UserObject ) 
 						);
-	
+	$FlashBag = null ;
+	if ( isset( $Session ) )
+	$FlashBag = $Session -> getFlashBag() -> all( ) ;					
 ?>
-
+		
 <div class='container'>
 
-<?php Echo $Content; ?>
+	<?php if ( count( $FlashBag ) > 0 ): ?>
+		<div class='alert alert-danger text-center' >
+			<button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+			<h3> Warning! </h3>
+		<?php foreach ($FlashBag[ 'Error' ] AS $num => $Message ): ?>
+			 <?php echo $Message ; ?> 
+		<?php endforeach; ?>
+		</div>
+	<?php endif; ?>
+
+	<?php Echo $Content; ?>
 
 </div>
 

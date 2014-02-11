@@ -21,12 +21,30 @@ class OrderController extends Controller
 	
 	private $BillTableData = "";
 	
+	private $OrderObj;
+	
+	private $ProductObj;
+	
 	Private function Load_UserObject( )
 	{
 		$this -> UserObject = $this -> get( 'UserHelper' ) -> Get_CurrentUser();
 		
 		$this -> UserID = $this -> UserObject -> getId();
 	}	
+	
+	private function init( $OrderID )
+	{
+		$OrderRepository = $this -> getDoctrine() -> getRepository('OrderTripBundle:Orders');
+		$Orders = $OrderRepository -> findById( $OrderID );
+		$this -> OrderObj = $Orders[0];
+	}
+	
+	private function getProduct( $ProductID )
+	{
+		$ProductRepository = $this -> getDoctrine() -> getRepository('OrderTripBundle:Product');
+		$Products = $ProductRepository -> findById( $ProductID );
+		$this -> ProductObj = $Products[0];
+	}
 	
 	public function indexAction( Request $Request )
 	{
@@ -56,7 +74,7 @@ class OrderController extends Controller
 										-> GetAmount( )
 										-> GetBillAmount( );
 		}
-		
+		//$this-> get( "session" )->getFlashBag()->add('notice', 'Profile updated');		
 		 return   
 				$this	-> get( 'BasicLayoutHelper' ) 
 						-> Set_TemplatePath( 'OrderTripBundle:Order:MyOrders.html.php' )
@@ -113,16 +131,17 @@ class OrderController extends Controller
 		
 		$ProductRepository = $this -> getDoctrine() -> getRepository('OrderTripBundle:Product');
 		$Products = $ProductRepository -> findByOrderid( $OrderID );
-		
+		$this -> FinalizeStatus = ( $Orders[0] -> getFinalized( ) ) ? TRUE : FALSE ;
 		$TableData = $this -> renderView( 	$view = 'OrderTripBundle:Order:OrderProductTable.html.php', 
 											$parameters = array( 
 												'Products'		=> $Products ,
 												'TableHelper'	=> $TableHelper ,
-												'OrderID'		=> $OrderID
+												'OrderID'		=> $OrderID,
+												'Status'		=>$this -> FinalizeStatus 
 											)
 										);
 										
-		$this -> FinalizeStatus = ( $Orders[0] -> getFinalized( ) ) ? TRUE : FALSE ;
+		
 		
 		$AmountContent = $this 	-> get( 'AmountHelper' ) 
 					-> Is_ForOrder( ) 
@@ -190,6 +209,31 @@ class OrderController extends Controller
 		$FormB = $BillForm -> Generate_BillForm( ) ;
 		
 		$BillForm -> HandleRequest( $Request );
+		return $this -> redirect( $this -> generateUrl( 'view_order' , array( 'OrderID' => $OrderID ) ) );
+	}
+	
+	public function deleteAction( $OrderID )
+	{
+		$this -> init( $OrderID );
+		$PathToOrderBundle = $this -> get( 'DIRHelper' ) -> SetUID( $OrderID ) -> Get_PathToOrderBundle( );
+
+		if( file_exists($PathToOrderBundle) )
+			system( "rm -rf " . escapeshellarg( $PathToOrderBundle ) );
+		
+		 $em = $this->getDoctrine()->getEntityManager();
+	     $em->remove( $this -> OrderObj );
+	     $em->flush();
+		 
+		return $this -> redirect( $this -> generateUrl( 'order_trip_homepage' ) );
+	}
+	
+	public function deleteProductAction( $ProductID ,$OrderID)
+	{
+	 	$this ->getProduct( $ProductID );
+		$em = $this->getDoctrine()->getEntityManager();
+		$em->remove( $this -> ProductObj );
+        $em->flush();
+		 
 		return $this -> redirect( $this -> generateUrl( 'view_order' , array( 'OrderID' => $OrderID ) ) );
 	}
 	

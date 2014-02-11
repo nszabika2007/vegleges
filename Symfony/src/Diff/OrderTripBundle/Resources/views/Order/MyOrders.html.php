@@ -59,11 +59,17 @@
 								'view_order' , 
 								array( 'OrderID' => $OrderID )
 								) ."'>".$OrderID."/".$FormattedDate."</a>";
+								
+			$DeleteLink = $view['router']->generate( 
+								'order_delete' , 
+								array( 'OrderID' => $Order -> getId() ) );
 			$TableHelper -> add_row( 
 				$Link,
 				$Order -> getProvidedamount( ),
 				count( $Order -> GetProducts( ) ) ,
-				$Status
+				$Status,
+				"<a href='" .$DeleteLink. "'> Delete</a>"
+				
 			);
 		}
 		

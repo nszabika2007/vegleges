@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormFactory AS FormFactory ;
 use Doctrine\ORM\EntityManager AS EntityManager ;
 use Diff\FileHandlerBundle\Libraries\UploadHelper\UploadInterface AS UploadInterface;
 use Diff\BassicLayoutBundle\Entity\Bills AS Bills ;
+use Diff\UserBundle\Helper\UserHelper AS UserHelper ;
 
 Class BillForm implements UploadInterface
 {
@@ -27,13 +28,17 @@ Class BillForm implements UploadInterface
 	
 	private $UID = 0;
 	
-	function __construct( FormFactory $FormFactory , EntityManager $EntityManager  )
+	private $UserHelper ;
+	
+	function __construct( FormFactory $FormFactory , EntityManager $EntityManager , UserHelper $UserHelper )
 	{
 		$this -> FormBuilder = $FormFactory -> createBuilder( 'form' ) ;
 		
 		$this -> EntityManager = $EntityManager ;
 		
 		$this -> TripsRepository = $EntityManager -> getRepository('OrderTripBundle:Trips');
+		
+		$this -> UserHelper = $UserHelper ;
 	}
 	
 	public function Is_ForOrder( $url )
@@ -66,7 +71,7 @@ Class BillForm implements UploadInterface
 							) )		
 				-> add( 'file_name' , 'file' , array( 
 								'label' => 'File',
-								'attr' 	=> array( 'class' => '' )
+								'attr' 	=> array( 'class' => 'check_image' )
 							) )					
 				-> add( 'Save' , 'submit' , array(
 											'attr'	=> array( 
@@ -82,23 +87,37 @@ Class BillForm implements UploadInterface
 		if ( ! $this -> Form -> isValid( ) ) 
 			return ;
 		
+		$UserID = $this -> UserHelper -> Get_CurrentUser( ) -> getId( ) ; 
+		
+		$User = $this -> EntityManager -> getRepository( 'UserBundle:User' ) -> find( $UserID ) ;
+	
+
 		$FormData = $this -> Form -> getData( );
 		
 		$Files = $Request -> files -> all( ) ;
 		$Dir = $Request -> server -> get( 'DOCUMENT_ROOT' ) . $Request -> getBasePath( ) . $this :: BASE_FILE_PATH ;
 
 		$Bills = new Bills();
-		
+		 
 		if ( $this -> CondTrip )
 		{
-			$Bills -> setTripId( $this -> UID );
+			$Bills -> setTripId( $this -> UID ); 
 			$Dir = $Dir . $this :: UPLOAD_TRIP_PATH ;
+			
+			$GlobalTrip = $User -> getGlobaltrip( );
+			$User -> setGlobaltrip( $GlobalTrip - $FormData[ 'amount' ] ) ;
 		}
 		else if ( $this -> CondOrder )
 		{
 			$Bills -> setOrderId( $this -> UID );
 			$Dir = $Dir . $this :: UPLOAD_ORDER_PATH ;
+			
+			$GlobalOrder = $User -> getGlobalorder( ) ;
+			$User -> setGlobalorder( $GlobalOrder - $FormData[ 'amount' ] ) ; 
 		}
+		
+		$this -> EntityManager -> flush( );
+		
 		$Dir .= $this :: FOLDER_BASE_NAME . $this -> UID;
 		
 		if ( !file_exists( $Dir ) )

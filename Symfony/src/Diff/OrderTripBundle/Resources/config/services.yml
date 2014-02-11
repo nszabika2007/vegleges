@@ -10,6 +10,7 @@ parameters:
     AmountHelper.Class: Diff\OrderTripBundle\Library\AmountHelper
     DeclaratieHelper.Class: Diff\OrderTripBundle\Library\DeclaratieHelper
     GlobalHelper.Class: Diff\OrderTripBundle\Library\GlobalHelper
+    SumHelper.Class: Diff\OrderTripBundle\Library\SumHelper 
 
 services:
     OrdersForm:
@@ -17,13 +18,13 @@ services:
         arguments: [@form.factory , @UserHelper , @doctrine.orm.entity_manager]
     TripForm:
         class: %TripForm.Class%
-        arguments: [@form.factory , @UserHelper , @doctrine.orm.entity_manager]
+        arguments: [ @form.factory , @UserHelper , @doctrine.orm.entity_manager , @SessionHelper , @SumHelper ]
     ProductForm:
         class: %ProductForm.Class%
         arguments: [@form.factory , @doctrine.orm.entity_manager]
     BillForm:
         class: %BillForm.Class%
-        arguments: [@form.factory , @doctrine.orm.entity_manager]
+        arguments: [@form.factory , @doctrine.orm.entity_manager , @UserHelper ]
     UploadTrip:
         class: %UploadTrip.Class%
     CerereOrdinForm:
@@ -43,4 +44,7 @@ services:
         arguments: [  ]
     GlobalHelper:
         class: %GlobalHelper.Class%
-        arguments: [ @doctrine.orm.entity_manager ]
+        arguments: [ @UserHelper ]
+    SumHelper:
+        class: %SumHelper.Class%
+        arguments: [ @UserHelper , @doctrine.orm.entity_manager , @AmountHelper ]

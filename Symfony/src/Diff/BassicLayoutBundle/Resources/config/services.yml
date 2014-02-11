@@ -1,12 +1,17 @@
 parameters:
    BasicLayoutHelper.Class: Diff\BassicLayoutBundle\Helper\BasicLayoutHelper
    CITableHelper.Class: Diff\BassicLayoutBundle\Helper\CITableHelper
+   SessionHelper.Class: Diff\BassicLayoutBundle\Helper\SessionHelper
 # arguments: ["janos"]
 services:
+    SessionHelper:
+       class: %SessionHelper.Class%
+       arguments: [ @session ,@router ]
     BasicLayoutHelper:
        class: %BasicLayoutHelper.Class%
        calls:
              - [Set_TemplatingDependency, ["@templating"]]
              - [Set_UserHelper , ["@UserHelper"]]
+             - [set_Session , ["@session"]]
     CITableHelper:
         class: %CITableHelper.Class%		

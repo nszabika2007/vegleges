@@ -9,4 +9,8 @@ $collection->add('user_homepage', new Route('user', array(
     '_controller' 		=> 'UserBundle:User:index'
 )));
 
+$collection->add('edit_user', new Route('user/edit', array(
+    '_controller' 		=> 'UserBundle:User:edit'
+)));
+
 return $collection;

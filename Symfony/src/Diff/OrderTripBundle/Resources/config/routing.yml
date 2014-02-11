@@ -34,3 +34,15 @@ trip_user_stats:
 order_user_stats:
      pattern: /usage/orders
      defaults: { _controller: OrderTripBundle:OrderTripUserStats:order }
+trip_delete:
+     pattern: /trips/delete/{TripID}
+     defaults: { _controller:OrderTripBundle:Trip:delete }
+order_delete:
+     pattern: /orders/delete/{OrderID}
+     defaults: { _controller:OrderTripBundle:Order:delete }
+product_delete:
+     pattern: /orders/deleteProduct/{ProductID}/{OrderID}
+     defaults: { _controller:OrderTripBundle:Order:deleteProduct ,Finalize:"" }
+bill_delete:
+     pattern: /bills/delete/{Type}/{ID}/{BillID}
+     defaults: { _controller:OrderTripBundle:Bill:delete }

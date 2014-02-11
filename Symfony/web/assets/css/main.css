@@ -8,3 +8,22 @@ img.img-for-pdf
 	display:block ;
 	margin:0 auto;
 }
+
+.useranme{
+	margin:0 auto;
+	font-family: "arial";
+	font-size: 30px;
+}
+
+.hide{
+	display:none;
+}
+
+.show{
+	display:block;
+}
+
+.margin{
+	margin-left: 10px;
+	padding-bottom: 3px;
+}

@@ -520,6 +520,7 @@
     <parameter key="userhelper.class">Diff\UserBundle\Helper\UserHelper</parameter>
     <parameter key="basiclayouthelper.class">Diff\BassicLayoutBundle\Helper\BasicLayoutHelper</parameter>
     <parameter key="citablehelper.class">Diff\BassicLayoutBundle\Helper\CITableHelper</parameter>
+    <parameter key="sessionhelper.class">Diff\BassicLayoutBundle\Helper\SessionHelper</parameter>
     <parameter key="adminform.class">Diff\AdminBundle\Form\AdminForm</parameter>
     <parameter key="ordersform.class">Diff\OrderTripBundle\Form\OrdersForm</parameter>
     <parameter key="productform.class">Diff\OrderTripBundle\Form\ProductForm</parameter>
@@ -532,6 +533,7 @@
     <parameter key="amounthelper.class">Diff\OrderTripBundle\Library\AmountHelper</parameter>
     <parameter key="declaratiehelper.class">Diff\OrderTripBundle\Library\DeclaratieHelper</parameter>
     <parameter key="globalhelper.class">Diff\OrderTripBundle\Library\GlobalHelper</parameter>
+    <parameter key="sumhelper.class">Diff\OrderTripBundle\Library\SumHelper</parameter>
     <parameter key="pdfhandler.class">Diff\FileHandlerBundle\Libraries\PDFHandler\PDFHandler</parameter>
     <parameter key="mergehelper.class">Diff\FileHandlerBundle\Libraries\MergeHelper</parameter>
     <parameter key="mergeapi.class">Diff\FileHandlerBundle\Libraries\MergeAPI</parameter>
@@ -1694,7 +1696,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>52f1478dc9a95</argument>
+            <argument>52fa4cd454ec6</argument>
           </service>
         </argument>
         <argument type="service">
@@ -2003,7 +2005,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>52f1478dc9a95</argument>
+            <argument>52fa4cd454ec6</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
           </service>
         </argument>
@@ -2715,12 +2717,19 @@
         <argument type="service" id="doctrine.orm.default_entity_manager"/>
       </call>
     </service>
+    <service id="sessionhelper" class="Diff\BassicLayoutBundle\Helper\SessionHelper">
+      <argument type="service" id="session"/>
+      <argument type="service" id="router"/>
+    </service>
     <service id="basiclayouthelper" class="Diff\BassicLayoutBundle\Helper\BasicLayoutHelper">
       <call method="Set_TemplatingDependency">
         <argument type="service" id="templating"/>
       </call>
       <call method="Set_UserHelper">
         <argument type="service" id="userhelper"/>
+      </call>
+      <call method="set_Session">
+        <argument type="service" id="session"/>
       </call>
     </service>
     <service id="citablehelper" class="Diff\BassicLayoutBundle\Helper\CITableHelper"/>
@@ -2738,6 +2747,8 @@
       <argument type="service" id="form.factory"/>
       <argument type="service" id="userhelper"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
+      <argument type="service" id="sessionhelper"/>
+      <argument type="service" id="sumhelper"/>
     </service>
     <service id="productform" class="Diff\OrderTripBundle\Form\ProductForm">
       <argument type="service" id="form.factory"/>
@@ -2746,6 +2757,7 @@
     <service id="billform" class="Diff\OrderTripBundle\Form\BillForm">
       <argument type="service" id="form.factory"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
+      <argument type="service" id="userhelper"/>
     </service>
     <service id="uploadtrip" class="Diff\OrderTripBundle\Library\UploadTrip"/>
     <service id="cerereordinform" class="Diff\OrderTripBundle\Form\CerereOrdinForm">
@@ -2763,7 +2775,12 @@
     </service>
     <service id="declaratiehelper" class="Diff\OrderTripBundle\Library\DeclaratieHelper"/>
     <service id="globalhelper" class="Diff\OrderTripBundle\Library\GlobalHelper">
+      <argument type="service" id="userhelper"/>
+    </service>
+    <service id="sumhelper" class="Diff\OrderTripBundle\Library\SumHelper">
+      <argument type="service" id="userhelper"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
+      <argument type="service" id="amounthelper"/>
     </service>
     <service id="pdfhandler" class="Diff\FileHandlerBundle\Libraries\PDFHandler\PDFHandler">
       <argument type="service" id="knp.snappy.pdf"/>

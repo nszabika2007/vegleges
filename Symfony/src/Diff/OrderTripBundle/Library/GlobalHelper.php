@@ -2,33 +2,26 @@
 
 namespace Diff\OrderTripBundle\Library ;
 
-use Doctrine\ORM\EntityManager AS EntityManager ;
-use Diff\OrderTripBundle\Entity\Globals AS Globals ;
+use Diff\UserBundle\Helper\UserHelper AS UserHelper ;
 
 Class GlobalHelper
 {
 	
-	private  $EntityManager ;
+	private $User ;
 	
-	private $Globals ;
-	private $GlobalRepository ;
-	
-	function __construct( EntityManager $EntityManager )
+	function __construct( UserHelper $UserHelper )
 	{
-		$this -> EntityManager = $EntityManager ;
-		$this -> GlobalRepository = $this -> EntityManager -> getRepository( 'OrderTripBundle:Globals' );
-		$this -> Globals  = $this -> GlobalRepository -> findById( 1 );
-		$this -> Globals = $this -> Globals[0] ;	 
+		$this -> User = $UserHelper -> Get_CurrentUser( ) ;	 
 	}
 	
 	public function ReturnOrder()
 	{
-		return $this -> Globals -> getGlobalorder( );
+		return $this -> User -> getGlobalorder( );
 	}
 	
 	public function ReturnTrip()
 	{
-		return $this -> Globals -> getGlobaltrip( );
+		return $this -> User -> getGlobaltrip( );
 	}
 	
 }
