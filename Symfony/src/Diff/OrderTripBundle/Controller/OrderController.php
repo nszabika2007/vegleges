@@ -216,7 +216,7 @@ class OrderController extends Controller
 	{
 		$this -> init( $OrderID );
 		$PathToOrderBundle = $this -> get( 'DIRHelper' ) -> SetUID( $OrderID ) -> Get_PathToOrderBundle( );
-
+		$this -> get( 'BillBundleDelete' ) -> IsForOrder( ) -> setID( $OrderID ) -> DeleteBills( );
 		if( file_exists($PathToOrderBundle) )
 			system( "rm -rf " . escapeshellarg( $PathToOrderBundle ) );
 		

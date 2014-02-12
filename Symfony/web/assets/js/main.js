@@ -1,4 +1,5 @@
 $(document).ready(function(){ 
+	//alert('height:' + $(window).height() +  ' width:' + $(window).width());
 	 $(function() {
 		$( ".datepicker" ).datepicker({
 			dateFormat: 'yy-mm-dd'

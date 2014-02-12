@@ -36,14 +36,22 @@ class StatsController extends Controller implements UploadInterface
 		$this -> MergeAPI = $this -> get( 'MergeAPI' );
 		
 		$this -> Redirect_URL = 'http://' .$Request -> getHttpHost( ) . $Request -> getBasePath( ) . self :: BASE_FILE_PATH;
-		
+		$ComdOrder = TRUE ; $ComdTrip = TRUE ;
 		if ( $Type == "ORDER" )
-			$Comd = $this -> orderHandler( ) ;
+			$ComdOrder = $this -> orderHandler( ) ;
 		else if ( $Type == 'TRIP' )
-			$Comd = $this -> tripHandler( ) ;
+			$ComdTrip = $this -> tripHandler( ) ;
 		
-		if ( $Comd === FALSE )
-			return $this -> redirect( $this -> generateURL( 'user_homepage' ) );
+		if ( $ComdOrder === FALSE or $ComdTrip === FALSE )
+		{
+			
+			$this -> get( "SessionHelper" ) -> set_ErrorFlashData( "There are no Finalized results beetwen those dates!" );
+			
+			if ( $ComdOrder === FALSE )
+				return $this -> redirect( $this -> generateURL( 'order_trip_homepage' ) );
+			else if( $ComdTrip === FALSE )
+				return $this -> redirect( $this -> generateURL( 'trip_homepage' ) );
+		}
 					
 		$this -> Redirect_URL .= '.pdf' ;
 		return $this -> redirect( $this -> Redirect_URL );
@@ -56,10 +64,12 @@ class StatsController extends Controller implements UploadInterface
 		$Query = $this -> EM->createQuery(
 		    "SELECT o
 		    FROM OrderTripBundle:Orders o
-		    WHERE o.userid=:user AND o.finalized = :fin" 
+		    WHERE o.userid=:user AND o.finalized = :fin AND o.Created >= :from AND o.Created <= :to" 
 		) 
 		  -> setParameter( 'user' , $this -> UserID ) 
-		  -> setParameter( 'fin' , 1 );
+		  -> setParameter( 'fin' , 1 )
+		  -> setParameter( 'from' , $this -> FromDate ) 
+		  -> setParameter( 'to' , $this -> ToDate ) ;
 		$Orders = $Query->getResult();
 		
 		if( count( $Orders ) < 1 )
@@ -68,13 +78,8 @@ class StatsController extends Controller implements UploadInterface
 		$this -> MergeAPI ->Is_MergeTypeOrder();
 		
 		foreach( $Orders AS $num => $Order )
-		{
-			$Created = (array)$Order -> getCreated( );
-			$Created = date( 'Y-m-d' , strtotime( $Created[ 'date' ] ) );
+			$this -> MergeAPI -> Add_ID( $Order -> getId() ) ;
 		
-			if ( $Created >= $this -> FromDate AND $Created <= $this -> ToDate  )
-				$this -> MergeAPI -> Add_ID( $Order -> getId() ) ;
-		}
 		$this -> MergeAPI -> ExecuteCall();
 		return TRUE ;
 	}

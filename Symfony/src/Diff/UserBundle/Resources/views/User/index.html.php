@@ -11,7 +11,7 @@
 			Change Password
 		</button>
 		<button class="btn btn-primary " id="enable_edit">
-			<i class="glyphicon glyphicon-edit"></i>Edit credentials
+			<i class="glyphicon glyphicon-edit"></i> Edit credentials
 		</button>
 	</div>
 	<br /><br />
