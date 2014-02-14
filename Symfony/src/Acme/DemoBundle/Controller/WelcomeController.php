@@ -8,11 +8,13 @@ class WelcomeController extends Controller
 {
     public function indexAction()
     {
+    	
         /*
          * The action's view can be rendered using render() method
          * or @Template annotation as demonstrated in DemoController.
          *
          */
+         return $this -> redirect( $this -> generateURL( 'user_homepage' ) );
         return $this->render('AcmeDemoBundle:Welcome:index.html.twig');
     }
 }
