@@ -535,6 +535,7 @@
     <parameter key="globalhelper.class">Diff\OrderTripBundle\Library\GlobalHelper</parameter>
     <parameter key="sumhelper.class">Diff\OrderTripBundle\Library\SumHelper</parameter>
     <parameter key="billbundledelete.class">Diff\OrderTripBundle\Library\BillBundleDelete</parameter>
+    <parameter key="mergecerereapi.class">Diff\FileHandlerBundle\Libraries\MergeCerereAPI</parameter>
     <parameter key="pdfhandler.class">Diff\FileHandlerBundle\Libraries\PDFHandler\PDFHandler</parameter>
     <parameter key="mergehelper.class">Diff\FileHandlerBundle\Libraries\MergeHelper</parameter>
     <parameter key="mergeapi.class">Diff\FileHandlerBundle\Libraries\MergeAPI</parameter>
@@ -1697,7 +1698,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>52fe18ebc0ae9</argument>
+            <argument>52fe5d00b38c8</argument>
           </service>
         </argument>
         <argument type="service">
@@ -2006,7 +2007,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>52fe18ebc0ae9</argument>
+            <argument>52fe5d00b38c8</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
           </service>
         </argument>
@@ -2789,6 +2790,7 @@
       <argument type="service" id="userhelper"/>
       <argument type="service" id="doctrine.orm.default_entity_manager"/>
     </service>
+    <service id="mergecerereapi" class="Diff\FileHandlerBundle\Libraries\MergeCerereAPI"/>
     <service id="pdfhandler" class="Diff\FileHandlerBundle\Libraries\PDFHandler\PDFHandler">
       <argument type="service" id="knp.snappy.pdf"/>
       <argument type="service" id="basiclayouthelper"/>

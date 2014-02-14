@@ -12,6 +12,7 @@ parameters:
     GlobalHelper.Class: Diff\OrderTripBundle\Library\GlobalHelper
     SumHelper.Class: Diff\OrderTripBundle\Library\SumHelper
     BillBundleDelete.Class: Diff\OrderTripBundle\Library\BillBundleDelete
+    MergeCerereAPI.Class: Diff\FileHandlerBundle\Libraries\MergeCerereAPI
 
 services:
     OrdersForm:
@@ -52,3 +53,5 @@ services:
     BillBundleDelete:
         class: %BillBundleDelete.Class%    
         arguments: [ @UserHelper , @doctrine.orm.entity_manager ]
+    MergeCerereAPI:
+        class: %MergeCerereAPI.Class%    

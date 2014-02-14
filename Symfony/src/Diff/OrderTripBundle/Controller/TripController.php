@@ -188,18 +188,18 @@ Class TripController extends Controller
 						-> Set_TemplatePath( 'OrderTripBundle:Trip:ViewTrip.html.php' )
 						-> Set_PageTitle( 'Trip #'.$TripID )
 						-> Set_TemplateParamter( Array(
-													'Status'		=> $this -> Status ,
-													'TripID'		=> $TripID	,
-													'TableData'		=> $this -> TableData , 
-													'BillTableData'	=> $this -> BillTableData ,
-													'FormBill'		=> $FormB -> createView( ) 	,
-													'URL_Finalize' 	=> $URL_Finalize ,
-													'CerereOrdinForm' => $CerereOrdinFormm -> createView() ,
-													'AmountContent'	=> $this -> AmountContent ,
-													'DeclaratieForm' => $DeclaratieForm	-> createView()	,
-													'Declaratie_URL' => $Declaratie_URL	,
-													'CerereURL'				  => $Cerere_URL ,
-													'FormEditTrip' 			=> $FormEditTrip -> createView( ) ,
+													'Status'			=> $this -> Status ,
+													'TripID'			=> $TripID	,
+													'TableData'			=> $this -> TableData , 
+													'BillTableData'		=> $this -> BillTableData ,
+													'FormBill'			=> $FormB -> createView( ) 	,
+													'URL_Finalize' 		=> $URL_Finalize ,
+													'CerereOrdinForm' 	=> $CerereOrdinFormm -> createView() ,
+													'AmountContent'		=> $this -> AmountContent ,
+													'DeclaratieForm' 	=> $DeclaratieForm	-> createView()	,
+													'Declaratie_URL'	=> $Declaratie_URL	,
+													'CerereURL'			=> $Cerere_URL ,
+													'FormEditTrip' 		=> $FormEditTrip -> createView( ) ,
 											) ) 
 						-> GenerateTemplate( );
 	}
@@ -290,19 +290,26 @@ Class TripController extends Controller
 		// Handle the stuff
 		$CerereDeOridinHandler = $this -> get( 'CerereDeOridinHandler' );
 		$view_array = $CerereDeOridinHandler -> HandleView_Generating( $CerereDeOrdin , $this -> UserObj , $this -> TripObject ) ;
-		// echo "<pre>";
-		// print_r($view_array);
-		// echo "</pre>";
-		$Content=$this -> renderView( 	$view = 'OrderTripBundle:Trip:CerereDeOrdinView.html.php', 
+		
+		
+
+		$ContentPart1 = $this -> renderView( 	$view = 'OrderTripBundle:Cere:CerereDeOrdinViewpt1.html.php', 
+											$parameters = array( 
+												'view_array' => $view_array
+											)
+										); 
+		$ContentPart2 = $this -> renderView( 	$view = 'OrderTripBundle:Cere:CerereDeOrdinViewpt2.html.php', 
 											$parameters = array( 
 												'view_array' => $view_array
 											)
 										);
-			$this -> get( 'PDFHandler' ) -> Set_PDFName( 'CEREREDEORDIN.pdf' )
-												   -> Set_PDFContent( $Content )
+		$this -> get( 'MergeCerereAPI' ) -> set_UserID( $this -> UserID );								
+										
+		$this -> get( 'PDFHandler' ) -> Set_PDFName( 'CEREREDEORDIN.pdf' )
+												   -> Set_PDFContent( $ContentPart1 . $ContentPart2 )
 												   -> Set_PDFFilePath( "Trips/Bundle_$TripID/" )
-												   -> Generate_PDF( );				
-       
+												   -> Generate_PDF( );
+												   						   				
 		 return $this -> redirect( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );				
 	}
 	

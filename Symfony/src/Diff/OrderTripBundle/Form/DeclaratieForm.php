@@ -55,13 +55,13 @@ Class DeclaratieForm
 		$this -> Form -> handleRequest( $Request );
 		if ( $this -> Form -> isValid( ) ) 
 		{
-
+				
 			$FormData = $this -> Form -> getData( );
 			$decalratie = new Declaratie();
 			$decalratie ->setTripid( $TripID )
 						->setCode($FormData['proiect'])
 						->setName($FormData['director'])
-						->setDate($FormData['date']);
+						->setDate( new \DateTime ($FormData['date'] ) );
 			$this -> EntityManager -> persist( $decalratie );		
 			$this -> EntityManager -> flush( );
 		}

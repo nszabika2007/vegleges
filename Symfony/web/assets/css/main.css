@@ -27,3 +27,18 @@ img.img-for-pdf
 	margin-left: 10px;
 	padding-bottom: 3px;
 }
+
+.cerere-print-page_2 h4 blockquote
+{
+	font-size:15px !important;
+}
+
+.cerere-print-page_2 li
+{
+	font-size:9px ;
+}
+
+.cerere-print-page_1
+{
+	font-size:11px ;
+}

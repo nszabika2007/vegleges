@@ -36,7 +36,7 @@ Class MergeAPI
 	
 	private static function Build_APIBaseURL( )
 	{
-		self :: $API_BaseURL = "http://" . self :: $Request -> getHttpHost( ) . "/MargeIndex.php" ;
+		self :: $API_BaseURL = "http://" . self :: $Request -> getHttpHost( ) . self :: $Request -> getBasePath( )  . "/MargeIndex.php" ;
 	}
 	
 	public function Is_MergeTypeTrip( )
