@@ -120,7 +120,7 @@ Class TripForm
 				$this -> EntityManager -> persist( $Trips );
 			}	
 				
-			if( $Remaining < 1 )
+			if( $Remaining < 0 )
 			{
 				$this -> SessionHelper -> set_ErrorFlashData( "You have only $RemainingToProvide amount left for spending!" );
 				if ( $TripID > 0  ) return ;

@@ -120,7 +120,7 @@ Class OrdersForm
 				$this -> EntityManager -> persist( $Orders );					
 			}
 			
-			if ( $DiffrenceSubmit < 1 )
+			if ( $DiffrenceSubmit < 0 )
 			{
 				$this -> SessionHelper -> set_ErrorFlashData( "You have only $Diffrence left for spending !" ) ;
 				return ;

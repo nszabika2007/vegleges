@@ -36,7 +36,7 @@ Class DeclaratieForm
 								'label' => 'Director Proiect',
 								'attr' 	=> array( 'class' => 'form-control' )
 							) )
-				-> add( 'date' , 'text' , array( 
+				-> add( 'dateee' , 'text' , array( 
 								'label' => 'Data',
 								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
@@ -61,7 +61,7 @@ Class DeclaratieForm
 			$decalratie ->setTripid( $TripID )
 						->setCode($FormData['proiect'])
 						->setName($FormData['director'])
-						->setDate( new \DateTime ($FormData['date'] ) );
+						->setDate( new \DateTime ($FormData['dateee'] ) );
 			$this -> EntityManager -> persist( $decalratie );		
 			$this -> EntityManager -> flush( );
 		}
