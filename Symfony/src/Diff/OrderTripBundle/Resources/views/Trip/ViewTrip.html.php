@@ -3,6 +3,14 @@
 	if ( $Status === FALSE )
 	{
 		Echo $view -> render( 
+							'OrderTripBundle:Trip:EditTripForm.html.php' ,
+							array (
+									'TripID'		=>	$TripID ,
+									'FormEditTrip'	=> $FormEditTrip
+							)
+						);	
+			
+		Echo $view -> render( 
 							'OrderTripBundle:Trip:UploadFile.html.php' ,
 							array (
 									'TripID'	=>	$TripID
@@ -27,7 +35,8 @@
 							array (
 									'DeclaratieForm'	=>	$DeclaratieForm
 							)
-						);				
+						);	
+													
 		?>
 			<Br />
 			<Br />

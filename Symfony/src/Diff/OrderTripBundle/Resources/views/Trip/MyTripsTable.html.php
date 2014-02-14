@@ -1,7 +1,7 @@
 <div class='well' > 
 	<?php
 	
-	$TableHelper -> set_heading( 'ID/Start Date' , 'End Date','Destination' ,'Provide Amount' ,''  );
+	$TableHelper -> set_heading( 'ID/Start Date' , 'End Date','Destination' ,'Provide Amount' , 'Status' , ''  );
 	
 	$TMPL = array ( 'table_open'  => '<table class="table"  >' );
 	
@@ -15,6 +15,9 @@
 				$Destination = $Trip ->getDestination( );
 				$Providedamount = $Trip ->getProvidedamount( );
 				$Link_Cont = $Trip -> getId( ) . "/" . date ( 'Y-m-d' ,  strtotime($StartDate[ 'date' ]) ) ;
+				
+				$Status = ( $Trip -> getFinalize( )  ) ? "<b style='color:orange' >Finalized</b>" :
+														"<b style='color:green' >Open</b>" ;
 				
 				$DeleteLink = $view['router']->generate( 
 								'trip_delete' , 
@@ -30,6 +33,7 @@
 					( empty( $EndDate ) ) ? 'N/A' : date ( 'Y-m-d' ,  strtotime($EndDate[ 'date' ]) ) ,
 					$Destination,
 					$Providedamount,
+					$Status , 
 					"<a href='" .$DeleteLink. "'> Delete</a>"
 				);
 			}

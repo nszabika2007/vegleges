@@ -46,3 +46,9 @@ product_delete:
 bill_delete:
      pattern: /bills/delete/{Type}/{ID}/{BillID}
      defaults: { _controller:OrderTripBundle:Bill:delete }
+add_order:
+     pattern: /orders/add/{OrderID}
+     defaults: { _controller:OrderTripBundle:Order:add , OrderID:0 }
+add_edit_trip:
+     pattern: /trips/add/{TripID}
+     defaults: { _controller:OrderTripBundle:Trip:add, TripID:0 } 

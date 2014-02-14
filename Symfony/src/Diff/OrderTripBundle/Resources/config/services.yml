@@ -16,7 +16,7 @@ parameters:
 services:
     OrdersForm:
         class: %OrdersForm.Class%
-        arguments: [@form.factory , @UserHelper , @doctrine.orm.entity_manager]
+        arguments: [@form.factory , @UserHelper , @doctrine.orm.entity_manager , @SumHelper , @SessionHelper ]
     TripForm:
         class: %TripForm.Class%
         arguments: [ @form.factory , @UserHelper , @doctrine.orm.entity_manager , @SessionHelper , @SumHelper ]

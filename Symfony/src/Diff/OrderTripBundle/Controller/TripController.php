@@ -177,7 +177,12 @@ Class TripController extends Controller
 		$URL_Finalize = $this -> generateUrl( 'finalize_trip' , array( 'TripID' => $TripID ) ) ;
 		
 		$Declaratie_URL = $this -> Is_Declaratie( $TripID );
-		$Cerere_URL = $this -> Is_Cerere( $TripID ) ;								
+		$Cerere_URL = $this -> Is_Cerere( $TripID ) ;	
+		
+		$TripForm = $this -> get( 'TripForm' );
+		$TripForm -> CreateDefaults( $this -> TripObject );
+		$FormEditTrip = $TripForm -> Generate_TripForm( $this -> generateURL( 'add_edit_trip' , array( 'TripID' => $TripID ) ) ) ;		
+									
 		return   
 				$this	-> get( 'BasicLayoutHelper' ) 
 						-> Set_TemplatePath( 'OrderTripBundle:Trip:ViewTrip.html.php' )
@@ -193,7 +198,8 @@ Class TripController extends Controller
 													'AmountContent'	=> $this -> AmountContent ,
 													'DeclaratieForm' => $DeclaratieForm	-> createView()	,
 													'Declaratie_URL' => $Declaratie_URL	,
-													'CerereURL'				  => $Cerere_URL
+													'CerereURL'				  => $Cerere_URL ,
+													'FormEditTrip' 			=> $FormEditTrip -> createView( ) ,
 											) ) 
 						-> GenerateTemplate( );
 	}
@@ -386,7 +392,25 @@ Class TripController extends Controller
 	     $em->remove( $this -> TripObject );
 	     $em->flush();
 		 
-		return $this -> redirect( $this -> generateUrl( 'trip_homepage' , array( 'TripID' => $TripID ) ) );	
+		return $this -> redirect( $this -> generateUrl( 'trip_homepage' ) );	
+	}
+	
+	public function addAction( $TripID = NULL , Request $Request )
+	{
+		$TripID = (int) $TripID ;
+		
+		if ( $TripID > 0 )
+			$this -> generateTableContent( $TripID ) ;
+		
+		$TripForm = $this -> get( 'TripForm' );
+		$TripForm -> Generate_TripForm( ) ;	
+		$TripForm -> GlobalAmount = $this -> GlobalTrip ; 
+		$TripForm -> HandleRequest( $Request , $TripID );
+		
+		if ( $TripID > 0 )
+			return $this -> redirect( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );	
+		
+		return $this -> redirect( $this -> generateUrl( 'trip_homepage' ) );	
 	}
 	
 }

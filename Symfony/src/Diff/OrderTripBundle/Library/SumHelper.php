@@ -29,7 +29,7 @@ Class SumHelper
 		
 		$this -> EntityManager = $EntityManager ;
 		
-		$this -> AmountHelper = $AmountHelper -> Is_ForTrip( );
+		$this -> AmountHelper = $AmountHelper ;
 		
 		$this -> UserID = $this -> UserHelper -> Get_UserID() ;
 	}
@@ -69,6 +69,7 @@ Class SumHelper
 			) -> setParameter( 'user_id' , $this -> UserID );
 			
 		$TripResult = $QueryTrip -> getResult( );
+		$this -> AmountHelper -> Is_ForTrip( ) ;
 		foreach( $TripResult AS $Num => $Trip )
 		{
 			$this -> Total += $Trip -> getProvidedamount( ) ;
@@ -80,6 +81,22 @@ Class SumHelper
 	
 	private function MakeCalcForOrder( )
 	{
+		$QueryTrip = $this -> EntityManager -> createQuery(
+				"SELECT t
+				FROM OrderTripBundle:Orders t 
+				WHERE t.userid= :user_id
+				"
+			) -> setParameter( 'user_id' , $this -> UserID );
+			
+		$TripResult = $QueryTrip -> getResult( );
+		$this -> AmountHelper -> Is_ForOrder( ) ;
+		foreach( $TripResult AS $Num => $Trip )
+		{
+			$this -> Total += $Trip -> getProvidedamount( ) ;
+			$this -> TotalBilled += $this -> AmountHelper 	-> AddID( $Trip -> getId( ) )
+															-> GetAmount( )
+															-> GetBillAmount( ) ;
+		}
 		
 	}
 	

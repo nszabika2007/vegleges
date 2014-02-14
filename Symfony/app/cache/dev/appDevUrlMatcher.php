@@ -235,6 +235,16 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return $this->mergeDefaults(array_replace($matches, array('_route' => 'bill_delete')), array (  '_controller' => 'Diff\\OrderTripBundle\\Controller\\BillController::deleteAction',));
         }
 
+        // add_order
+        if (0 === strpos($pathinfo, '/orders/add') && preg_match('#^/orders/add(?:/(?P<OrderID>[^/]++))?$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'add_order')), array (  '_controller' => 'Diff\\OrderTripBundle\\Controller\\OrderController::addAction',  'OrderID' => 0,));
+        }
+
+        // add_edit_trip
+        if (0 === strpos($pathinfo, '/trips/add') && preg_match('#^/trips/add(?:/(?P<TripID>[^/]++))?$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => 'add_edit_trip')), array (  '_controller' => 'Diff\\OrderTripBundle\\Controller\\TripController::addAction',  'TripID' => 0,));
+        }
+
         if (0 === strpos($pathinfo, '/log')) {
             if (0 === strpos($pathinfo, '/login')) {
                 // login

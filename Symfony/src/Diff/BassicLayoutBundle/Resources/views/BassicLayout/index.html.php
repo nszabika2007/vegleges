@@ -25,7 +25,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $Host.$view['assets']->getUrl('assets/css/bootstrap.css') ?>">
 <link rel="stylesheet" type="text/css" href="<?php echo $Host.$view['assets']->getUrl('assets/css/bootstrap-fileupload.css') ?>">
 <link type="text/css" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />
-<meta name="viewport" content="witdht=device-width" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <script src="<?php echo $Host.$view['assets']->getUrl('assets/js/JQuery.js') ?>" type="text/javascript"></script>
 <script src="<?php echo $Host.$view['assets']->getUrl('assets/js/bootstrap.min.js') ?>" type="text/javascript"></script>

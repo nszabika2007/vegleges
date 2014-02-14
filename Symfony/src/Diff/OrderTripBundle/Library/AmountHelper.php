@@ -34,6 +34,7 @@ class AmountHelper
 	public function Is_ForOrder( )
 	{
 		$this -> CondOrder = true ;
+		 
 		return $this ;
 	}
 	
@@ -94,8 +95,7 @@ class AmountHelper
 										'BillAmount' 		=> $this -> BillAmount ,
 										'ProvidedAmount'	=> $ProvidedAmount
 								 )
-							 ) ;
-							 
+							 ) ;		 
 		return $Content ;					 
 	}
 	

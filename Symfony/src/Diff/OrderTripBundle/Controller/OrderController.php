@@ -65,16 +65,7 @@ class OrderController extends Controller
 		$SForm = $StatsForm -> Is_ForOrder( )
 							-> Generate_Form( ) ;
 		
-		$SumBills = 0;								
-		$AmountHelper = $this 	-> get( 'AmountHelper' )
-								-> Is_ForOrder();
-		foreach( $Orders AS $num => $Order )
-		{
-			$SumBills+= $AmountHelper 	-> AddID( $Order -> getId() )
-										-> GetAmount( )
-										-> GetBillAmount( );
-		}
-		//$this-> get( "session" )->getFlashBag()->add('notice', 'Profile updated');		
+		$SumBills = $this -> get ( "SumHelper" ) -> IsForOrder( ) -> Load_Totals() -> get_Total() ;	 
 		 return   
 				$this	-> get( 'BasicLayoutHelper' ) 
 						-> Set_TemplatePath( 'OrderTripBundle:Order:MyOrders.html.php' )
@@ -117,6 +108,13 @@ class OrderController extends Controller
 	public function viewAction( $OrderID , $Finalize = '' , Request $Request )
 	{
 		$OrderID = (int)$OrderID;
+		$this -> init( $OrderID ) ;
+		
+		// Making Order Form 
+		$OrdersForm = $this -> get( 'OrdersForm' );
+		$OrdersForm -> set_SubmitURL( $this -> generateURL( 'add_order' , array( 'OrderID'	=>	$OrderID ) ) );
+		$FormOrder = $OrdersForm -> Generate_OrdersForm( $this -> OrderObj ) ;
+		
 		$FormB = $this -> Generate_BillTable( $OrderID ) ;
 		$TableHelper = $this -> get( 'CITableHelper' ) ;
 		$Em =  $this->getDoctrine()->getEntityManager();
@@ -173,7 +171,8 @@ class OrderController extends Controller
 													'TableData'		=> $TableData ,
 													'BillTableData'	=> $this -> BillTableData , 
 													'FormBill'		=> $FormB -> createView( ) ,
-													'AmountContent'	=> $AmountContent 	
+													'AmountContent'	=> $AmountContent 	,
+													'FormOrder'			=> $FormOrder -> createView() 
 												) ) 
 						-> GenerateTemplate( );
 	}
@@ -235,6 +234,26 @@ class OrderController extends Controller
         $em->flush();
 		 
 		return $this -> redirect( $this -> generateUrl( 'view_order' , array( 'OrderID' => $OrderID ) ) );
+	}
+	
+	/**
+	 * 
+	 */
+	
+	public function addAction( $OrderID = null , Request $Request )
+	{
+		$OrderID= (int) $OrderID ;
+		$RedirectURL = null ;
+		
+		$OrdersForm = $this -> get( 'OrdersForm' ) -> set_OrderID( $OrderID ) ;
+		$Form = $OrdersForm -> Generate_OrdersForm( ) ;
+		
+		$OrdersForm -> HandleRequest( $Request ) ;
+		
+		if ( $OrderID > 0 )
+			return $this -> redirect( $this -> generateUrl( 'view_order' , array( 'OrderID' => $OrderID ) ) );
+		
+		return $this -> redirect( $this -> generateUrl( 'order_trip_homepage' ) );
 	}
 	
 }

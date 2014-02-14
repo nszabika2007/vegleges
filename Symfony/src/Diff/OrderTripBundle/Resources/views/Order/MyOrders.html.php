@@ -1,13 +1,15 @@
 <h1 class='text-center' >My Orders.</h1>
 <h3> The Global Amount is: <?php echo $GlobalAmount ?> You have spent so far: <?php echo $SumBills ?> </h3>
-<div class="pull-right">
-	<a href='<?php echo  $view['router']->generate( 'order_user_stats' ); ?>' target='_blank' class="btn btn-success btn-lg" > 
+
+
+<div class='row' > 
+	<a href='<?php echo  $view['router']->generate( 'order_user_stats' ); ?>' style='margin:10px;' target='_blank' class="pull-right btn btn-success btn-lg" > 
 			<i class="glyphicon glyphicon-credit-card"> </i> View Usage For All Users
 		</a>
-	<button class="btn btn-success btn-lg" style='margin:10px;' data-toggle="modal" data-target="#myModal">
+	<button class="btn btn-success btn-lg pull-right" style='margin:10px;' data-toggle="modal" data-target="#myModal">
 		New Order
 	</button>
-</div>
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -34,7 +36,7 @@
 							)
 						);
 ?>
-
+</div>
 <br />
 <br />
 <br />
@@ -44,7 +46,7 @@
 		
 		$TableHelper -> set_heading( 'ID/Date' , 'Provided Amount' , 'Product Nr.' , 'Status');
 		
-		$TMPL = array ( 'table_open'  => '<table class="table"  >' );
+		$TMPL = array ( 'table_open'  => '<table class="table table-responsive"  >' );
 
 		$TableHelper -> set_template($TMPL);
 		
