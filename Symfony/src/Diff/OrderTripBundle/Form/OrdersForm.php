@@ -79,9 +79,18 @@ Class OrdersForm
 								) ,
 								'data'	=> @$this -> Defaults -> Created 
 							) )
+				-> add( 'can_go_negative' , 'checkbox' , array( 
+								'label' => 'Provided Amount can be larger then Remaind Global.',
+								'attr' 	=> array( 
+													'class' => '',					
+													'style'	=> 'margin:20px;' ,
+												
+								) , 'required' => false
+							) )			
 				-> add( 'Save' , 'submit' , array(
 								'attr'	=> array( 
-												'class' => 'btn btn-primary pull-right'						
+												'class' => 'btn btn-primary pull-right'	
+																	
 												)
 							) ) ;
 	}
@@ -101,6 +110,7 @@ Class OrdersForm
 			$Diffrence = $GlobalAmount  - $this -> ProvidedSum ;
 			$DiffrenceSubmit = null ;
 			$FormData = $this -> Form -> getData( );
+			
 			if ( $this -> OrderID > 0 )
 			{
 				$Order = $this -> OrderRepository -> find( $this -> OrderID );
@@ -119,12 +129,13 @@ Class OrdersForm
 						-> setCreated( $FormData[ 'Created' ] );
 				$this -> EntityManager -> persist( $Orders );					
 			}
-			
-			if ( $DiffrenceSubmit < 0 )
-			{
-				$this -> SessionHelper -> set_ErrorFlashData( "You have only $Diffrence left for spending !" ) ;
-				return ;
-			}
+			$FormData[ 'can_go_negative' ] = (int)$FormData[ 'can_go_negative' ] ;
+			if ( $FormData[ 'can_go_negative' ] != 1 )
+				if ( $DiffrenceSubmit < 0 )
+				{
+					$this -> SessionHelper -> set_ErrorFlashData( "You have only $Diffrence left for spending !" ) ;
+					return ;
+				}
 			
 			$this -> EntityManager -> flush( );
 		}

@@ -41,6 +41,8 @@ Class TripController extends Controller
 		$Request = Request::createFromGlobals();
 		
 		$this -> TripObject = $this -> TripsRepository -> findById( $TripID );
+		if ( empty( $this -> TripObject ) )
+			$this -> redirect( $this -> generateURL( "user_homepage" ) );
 		$this -> TripObject = $this -> TripObject[0] ;
 		$URL = 'http://' . $Request -> getHttpHost() . $Request -> getBasePath( ) . '/Files/Trips/Bundle_' . $TripID . '/' ;
 		$FilesRepository = $this -> getDoctrine() -> getRepository('BassicLayoutBundle:Files');
@@ -293,24 +295,33 @@ Class TripController extends Controller
 		
 		
 
-		$ContentPart1 = $this -> renderView( 	$view = 'OrderTripBundle:Cere:CerereDeOrdinViewpt1.html.php', 
+		$ContentPart1 = $this -> renderView( 	$view = 'OrderTripBundle:Cere:CerereDeOrdinViewNewPart1.html.php', 
 											$parameters = array( 
 												'view_array' => $view_array
 											)
-										); 
+										);  
 		$ContentPart2 = $this -> renderView( 	$view = 'OrderTripBundle:Cere:CerereDeOrdinViewpt2.html.php', 
 											$parameters = array( 
 												'view_array' => $view_array
 											)
 										);
+										 
+		// echo  $this	-> get( 'BasicLayoutHelper' )  
+						// -> Set_TemplatePath( 'OrderTripBundle:Cere:CerereDeOrdinViewNewPart1.html.php' )
+						// -> Set_TemplateParamter( Array(
+													// 'view_array' => $view_array
+											// ) ) -> Set_MenuDisplay( false ) 
+						// -> GenerateTemplate( );								
+										
 		$this -> get( 'MergeCerereAPI' ) -> set_UserID( $this -> UserID );								
 										
 		$this -> get( 'PDFHandler' ) -> Set_PDFName( 'CEREREDEORDIN.pdf' )
 												   -> Set_PDFContent( $ContentPart1 . $ContentPart2 )
 												   -> Set_PDFFilePath( "Trips/Bundle_$TripID/" )
 												   -> Generate_PDF( );
-												   						   				
-		 return $this -> redirect( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );				
+		// d( $view_array );										   
+		// die();										   						   				
+		return $this -> redirect( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );				
 	}
 	
 	public function declaratieAction( $TripID , Request $Request )
@@ -387,6 +398,7 @@ Class TripController extends Controller
 	
 	public function deleteAction( $TripID )
 	{
+		
 		$this -> init();
 		$this -> generateTableContent( $TripID ) ;
 		

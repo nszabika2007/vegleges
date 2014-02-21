@@ -75,7 +75,15 @@ Class TripForm
 								'label' => 'Destination',
 								'attr' 	=> array( 'class' => 'form-control' ) , 
 								'data'	=> @$this -> Defaults -> Destination 	
-							) )			
+							) )	
+				-> add( 'can_go_negative' , 'checkbox' , array( 
+								'label' => 'Provided Amount can be larger then Remaind Global.',
+								'attr' 	=> array( 
+													'class' => '',					
+													'style'	=> 'margin:20px;' ,
+												
+								) , 'required' => false
+							) )						
 				-> add( 'Save' , 'submit' , array(
 											'attr'	=> array( 
 															'class' => 'btn btn-primary pull-right'						
@@ -119,14 +127,15 @@ Class TripForm
 						-> setUserid( $UserID ) ;
 				$this -> EntityManager -> persist( $Trips );
 			}	
-				
-			if( $Remaining < 0 )
-			{
-				$this -> SessionHelper -> set_ErrorFlashData( "You have only $RemainingToProvide amount left for spending!" );
-				if ( $TripID > 0  ) return ;
-				$this -> SessionHelper -> RedirectPageTo( "trip_homepage" );
-				return ;
-			}
+			$FormData[ 'can_go_negative' ] = (int)$FormData[ 'can_go_negative' ] ;
+			if ( $FormData[ 'can_go_negative' ] != 1 )	
+				if( $Remaining < 0 )
+				{
+					$this -> SessionHelper -> set_ErrorFlashData( "You have only $RemainingToProvide amount left for spending!" );
+					if ( $TripID > 0  ) return ;
+					$this -> SessionHelper -> RedirectPageTo( "trip_homepage" );
+					return ;
+				}
 			
 			
 					

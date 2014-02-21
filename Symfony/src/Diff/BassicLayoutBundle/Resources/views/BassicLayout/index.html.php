@@ -59,7 +59,7 @@
 	
 	<?php if( $MenuDisplay === TRUE ): ?>
 		<div class='row' >
-			<div class="pull-right well">
+			<div class="pull-right well" style="margin-right:15px;" >
 				Welcome <b><?php echo $UserObject -> getUsername( ) ; ?></b>
 			</div>
 		</div>

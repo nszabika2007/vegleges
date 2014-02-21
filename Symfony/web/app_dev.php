@@ -2,13 +2,7 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
-function d( $array , $cond = 0 )
-{
-	echo "<pre>";
-	print_r( $array );
-	echo "<pre>";
-	if ( $cond ) exit ;
-}
+include_once "HelperFunctions.php";
 
 // If you don't want to setup permissions the proper way, just uncomment the following PHP line
 // read http://symfony.com/doc/current/book/installation.html#configuration-and-setup for more information

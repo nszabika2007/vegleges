@@ -67,7 +67,7 @@ Class CerereOrdinForm
 								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
 				-> add( 'cheltuieri' , 'text' , array( 
-								'label' => 'Cheltuieri salariale',
+								'label' => 'Cheltuieri de deplasare',
 								'attr' 	=> array( 'class' => 'form-control' )
 							) )
 				-> add( 'cheltuieri2' , 'text' , array( 
@@ -126,47 +126,6 @@ Class CerereOrdinForm
 								'label' => 'Data',
 								'attr' 	=> array( 'class' => 'form-control datepicker' )
 							) )
-				-> add( 'dedecan' , 'text' , array( 
-								'label' => ' ',
-								'attr' 	=> array( 
-										'value'=>'SE COMPLETEAZA DE CATRE DECANUL FACULTATII',
-										'class' => 'form-control',
-										'readonly'=>'readonly'
-									)
-							) )
-				-> add( 'Transportd' , 'text' , array( 
-								'label' => 'Transport',
-								'attr' 	=> array( 'class' => 'form-control' )
-							) )
-				-> add( 'Transport_internd' , 'text' , array( 
-								'label' => 'Transport intern',
-								'attr' 	=> array( 'class' => 'form-control' )
-							) )
-				-> add( 'Diurnad' , 'text' , array( 
-								'label' => 'Diurna',
-								'attr' 	=> array( 'class' => 'form-control' )
-							) )
-				-> add( 'Cazared' , 'text' , array( 
-								'label' => 'Cazare',
-								'attr' 	=> array( 'class' => 'form-control' )
-							) )
-				-> add( 'Taxa_participared' , 'text' , array( 
-								'label' => 'Taxa participare',
-								'attr' 	=> array( 'class' => 'form-control' )
-							) )
-				-> add( 'cheltiueli_ad' , 'text' , array( 
-								'label' => 'Alte cheltuieli',
-								'attr' 	=> array( 'class' => 'form-control' )
-							) )
-				-> add( 'Totald' , 'text' , array( 
-								'label' => 'Total',
-								'attr' 	=> array( 'class' => 'form-control' )
-							) )
-				-> add( 'dated' , 'text' , array( 
-								'label' => 'Data',
-								'attr' 	=> array( 'class' => 'form-control datepicker' )
-							) )
-
 				-> add( 'Save' , 'submit' , array(
 								'attr'	=> array( 
 												'class' => 'btn btn-primary pull-right'
@@ -207,17 +166,7 @@ Class CerereOrdinForm
 				-> setTaxaf($FormData['Taxa_participaref'])
 				-> setAltchelf($FormData['cheltiueli_af'])
 				-> setTotalf($FormData['Totalf'])
-				-> setDatef($FormData['datef'])
-				-> setNrgd('Someth')
-				-> setNamed('Someth')
-				-> setTranpsid($FormData['Transportd'])
-				-> setTranspintd($FormData['Transport_internd'])
-				-> setDiaurnad($FormData['Diurnad'])
-				-> setCazared($FormData['Cazared'])
-				-> setTaxad($FormData['Taxa_participared'])
-				-> setAltcheld($FormData['cheltiueli_ad'])
-				-> setTotald($FormData['Totald'])
-				-> setDated($FormData['dated']);
+				-> setDatef($FormData['datef']);
 			$this -> EntityManager -> persist( $Cerereordins );		
 			$this -> EntityManager -> flush( );
 		}
