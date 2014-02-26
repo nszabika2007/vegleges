@@ -37,7 +37,7 @@
 			$TableHelper -> add_row( 
 						$FormattedDate ,
 				$Bill -> getAmount( ) , 
-				"<a href='" . $File_URL . "'target='_blank' >$File_URL </a>" ,
+				"<a href='" . $File_URL . "'target='_blank' >Click here to view bill </a>" ,
 				"<a href='" . $DeleteLink . "'>Delete</a>"
 			);
 		}

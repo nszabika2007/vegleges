@@ -24,6 +24,8 @@ Class TripController extends Controller
 	
 	private $GlobalTrip ; 
 	
+	private $TotalBilledForSingleTrip = 0;
+	
 	private function init()
 	{
 		$this -> TripsRepository = $this -> getDoctrine() -> getRepository('OrderTripBundle:Trips');
@@ -41,8 +43,12 @@ Class TripController extends Controller
 		$Request = Request::createFromGlobals();
 		
 		$this -> TripObject = $this -> TripsRepository -> findById( $TripID );
-		if ( empty( $this -> TripObject ) )
-			$this -> redirect( $this -> generateURL( "user_homepage" ) );
+		if ( !isset( $this -> TripObject[0] ) or $this -> TripObject[0] -> getUserid( ) != $this -> UserID )
+		{
+			$URL_invalid = 'http://' . $Request -> getHttpHost() .  $this -> generateURL( "trip_homepage" ) ; 
+			 header("Location: $URL_invalid");
+			 die();
+		}	 
 		$this -> TripObject = $this -> TripObject[0] ;
 		$URL = 'http://' . $Request -> getHttpHost() . $Request -> getBasePath( ) . '/Files/Trips/Bundle_' . $TripID . '/' ;
 		$FilesRepository = $this -> getDoctrine() -> getRepository('BassicLayoutBundle:Files');
@@ -70,13 +76,16 @@ Class TripController extends Controller
 												'TripID'		=> $TripID 
 											)
 										);
-		
+		$this -> TotalBilledForSingleTrip = $this 	-> get( 'AmountHelper' ) 
+					-> Is_ForTrip( ) 
+					-> AddID( $TripID ) 
+					-> GetAmount( )
+					-> GetBillAmount() ;
 		$this -> AmountContent = $this 	-> get( 'AmountHelper' ) 
 					-> Is_ForTrip( ) 
 					-> AddID( $TripID ) 
 					-> GetAmount( ) 
-					-> Get_HTMLContent( $this -> TripObject -> getProvidedamount() );
-		
+					-> Get_HTMLContent( $this -> TripObject -> getProvidedamount() ); 	
 	}
 	
 	public function indexAction( Request $Request )
@@ -107,10 +116,10 @@ Class TripController extends Controller
 		$SumBills = $ProvidedTotal ;
 		$TripForm -> GlobalAmount = $this -> GlobalTrip ; 
 		
-		$TripForm -> HandleRequest( $Request );
+		$TripID = $TripForm -> HandleRequest( $Request );
 		
 		if ( $Request -> getMethod( ) == 'POST' )
-			return $this -> redirect( $this -> generateUrl( 'trip_homepage' ) ); 
+			 return $this -> redirect( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );
 		
 		$TableData = $this -> renderView( 	$view = 'OrderTripBundle:Trip:MyTripsTable.html.php', 
 											$parameters = array( 
@@ -154,6 +163,8 @@ Class TripController extends Controller
 		$this -> Status = ( $this -> TripObject -> getFinalize( ) ) ? TRUE : FALSE ;
 		
 		$BillForm = $this -> get( 'BillForm' );
+		$BillForm -> SpentAmount =  $this -> TotalBilledForSingleTrip ;
+		$BillForm -> ProvidedAmount =  $this -> TripObject -> getProvidedamount( ) ;
 		$BillForm -> Is_ForTrip( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );
 		$BillForm -> Set_UID( $TripID );
 		$FormB = $BillForm -> Generate_BillForm( ) ;
@@ -178,6 +189,8 @@ Class TripController extends Controller
 					
 		$URL_Finalize = $this -> generateUrl( 'finalize_trip' , array( 'TripID' => $TripID ) ) ;
 		
+		 
+		
 		$Declaratie_URL = $this -> Is_Declaratie( $TripID );
 		$Cerere_URL = $this -> Is_Cerere( $TripID ) ;	
 		
@@ -192,6 +205,7 @@ Class TripController extends Controller
 						-> Set_TemplateParamter( Array(
 													'Status'			=> $this -> Status ,
 													'TripID'			=> $TripID	,
+													'TripObj'			=> $this -> TripObject ,
 													'TableData'			=> $this -> TableData , 
 													'BillTableData'		=> $this -> BillTableData ,
 													'FormBill'			=> $FormB -> createView( ) 	,
@@ -212,22 +226,66 @@ Class TripController extends Controller
 	
 	public function uploadAction( $TripID=0 , Request $Request )
 	{
+			
+			
 		$this -> init( );
+		$this -> generateTableContent($TripID) ;
 		$TripID = (int)$TripID ;
 		$UploadTrip = $this -> get( 'UploadTrip' );
+		$FileName = null ;
 		try
 		{
 			$UploadTrip :: Set_RequestObject( $Request );
 			$UploadTrip :: Set_EntityManager( $this->getDoctrine()->getEntityManager() );
 			$UploadTrip -> Set_UniqueID( $TripID );
-			$UploadTrip -> Process( );
-			print_r ( $Request -> files -> all( ) ) ;
+			$Files = $UploadTrip -> Process( );
 		}
 		catch ( \Exception $Error )
 		{
-			echo $Error -> getMessage( );
+			//echo $Error -> getMessage( );
 		}	
+		//18
 		
+		$FileRepo = $this -> getDoctrine() ->getEntityManager() ; // ;
+		$File = $FileRepo -> getRepository('BassicLayoutBundle:Files') -> find( $Files -> getId( ) ) ;
+		
+		$FileName = $File -> getFileName( ) ;
+		$File_Array = explode('.', $FileName);
+		$image_type = strtolower( $File_Array[1] ) ;
+		$NewFileName = "INVITATION.pdf";
+		if(  in_array( $image_type , array( 'gif' , 'jpg' ,'png' ,'jpeg' , 'bmp' ) ) && 
+							$this -> TripObject -> getFlagInvitatie(  ) == FALSE  ) 
+		{
+				
+				$URL_File = 'http://' . $Request ->getHttpHost() . $Request -> getBasePath( ) ."/Files/Trips/Bundle_".$TripID . "/" . $FileName;
+				
+				$Image_Array = array ();
+				$Image_Array[] = $URL_File ;
+				
+				$Content = $this -> renderView( 
+											'FileHandlerBundle:Merge:Merge_Img.html.php' ,
+											array(
+												'ImgArray'		=> $Image_Array
+											)
+									);
+									
+								
+									
+				$this -> get( "PDFHandler" ) -> Set_PDFName( $NewFileName )
+							-> Set_PDFContent( $Content )
+							-> Set_PDFFilePath( "Trips/Bundle_" . $TripID ."/" )
+							-> Generate_PDF( )
+				;
+			$File -> setFileName( $NewFileName );
+			$FileRepo -> flush( );								 
+		}
+		
+		$TripRepo = $this -> getDoctrine() ->getEntityManager(); 									   
+		$Trip = $TripRepo  -> getRepository('OrderTripBundle:Trips') -> find( $TripID ) ;												   
+		$Trip -> setFlagInvitatie( TRUE );
+		
+		$TripRepo -> flush() ;	
+		$this -> CheckToUploadFinalize();
 		return $this -> redirect( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );
 		
 	}
@@ -319,6 +377,12 @@ Class TripController extends Controller
 												   -> Set_PDFContent( $ContentPart1 . $ContentPart2 )
 												   -> Set_PDFFilePath( "Trips/Bundle_$TripID/" )
 												   -> Generate_PDF( );
+		$TripRepo = $this -> getDoctrine() ->getEntityManager(); 									   
+		$Trip = $TripRepo  -> getRepository('OrderTripBundle:Trips') -> find( $TripID ) ;												   
+		$Trip -> setFlagCerere( TRUE );
+		
+		$TripRepo -> flush() ;	
+		$this -> CheckToUploadFinalize();									   
 		// d( $view_array );										   
 		// die();										   						   				
 		return $this -> redirect( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );				
@@ -364,7 +428,14 @@ Class TripController extends Controller
 		$this -> get( 'PDFHandler' ) -> Set_PDFName( 'DECLARATIE.pdf' )
 												   -> Set_PDFContent( $Content )
 												   -> Set_PDFFilePath( "Trips/Bundle_$TripID/" )
-												   -> Generate_PDF( );						
+												   -> Generate_PDF( );	
+												   
+		$TripRepo = $this -> getDoctrine() ->getEntityManager(); 									   
+		$Trip = $TripRepo  -> getRepository('OrderTripBundle:Trips') -> find( $TripID ) ;												   
+		$Trip -> setFlagDeclaratie( TRUE );
+		
+		$TripRepo -> flush() ;
+		$this -> CheckToUploadFinalize();										   					
 		return $this -> redirect( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );										
 	}
 	
@@ -407,13 +478,21 @@ Class TripController extends Controller
 		if( file_exists($PathToTripBundle) )
 			system( "rm -rf " . escapeshellarg( $PathToTripBundle ) );
 		
+		$ProvidedAmount = $this -> TripObject -> getProvidedamount( ) ;
+		
 		 $em = $this->getDoctrine()->getEntityManager();
 	     $em->remove( $this -> TripObject );
 	     $em->flush();
-		 
+		
+		$em_user = $this->getDoctrine()->getEntityManager();
+		$User = $em_user -> getRepository( 'UserBundle:User' ) -> find( $this -> UserID ) ;
+		
+		$GlobalTrip = $User -> getGlobaltrip( );
+		$User -> setGlobaltrip( $GlobalTrip + $ProvidedAmount ) ;
+		$em_user -> flush();
 		return $this -> redirect( $this -> generateUrl( 'trip_homepage' ) );	
 	}
-	
+	 
 	public function addAction( $TripID = NULL , Request $Request )
 	{
 		$TripID = (int) $TripID ;
@@ -430,6 +509,39 @@ Class TripController extends Controller
 			return $this -> redirect( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );	
 		
 		return $this -> redirect( $this -> generateUrl( 'trip_homepage' ) );	
+	}
+	
+	private function CheckToUploadFinalize( )
+	{
+		return ;
+	}
+	
+	public function uploadfinalizeAction( $TripID )
+	{
+		$this -> init( );
+		$this -> generateTableContent( $TripID ) ;
+		$TripRepo = $this -> getDoctrine() ->getEntityManager(); 									   
+		$Trip = $TripRepo  -> getRepository('OrderTripBundle:Trips') -> find( $this -> TripObject -> getId( ) ) ;												   
+		if ( $Trip -> getFlagInvitatie(  ) && $Trip -> getFlagDeclaratie(  ) && $Trip -> getFlagCerere(  ) )
+		{
+			$Trip -> setUploadFinalize(TRUE) ;	
+			$TripRepo -> flush() ;
+			
+			$FileRepo = $this -> getDoctrine() ->getEntityManager() ; // ;
+			$File = $FileRepo -> getRepository('BassicLayoutBundle:Files') -> findByTripId( $TripID , array( 'id' => 'ASC' ) , 1 ) ;
+			$File = $File[0] ;  
+			$MergeAPI = $this -> get( "MergeAPI" ); 
+			$MergeAPI -> Is_MergeTypeTrip( ) -> Is_SingleDoc( ) 
+			-> Set_TripUploadFinalize( $File -> getFileName( ) ) -> Add_ID( $TripID );
+			echo $MergeAPI -> ExecuteCall(  );
+			
+		}	
+		else 
+			{
+				$this -> get( "SessionHelper" ) -> set_ErrorFlashData( "Not all of the necesary files were uploaded !" );
+			}	
+
+		return $this -> redirect( $this -> generateUrl( 'view_trip' , array( 'TripID' => $TripID ) ) );	
 	}
 	
 }

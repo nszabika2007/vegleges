@@ -4,6 +4,7 @@ use Symfony\Component\HttpFoundation\Request AS Request ;
 use Symfony\Component\Form\FormFactory AS FormFactory ;
 use Doctrine\ORM\EntityManager AS EntityManager ;
 use Diff\OrderTripBundle\Entity\Cerereordins AS Cerereordins ;
+use Diff\BassicLayoutBundle\Helper\SessionHelper AS SessionHelper;
 
 Class CerereOrdinForm
 {
@@ -15,13 +16,16 @@ Class CerereOrdinForm
 	Private $ProductRepository ;
 	
 	Private $EntityManager ;
-
 	
-	function __construct( FormFactory $FormFactory , EntityManager $EntityManager  )
+	private $SessionHelper ;
+	
+	function __construct( FormFactory $FormFactory , EntityManager $EntityManager ,  SessionHelper $SessionHelper )
 	{
 		$this -> FormBuilder = $FormFactory -> createBuilder( 'form' ) ;
 		
 		$this -> EntityManager = $EntityManager ;
+		
+		$this -> SessionHelper = $SessionHelper ;
 		
 		$this -> ProductRepository = $EntityManager -> getRepository( 'OrderTripBundle:Cerereordins' );
 	}
@@ -30,14 +34,6 @@ Class CerereOrdinForm
 	private function Build_Form( )
 	{
 	$this 	-> FormBuilder 
-				-> add( 'IntrareCCI' , 'text' , array( 
-								'label' => 'Nr. de intrare CCI',
-								'attr' 	=> array( 'class' => 'form-control' )
-							) )
-				-> add( 'Aprobat' , 'text' , array( 
-								'label' => 'Aprobat',
-								'attr' 	=> array( 'class' => 'form-control datepicker' )
-							) )
 				-> add( 'Destination' , 'text' , array( 
 								'label' => 'Destiantia Localitatea',
 								'attr' 	=> array( 'class' => 'form-control' )
@@ -144,9 +140,18 @@ Class CerereOrdinForm
 			$FormData = $this -> Form -> getData( );
 			$Cerereordins = new Cerereordins();
 			
+			$Spendings = $FormData["Transportf"] + $FormData["Transport_internf"] + $FormData["Diurnaf"] 
+					+ $FormData["Cazaref"] + $FormData["Taxa_participaref"] + $FormData["cheltiueli_af"];
+			
+			if( $Spendings != $FormData['Totalf'] )
+			{
+				
+				$this -> SessionHelper -> set_ErrorFlashData( "The Entered Values Do not match up with the Total !" );
+				$this -> SessionHelper -> RedirectPageTo( "view_trip" , array( "TripID" => $TripID ) );
+				return ;
+			}
+			
 				$Cerereordins-> setTripid( $TripID )
-				-> setCci($FormData['IntrareCCI'])				
-				-> setDate1($FormData['Aprobat'])
 				-> setDlocality($FormData['Destination'])
 				-> setDcountry($FormData['Destination2'])
 				-> setDscop($FormData['Scopul'])

@@ -33,6 +33,8 @@ Class OrdersForm
 	
 	private $ProvidedSum = 0 ;
 	
+	private $User_EntityManager ;
+	
 	function __construct( FormFactory $FormFactory , UserHelper $UserHelper 
 				, EntityManager $EntityManager ,SumHelper $SumHelper , SessionHelper $SessionHelper  )
 	{
@@ -49,6 +51,8 @@ Class OrdersForm
 		unset( $SumHelper );
 		
 		$this -> EntityManager = $EntityManager ;
+		
+		$this -> User_EntityManager = $EntityManager ;
 		
 		$this -> OrderRepository = $EntityManager -> getRepository( 'OrderTripBundle:Orders' ) ;
 	}
@@ -107,17 +111,19 @@ Class OrdersForm
 		{
 			
 			$GlobalAmount = $this -> UserHelper -> Get_CurrentUser( ) -> getGlobalorder( ) ; 
-			$Diffrence = $GlobalAmount  - $this -> ProvidedSum ;
+			$Diffrence = $GlobalAmount  ;
 			$DiffrenceSubmit = null ;
 			$FormData = $this -> Form -> getData( );
 			
+			$Old_ProvidedAmount = NULL;
+			
 			if ( $this -> OrderID > 0 )
 			{
-				$Order = $this -> OrderRepository -> find( $this -> OrderID );
+				$Orders = $this -> OrderRepository -> find( $this -> OrderID );
+				$Old_ProvidedAmount = $Orders -> getProvidedamount( );
+				$DiffrenceSubmit = $Diffrence + $Orders -> getProvidedamount( ) - $FormData[ 'ProvidedAmount' ] ;
 				
-				$DiffrenceSubmit = $Diffrence + $Order -> getProvidedamount( ) - $FormData[ 'ProvidedAmount' ] ;
-				
-				$Order -> setProvidedamount( $FormData[ 'ProvidedAmount' ] )
+				$Orders -> setProvidedamount( $FormData[ 'ProvidedAmount' ] )
 						-> setCreated( $FormData[ 'Created' ] );
 			}
 			else {
@@ -133,11 +139,30 @@ Class OrdersForm
 			if ( $FormData[ 'can_go_negative' ] != 1 )
 				if ( $DiffrenceSubmit < 0 )
 				{
-					$this -> SessionHelper -> set_ErrorFlashData( "You have only $Diffrence left for spending !" ) ;
+					
+					if ( $GlobalAmount  < 0 )
+					$this -> SessionHelper -> set_ErrorFlashData( "You are allready bellow with: " . $GlobalAmount . "!" );
+					else
+					$this -> SessionHelper -> set_ErrorFlashData( "You have only $Diffrence amount left for spending!" );
+					
 					return ;
 				}
 			
 			$this -> EntityManager -> flush( );
+			
+			// Extracting from User global . 
+			$ProvidedAmount = $FormData[ 'ProvidedAmount' ] ;
+			if ( $Old_ProvidedAmount != NULL )
+				$ProvidedAmount = $ProvidedAmount - $Old_ProvidedAmount ;
+			
+			$User = $this -> User_EntityManager -> getRepository( 'UserBundle:User' ) -> find( $this -> UserHelper -> Get_UserID( ) ) ;
+			
+			$GlobalOrder = $User -> getGlobalorder( );
+			$User -> setGlobalorder( $GlobalOrder - $ProvidedAmount ) ;
+			
+			$this -> User_EntityManager -> flush( );
+			
+			return $Orders -> getId( ) ;
 		}
 	}
 	

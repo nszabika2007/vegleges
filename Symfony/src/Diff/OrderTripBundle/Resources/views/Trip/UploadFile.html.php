@@ -5,7 +5,7 @@
 ?>
 
 <button class="pull-right btn btn-success btn-lg" data-toggle="modal" style='margin:10px;' data-target="#myModal">
-	 <i class='glyphicon glyphicon-file' ></i> Upload File
+	 <i class='glyphicon glyphicon-file' ></i> Upload Invitation
 </button>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -13,7 +13,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Upload File.</h4>
+        <h4 class="modal-title" id="myModalLabel">Upload Invitation.</h4>
       </div>
       <div class="modal-body">
        	

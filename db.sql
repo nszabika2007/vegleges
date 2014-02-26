@@ -30,7 +30,7 @@ CREATE TABLE `bills` (
   `amount` float NOT NULL,
   `file_name` tinytext NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,6 @@ CREATE TABLE `bills` (
 
 LOCK TABLES `bills` WRITE;
 /*!40000 ALTER TABLE `bills` DISABLE KEYS */;
-INSERT INTO `bills` VALUES (16,'2014-02-20',11,NULL,12.11,'excel-invoice-template.gif'),(17,'2014-02-19',NULL,15,22.22,'excel-invoice-template.gif'),(24,'2014-02-12',NULL,17,22.22,'1.png'),(35,'2014-02-18',19,NULL,33.33,'excel-invoice-template.gif'),(36,'2014-02-15',20,NULL,22.22,'excel-invoice-template.gif');
 /*!40000 ALTER TABLE `bills` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +85,7 @@ CREATE TABLE `cerereordins` (
   `totald` tinytext,
   `dated` tinytext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +94,6 @@ CREATE TABLE `cerereordins` (
 
 LOCK TABLES `cerereordins` WRITE;
 /*!40000 ALTER TABLE `cerereordins` DISABLE KEYS */;
-INSERT INTO `cerereordins` VALUES (12,12,'84498','2014-02-08','asd','asd','asd','asd','asd','2014-02-19','2014-02-04','asd','asd','2014-02-05','4894489','asd','asd','asd','asd','asd','asd','asd','asd','2014-02-04','Someth','Someth','asd','asd','asd','asd','asd','asd','asd','2014-02-18'),(13,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(14,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(15,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(16,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(17,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(18,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(19,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(20,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(21,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(22,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(23,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(24,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(25,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(26,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(27,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(28,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(29,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(30,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(31,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(32,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(33,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(34,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(35,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(36,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(37,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(38,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(39,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(40,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(41,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(42,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(43,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(44,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(45,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(46,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(47,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(48,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(49,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19'),(50,29,'1231','2014-02-21','Destinate Budapest','Hungari','TestTex','TestTex','2014-01-24','2014-02-19','2014-02-12','123','213213','2014-02-21','121','TestTex','TestTex','TestTex','TestTex','TestTex','12','1231','12411','2014-02-18','Someth','Someth','TestTex','TestTex','TestTex','TestTex','TestTex','21121','1211','2014-02-19');
 /*!40000 ALTER TABLE `cerereordins` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +111,7 @@ CREATE TABLE `declaratie` (
   `Name` varchar(20) NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +120,7 @@ CREATE TABLE `declaratie` (
 
 LOCK TABLES `declaratie` WRITE;
 /*!40000 ALTER TABLE `declaratie` DISABLE KEYS */;
-INSERT INTO `declaratie` VALUES (9,10,'Diff Proj','Farkas Csaba','2009-01-01'),(10,10,'Diff Proj','Farkas Csaba','2009-01-01'),(11,10,'Diff Proj','Farkas Csaba','2009-01-01'),(12,10,'Diff Proj','Farkas Csaba','2009-01-01'),(13,10,'Diff Proj','Farkas Csaba','2009-01-01'),(14,10,'Diff Proj','Farkas Csaba','2009-01-01'),(15,10,'Diff Proj','Farkas Csaba','2009-01-01'),(16,10,'Diff Proj','Farkas Csaba','2009-01-01'),(17,10,'Diff Proj','Farkas Csaba','2009-01-01'),(18,10,'Diff Proj','Farkas Csaba','2009-01-01'),(19,10,'Diff Proj','Farkas Csaba','2009-01-01'),(20,10,'Diff Proj','Farkas Csaba','2009-01-01'),(21,10,'Diff Proj','Farkas Csaba','2009-01-01'),(22,10,'Diff Proj','Farkas Csaba','2009-01-01'),(23,10,'Diff Proj','Farkas Csaba','2009-01-01'),(24,10,'Diff Proj','Farkas Csaba','2009-01-01'),(25,10,'Diff Proj','Farkas Csaba','2009-01-01'),(26,10,'Diff Proj','Farkas Csaba','2009-01-01'),(27,10,'Diff Proj','Farkas Csaba','2009-01-01'),(28,10,'Diff Proj','Farkas Csaba','2009-01-01'),(29,10,'Diff Proj','Farkas Csaba','2009-01-01'),(30,10,'Diff Proj','Farkas Csaba','2009-01-01'),(31,10,'Diff Proj','Farkas Csaba','2009-01-01'),(32,10,'Diff Proj','Farkas Csaba','2009-01-01'),(33,10,'Diff Proj','Farkas Csaba','2009-01-01'),(34,10,'Diff Proj','Farkas Csaba','2009-01-01'),(35,10,'Diff Proj','Farkas Csaba','2009-01-01'),(36,10,'Diff Proj','Farkas Csaba','2009-01-01'),(37,10,'Diff Proj','Farkas Csaba','2009-01-01'),(38,10,'Diff Proj','Farkas Csaba','2009-01-01'),(39,10,'Diff Proj','Farkas Csaba','2009-01-01'),(40,10,'Diff Proj','Farkas Csaba','2009-01-01'),(41,29,'Proiect Test','Test MIster','2014-03-12');
+INSERT INTO `declaratie` VALUES (9,10,'Diff Proj','Farkas Csaba','2009-01-01'),(10,10,'Diff Proj','Farkas Csaba','2009-01-01'),(11,10,'Diff Proj','Farkas Csaba','2009-01-01'),(12,10,'Diff Proj','Farkas Csaba','2009-01-01'),(13,10,'Diff Proj','Farkas Csaba','2009-01-01'),(14,10,'Diff Proj','Farkas Csaba','2009-01-01'),(15,10,'Diff Proj','Farkas Csaba','2009-01-01'),(16,10,'Diff Proj','Farkas Csaba','2009-01-01'),(17,10,'Diff Proj','Farkas Csaba','2009-01-01'),(18,10,'Diff Proj','Farkas Csaba','2009-01-01'),(19,10,'Diff Proj','Farkas Csaba','2009-01-01'),(20,10,'Diff Proj','Farkas Csaba','2009-01-01'),(21,10,'Diff Proj','Farkas Csaba','2009-01-01'),(22,10,'Diff Proj','Farkas Csaba','2009-01-01'),(23,10,'Diff Proj','Farkas Csaba','2009-01-01'),(24,10,'Diff Proj','Farkas Csaba','2009-01-01'),(25,10,'Diff Proj','Farkas Csaba','2009-01-01'),(26,10,'Diff Proj','Farkas Csaba','2009-01-01'),(27,10,'Diff Proj','Farkas Csaba','2009-01-01'),(28,10,'Diff Proj','Farkas Csaba','2009-01-01'),(29,10,'Diff Proj','Farkas Csaba','2009-01-01'),(30,10,'Diff Proj','Farkas Csaba','2009-01-01'),(31,10,'Diff Proj','Farkas Csaba','2009-01-01'),(32,10,'Diff Proj','Farkas Csaba','2009-01-01'),(33,10,'Diff Proj','Farkas Csaba','2009-01-01'),(34,10,'Diff Proj','Farkas Csaba','2009-01-01'),(35,10,'Diff Proj','Farkas Csaba','2009-01-01'),(36,10,'Diff Proj','Farkas Csaba','2009-01-01'),(37,10,'Diff Proj','Farkas Csaba','2009-01-01'),(38,10,'Diff Proj','Farkas Csaba','2009-01-01'),(39,10,'Diff Proj','Farkas Csaba','2009-01-01'),(40,10,'Diff Proj','Farkas Csaba','2009-01-01'),(41,29,'Proiect Test','Test MIster','2014-03-12'),(42,32,'asd','asd','2014-02-11'),(43,26,'Diff Proj','Farkas Csaba','2014-02-20'),(44,26,'PN II 0241','Alexandru Kristaly','2014-02-17'),(45,37,'PN II 0241','Alexandru Kristaly','2014-02-21'),(46,38,'Proiect Test','Test MIster','2014-02-19'),(47,44,'Proiect Test','Test MIster','2014-02-26'),(48,44,'Proiect Test','Test MIster','2014-02-26'),(49,44,'Proiect Test','Test MIster','2014-02-26'),(50,45,'Proiect Test','Test MIster','2014-02-26'),(51,45,'Proiect Test','Test MIster','2014-02-26'),(52,44,'Proiect Test','Test MIster','2014-02-26'),(53,52,'Proiect Test','Test MIster','2014-02-27'),(54,53,'Proiect Test','Test MIster','2014-02-25'),(55,54,'asd','asd','2014-02-01'),(56,54,'asd','asd','2014-02-01');
 /*!40000 ALTER TABLE `declaratie` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -140,7 +138,7 @@ CREATE TABLE `files` (
   `order_id` int(11) DEFAULT '0',
   `desription` text NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +147,6 @@ CREATE TABLE `files` (
 
 LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
-INSERT INTO `files` VALUES (8,'[kickass.to]f1.2013.reloaded.torrent',10,NULL,'sdf'),(9,'s_n01_nursingm.jpg',29,NULL,'This is a File ');
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,7 +191,7 @@ CREATE TABLE `orders` (
   `PDF_Name` tinytext,
   `BillFileName` tinytext,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -203,7 +200,6 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (16,'2014-02-04 00:00:00',1,11,1,'Orders_NR_16.pdf',NULL),(19,'2014-02-12 00:00:00',3,140,NULL,NULL,NULL),(20,'2014-02-14 00:00:00',1,145,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,7 +217,7 @@ CREATE TABLE `product` (
   `ProductURL` text NOT NULL,
   `OrderID` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,7 +226,6 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (18,'Kecske',12,'http://localhost/Symfony/web/app_dev.php/trips/finalize/2',13),(29,'Samasung Galaxy S4',25,'http://www.smsgratis.ws/index.php',15),(31,'Csokolade',11,'http://www.smsgratis.ws/index.php#.Us7WTPQW13s',15);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,12 +241,16 @@ CREATE TABLE `trips` (
   `StartDate` datetime NOT NULL,
   `EndDate` datetime DEFAULT NULL,
   `UserID` int(11) NOT NULL,
+  `flag_cerere` tinyint(1) DEFAULT '0',
+  `flag_declaratie` tinyint(1) DEFAULT '0',
+  `flag_invitatie` tinyint(1) DEFAULT '0',
+  `upload_finalize` tinyint(1) DEFAULT '0',
   `finalize` tinyint(1) DEFAULT '0',
   `ProvidedAmount` float DEFAULT '0',
   `destination` tinytext,
   PRIMARY KEY (`ID`),
   KEY `UserID` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -260,7 +259,6 @@ CREATE TABLE `trips` (
 
 LOCK TABLES `trips` WRITE;
 /*!40000 ALTER TABLE `trips` DISABLE KEYS */;
-INSERT INTO `trips` VALUES (11,'2014-02-15 00:00:00',NULL,3,NULL,99.9,'Cluj Napoca'),(25,'2014-02-05 00:00:00','2014-02-13 00:00:00',4,1,11,'Budapest'),(26,'2014-02-20 00:00:00',NULL,1,NULL,145,'Budapest');
 /*!40000 ALTER TABLE `trips` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,13 +278,15 @@ CREATE TABLE `user` (
   `role` varchar(6) NOT NULL DEFAULT 'USER',
   `email` varchar(60) NOT NULL,
   `tel` tinytext,
+  `total_global_trip` float DEFAULT '0',
+  `total_global_order` float DEFAULT '0',
   `university` tinytext,
   `GlobalTrip` float DEFAULT '0',
   `GlobalOrder` float DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `userName` (`userName`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -295,7 +295,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Admin','admin','Admin','Admin','ADMIN','admin@gmail.com','0748985496','Admin',523.77,313.78),(3,'nemeszol','akarmi','Zoltan','Nemes','USER','valami@valami.com',NULL,NULL,123,398.67),(4,'nagyszab','electro001','Nagy','Szabolcs','USER','nszabika2007@gmail.com','0030749824942','Sapietia Informatika',300,200);
+INSERT INTO `user` VALUES (1,'Admin','admin','Admin','Admin','ADMIN','admin@gmail.com','0748985496',0,0,'Admin',54.78,-79.22),(3,'nemeszol','akarmi','Zoltan','Nemes','USER','valami@valami.com',NULL,0,0,NULL,123,398.67),(4,'nagyszab','electro001','Kis','Szabolcs','USER','nszabika2007@gmail.com','0030749824942',0,0,'Sapietia Informatika',300,200),(5,'test','testnumber1','Nagy','Szabolcs','USER','test2@gmail.com','02548498',0,0,'Sapientia Info',55,100);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -308,4 +308,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-02-14 20:36:16
+-- Dump completed on 2014-02-26 20:24:40

@@ -63,7 +63,35 @@ class Trips
      */
     private $destination;
 	
-	  /**
+	 /**
+     * @var boolean
+     *
+     * @ORM\Column(name="flag_cerere", type="boolean", nullable=true)
+     */
+    private $flagCerere;
+
+     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="flag_declaratie", type="boolean", nullable=true)
+     */
+    private $flagDeclaratie;
+
+     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="flag_invitatie", type="boolean", nullable=true)
+     */
+    private $flagInvitatie;
+
+     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="upload_finalize", type="boolean", nullable=true)
+     */
+    private $uploadFinalize;
+	
+	  /** 
      * Get id
      *
      * @return integer 
@@ -209,6 +237,98 @@ class Trips
     public function getDestination()
     {
         return $this->destination;
+    }
+	// New COlumns from 2014-02-25
+	/**
+     * Set flagCerere
+     *
+     * @param boolean $flagCerere
+     * @return Trips
+     */
+    public function setFlagCerere($flagCerere)
+    {
+        $this->flagCerere = $flagCerere;
+
+        return $this;
+    }
+
+    /**
+     * Get flagCerere
+     *
+     * @return boolean 
+     */
+    public function getFlagCerere()
+    {
+        return $this->flagCerere;
+    }
+
+    /**
+     * Set flagDeclaratie
+     *
+     * @param boolean $flagDeclaratie
+     * @return Trips
+     */
+    public function setFlagDeclaratie($flagDeclaratie)
+    {
+        $this->flagDeclaratie = $flagDeclaratie;
+
+        return $this;
+    }
+
+    /**
+     * Get flagDeclaratie
+     *
+     * @return boolean 
+     */
+    public function getFlagDeclaratie()
+    {
+        return $this->flagDeclaratie;
+    }
+
+    /**
+     * Set flagInvitatie
+     *
+     * @param boolean $flagInvitatie
+     * @return Trips
+     */
+    public function setFlagInvitatie($flagInvitatie)
+    {
+        $this->flagInvitatie = $flagInvitatie;
+
+        return $this;
+    }
+
+    /**
+     * Get flagInvitatie
+     *
+     * @return boolean 
+     */
+    public function getFlagInvitatie()
+    {
+        return $this->flagInvitatie;
+    }
+
+    /**
+     * Set uploadFinalize
+     *
+     * @param boolean $uploadFinalize
+     * @return Trips
+     */
+    public function setUploadFinalize($uploadFinalize)
+    {
+        $this->uploadFinalize = $uploadFinalize;
+
+        return $this;
+    }
+
+    /**
+     * Get uploadFinalize
+     *
+     * @return boolean 
+     */
+    public function getUploadFinalize()
+    {
+        return $this->uploadFinalize;
     }
 	
 }

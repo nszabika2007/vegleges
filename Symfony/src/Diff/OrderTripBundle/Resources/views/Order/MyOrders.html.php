@@ -60,7 +60,7 @@
 			
 			$FormattedDate =  date( 'Y-m-d' , strtotime( $Date['date'] ) ) ;
 			$OrderID = $Order -> getId( );
-			$Link = "<a href='". $view['router']->generate( 
+			$Link = "<a class='btn btn-primary btn-sm' href='". $view['router']->generate( 
 								'view_order' , 
 								array( 'OrderID' => $OrderID )
 								) ."'>".$OrderID."/".$FormattedDate."</a>";

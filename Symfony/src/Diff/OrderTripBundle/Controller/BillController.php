@@ -54,7 +54,7 @@ Class BillController extends Controller
 		if( $Type == "TRIP" )
 			$URL = $this -> HandleTrip( $ID );
 		
-		$this -> EntityManager -> flush( );
+		// $this -> EntityManager -> flush( );
 		
 		$em = $this->getDoctrine( ) -> getEntityManager( );
 	    $em -> remove( $this -> BillObject ) ;
@@ -68,8 +68,8 @@ Class BillController extends Controller
 		$PathToOrderBundle = $this -> get( 'DIRHelper' ) -> SetUID( $ID ) -> Get_PathToOrderBundle( ); 
 		
 		$File = $PathToOrderBundle . $this -> BillObject -> getFilename( ) ;
-		$GlobalOrder = $this -> UserObj -> getGlobalorder( ) + $this -> BillObject -> getAmount( ) ;
-		$this -> UserObj -> setGlobalorder( $GlobalOrder ) ; 
+		// $GlobalOrder = $this -> UserObj -> getGlobalorder( ) + $this -> BillObject -> getAmount( ) ;
+		// $this -> UserObj -> setGlobalorder( $GlobalOrder ) ; 
 		
 		if ( file_exists( $File ) )
 			unlink( $File ) ;
@@ -88,9 +88,9 @@ Class BillController extends Controller
 		
 		$File = $PathToTripBundle . $this -> BillObject -> getFilename( ) ;
 		
-		$GlobalTrip = $this -> UserObj -> getGlobaltrip( ) + $this -> BillObject -> getAmount( ) ;
+		// $GlobalTrip = $this -> UserObj -> getGlobaltrip( ) + $this -> BillObject -> getAmount( ) ;
 		
-		$this -> UserObj -> setGlobaltrip( $GlobalTrip ) ;
+		// $this -> UserObj -> setGlobaltrip( $GlobalTrip ) ;
 		
 		if ( file_exists( $File ) )
 			unlink( $File ) ;

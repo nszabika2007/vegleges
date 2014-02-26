@@ -51,4 +51,7 @@ add_order:
      defaults: { _controller:OrderTripBundle:Order:add , OrderID:0 }
 add_edit_trip:
      pattern: /trips/add/{TripID}
-     defaults: { _controller:OrderTripBundle:Trip:add, TripID:0 } 
+     defaults: { _controller:OrderTripBundle:Trip:add, TripID:0 }
+upload_finallize_trip:
+     pattern: /trips/finalize_upload/{TripID}
+     defaults: { _controller:OrderTripBundle:Trip:uploadfinalize }

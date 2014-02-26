@@ -22,22 +22,34 @@ include 'PDFMerger/PDFMerger.php';
 
 $PDFMerger = new PDFMerger;
 $PathFile = "";
+$UPLOAD_FINALIZE = "UPLOAD_FINALIZE.pdf" ;
 if ( (int)$JsonOBJ -> single_doc )
 {
 	$BasePath .="Bundle_" . $JsonOBJ ->ids[0] ."/";
 	
 	$DIR_Files = array_diff( scandir( $BasePath ) , array( '..' , '.' ) ) ;
-	
-	foreach( $DIR_Files AS $num => $File )
+	if ( !isset( $JsonOBJ -> Invitation ) )
 	{
-		$FileArray = explode( '.' , $File ) ;
-		$FileType = $FileArray[1];
-		if ( !in_array( $FileType , array( 'pdf' ) ) )
-			continue ;
+		foreach( $DIR_Files AS $num => $File )
+		{
+			$FileArray = explode( '.' , $File ) ;
+			$FileType = $FileArray[1];
+			if ( !in_array( $FileType , array( 'pdf' ) ) or $File == $UPLOAD_FINALIZE )
+				continue ;
+			
+			$PDFMerger -> addPDF( $BasePath . $File , 'all' );
+		}
 		
-		$PDFMerger -> addPDF( $BasePath . $File , 'all' );
-	}
-	$PathFile = $BasePath . "PDF_MERGED.pdf" ;
+		$PathFile = $BasePath . "PDF_MERGED.pdf" ;
+	} else 
+		{
+			
+			$PDFMerger -> addPDF( $BasePath . $JsonOBJ -> Invitation , 'all' );
+			$PDFMerger -> addPDF( $BasePath . "CEREREDEORDIN.pdf" , 'all' );
+			$PDFMerger -> addPDF( $BasePath . "DECLARATIE.pdf" , 'all' );
+			$PathFile =$BasePath. $UPLOAD_FINALIZE ; 
+		}
+	
 }
 else 
 {	

@@ -22,6 +22,10 @@ Class MergeAPI
 	
 	private $UserHelper ;
 	
+	private $TripUploadFinalize = false ;
+	
+	private $Invitation = "" ;
+	
 	function __construct( UserHelper $UserHelper )
 	{
 		
@@ -37,6 +41,15 @@ Class MergeAPI
 	private static function Build_APIBaseURL( )
 	{
 		self :: $API_BaseURL = "http://" . self :: $Request -> getHttpHost( ) . self :: $Request -> getBasePath( )  . "/MargeIndex.php" ;
+	}
+	
+	public function Set_TripUploadFinalize( $Invitation )
+	{
+		$this -> Invitation = trim( $Invitation );
+		
+		$this -> TripUploadFinalize = TRUE ;
+		
+		return $this ;
 	}
 	
 	public function Is_MergeTypeTrip( )
@@ -77,6 +90,13 @@ Class MergeAPI
 		$Json_Array[ 'ids' ] = $this -> IDS ;
 		$Json_Array[ 'single_doc' ] = $this -> IsSingleDoc ;
 		$Json_Array[ 'user_id' ] = $this -> UserHelper -> Get_UserID( ) ;
+		
+		if ( $this -> TripUploadFinalize === TRUE )
+		{
+			$Json_Array[ 'TripUploadFinalize' ] = '1';
+			$Json_Array[ 'Invitation' ] = $this -> Invitation ;
+		}
+		
 		return base64_encode( json_encode( $Json_Array ) ) ;
 	}
 	

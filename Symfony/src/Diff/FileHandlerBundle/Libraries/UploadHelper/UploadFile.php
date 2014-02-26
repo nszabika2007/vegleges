@@ -117,6 +117,8 @@ Abstract Class UploadFile implements UploadInterface
 			self :: $EntityManager -> flush( );	
 			$File -> move( $this -> DIR , $File -> getClientOriginalName( ) );
 		}
+		
+		return $Files ;
 	}
 		
 }

@@ -1,7 +1,7 @@
 <?php
 
 namespace Diff\FileHandlerBundle\Libraries\PDFHandler;
-use Symfony\Component\HttpFoundation\Request;
+//use Symfony\Component\HttpFoundation\Request;
 use Diff\BassicLayoutBundle\Helper\BasicLayoutHelper AS BasicLayoutHelper ;
 
 Class PDFHandler
@@ -13,7 +13,7 @@ Class PDFHandler
 	
 	private $PDF_Name ;
 	
-	private $Request;
+	//private $Request;
 	
 	private $PDF_Content ;
 	
@@ -27,12 +27,12 @@ Class PDFHandler
 	
 	function __Construct( $KnpSnappyPDF ,$BasicLayoutHelper )
 	{ 	
-		$this -> Request = Request :: createFromGlobals();
+		//$this -> Request = Request :: createFromGlobals();
 		
 		$this -> BasicLayoutHelper = $BasicLayoutHelper ;
 		$this -> KnpSnappyPDF = $KnpSnappyPDF ;
 		
-		$this -> PDF_FILE_PATH = $this -> Request -> getBasePath( ) . $this :: WEB_FILE_PATH ;
+		//$this -> PDF_FILE_PATH = $this -> Request -> getBasePath( ) . $this :: WEB_FILE_PATH ;
 	}
 	
 	public function Set_PDFName( $PDF_Name )

@@ -26,12 +26,12 @@ services:
         arguments: [@form.factory , @doctrine.orm.entity_manager]
     BillForm:
         class: %BillForm.Class%
-        arguments: [@form.factory , @doctrine.orm.entity_manager , @UserHelper ]
+        arguments: [@form.factory , @doctrine.orm.entity_manager , @UserHelper , @SessionHelper ]
     UploadTrip:
         class: %UploadTrip.Class%
     CerereOrdinForm:
         class: %CerereOrdinForm.Class%
-        arguments: [ @form.factory , @doctrine.orm.entity_manager ]
+        arguments: [ @form.factory , @doctrine.orm.entity_manager , @SessionHelper ] 
     CerereDeOridinHandler:
         class: %CerereDeOridinHandler.Class%
         arguments: [ ]

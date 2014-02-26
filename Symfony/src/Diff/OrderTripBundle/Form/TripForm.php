@@ -31,6 +31,8 @@ Class TripForm
 	
 	private $Defaults  ;
 	
+	private $User_EntityManager ;
+	
 	function __construct( FormFactory $FormFactory , UserHelper $UserHelper , 
 						EntityManager $EntityManager , SessionHelper $SessionHelper ,SumHelper $SumHelper  )
 	{
@@ -41,6 +43,8 @@ Class TripForm
 		$this -> SumHelper = $SumHelper -> IsForTrip( ) -> Load_Totals( );
 		
 		$this -> SessionHelper = $SessionHelper ;
+		
+		$this -> User_EntityManager = $EntityManager ;
 		
 		$this -> EntityManager = $EntityManager ;
 		
@@ -104,16 +108,18 @@ Class TripForm
 			$FormData = $this -> Form -> getData( );
 			
 			$TotalProvided = $this -> SumHelper -> get_Total( ) ;
-			$RemainingToProvide = $this -> GlobalAmount - $TotalProvided ;
+			$RemainingToProvide = $this -> GlobalAmount  ;
 			$Remaining = $RemainingToProvide - $FormData[ 'ProvidedAmount' ] ;
+			
+			$Old_ProvidedAmount = NULL;
 			
 			if ( $TripID > 0 )
 			{
-				$Trip = $this -> TripsRepository -> find( $TripID );
+				$Trips = $this -> TripsRepository -> find( $TripID );
+				$Old_ProvidedAmount = $Trips -> getProvidedamount( );
+				$Remaining += $Trips -> getProvidedamount( ) ;
 				
-				$Remaining += $Trip -> getProvidedamount( ) ;
-				
-				$Trip	-> setStartdate( $FormData[ 'StartDate' ] )
+				$Trips	-> setStartdate( $FormData[ 'StartDate' ] )
 						-> setDestination( $FormData[ 'destination' ] )
 						-> setProvidedamount( $FormData[ 'ProvidedAmount' ] );	
 			}
@@ -131,15 +137,28 @@ Class TripForm
 			if ( $FormData[ 'can_go_negative' ] != 1 )	
 				if( $Remaining < 0 )
 				{
+					if ( $this -> GlobalAmount  < 0 )
+					$this -> SessionHelper -> set_ErrorFlashData( "You are allready bellow with: " . $this -> GlobalAmount . "!" );
+					else
 					$this -> SessionHelper -> set_ErrorFlashData( "You have only $RemainingToProvide amount left for spending!" );
 					if ( $TripID > 0  ) return ;
 					$this -> SessionHelper -> RedirectPageTo( "trip_homepage" );
 					return ;
 				}
 			
-			
-					
 			$this -> EntityManager -> flush( );
+			
+			// Extracting from User global . 
+			$ProvidedAmount = $FormData[ 'ProvidedAmount' ] ;
+			if ( $Old_ProvidedAmount != NULL )
+				$ProvidedAmount = $ProvidedAmount - $Old_ProvidedAmount ;
+			$User = $this -> User_EntityManager -> getRepository( 'UserBundle:User' ) -> find( $this -> UserHelper -> Get_UserID( ) ) ;
+			
+			$GlobalTrip = $User -> getGlobaltrip( );
+			$User -> setGlobaltrip( $GlobalTrip - $ProvidedAmount ) ;
+			
+			$this -> User_EntityManager -> flush( );
+			return $Trips -> getId( ) ;
 		}
 	}
 	

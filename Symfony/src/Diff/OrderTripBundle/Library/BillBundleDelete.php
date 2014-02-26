@@ -66,21 +66,21 @@ Class BillBundleDelete
 			$this -> HandleForTrip( ) ;
 		else if( $this -> CondOrder === TRUE )
 			$this -> HandleForOrder( ) ;
-		$BillSum = Null ;
+		// $BillSum = Null ;
 		
-		foreach( $this -> Bills AS $num => $Bill )
-		{
-			$BillSum+= $Bill -> getAmount( ) ;
-			
-		}
-		$this -> Global += $BillSum ;
-		
-		if ( $this -> CondTrip === TRUE )
-			$this -> UserOBJ -> setGlobaltrip( $this -> Global ) ;
-		else if( $this -> CondOrder === TRUE )
-			$this -> UserOBJ -> setGlobalorder( $this -> Global ) ; 
-		
-		$this -> EntityManager -> flush( );
+		// foreach( $this -> Bills AS $num => $Bill )
+		// {
+			// $BillSum+= $Bill -> getAmount( ) ;
+// 			
+		// }
+		// $this -> Global += $BillSum ;
+// 		
+		// if ( $this -> CondTrip === TRUE )
+			// $this -> UserOBJ -> setGlobaltrip( $this -> Global ) ;
+		// else if( $this -> CondOrder === TRUE )
+			// $this -> UserOBJ -> setGlobalorder( $this -> Global ) ; 
+// 		
+		// $this -> EntityManager -> flush( );
 		
 		foreach( $this -> Bills AS $num => $Bill )
 		{

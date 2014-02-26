@@ -25,7 +25,7 @@
 					
 				$TableHelper -> add_row
 				( 
-					"<a href='".
+					"<a class='btn btn-primary btn-sm' href='".
 						$view['router']->generate( 
 									'view_trip' , 
 									array( 'TripID' => $Trip -> getId() ) ) ."' >" . $Link_Cont . "</a>" ,

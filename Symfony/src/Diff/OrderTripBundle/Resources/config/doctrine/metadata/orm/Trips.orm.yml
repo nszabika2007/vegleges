@@ -51,4 +51,28 @@ Diff\OrderTripBundle\Entity\Trips:
             length: null
             fixed: false
             comment: ''
+        flagCerere:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '0'
+            column: flag_cerere
+        flagDeclaratie:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '0'
+            column: flag_declaratie
+        flagInvitatie:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '0'
+            column: flag_invitatie
+        uploadFinalize:
+            type: boolean
+            nullable: true
+            comment: ''
+            default: '0'
+            column: upload_finalize   
     lifecycleCallbacks: {  }

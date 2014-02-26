@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager AS EntityManager ;
 use Diff\FileHandlerBundle\Libraries\UploadHelper\UploadInterface AS UploadInterface;
 use Diff\BassicLayoutBundle\Entity\Bills AS Bills ;
 use Diff\UserBundle\Helper\UserHelper AS UserHelper ;
+use Diff\BassicLayoutBundle\Helper\SessionHelper AS SessionHelper;
 
 Class BillForm implements UploadInterface
 {
@@ -30,7 +31,13 @@ Class BillForm implements UploadInterface
 	
 	private $UserHelper ;
 	
-	function __construct( FormFactory $FormFactory , EntityManager $EntityManager , UserHelper $UserHelper )
+	public $SpentAmount = 0;
+	
+	public $ProvidedAmount = 0;
+	
+	private $SessionHelper ;
+	
+	function __construct( FormFactory $FormFactory , EntityManager $EntityManager , UserHelper $UserHelper , SessionHelper $SessionHelper )
 	{
 		$this -> FormBuilder = $FormFactory -> createBuilder( 'form' ) ;
 		
@@ -39,6 +46,8 @@ Class BillForm implements UploadInterface
 		$this -> TripsRepository = $EntityManager -> getRepository('OrderTripBundle:Trips');
 		
 		$this -> UserHelper = $UserHelper ;
+		
+		$this ->SessionHelper = $SessionHelper ;
 	}
 	
 	public function Is_ForOrder( $url )
@@ -86,13 +95,27 @@ Class BillForm implements UploadInterface
 		
 		if ( ! $this -> Form -> isValid( ) ) 
 			return ;
+		$FormData = $this -> Form -> getData( );
+		
+		$Remaining = $this -> ProvidedAmount - $this -> SpentAmount ;
+		$Remaining_subm = $Remaining - $FormData[ 'amount' ] ;
+		
+		if ( $Remaining_subm < 0 )
+		{
+			$this -> SessionHelper -> set_ErrorFlashData( "Amount left for Billing is : " . $Remaining . " !" );
+			
+			if ( $this -> CondTrip )
+				$this -> SessionHelper -> RedirectPageTo( "view_trip"  , array( 'TripID' => $this -> UID ) );
+			elseif( $this -> CondOrder )
+				$this -> SessionHelper -> RedirectPageTo( "view_order"  , array( 'OrderID' => $this -> UID ) );	
+			
+			return;
+		}
+			
 		
 		$UserID = $this -> UserHelper -> Get_CurrentUser( ) -> getId( ) ; 
 		
-		$User = $this -> EntityManager -> getRepository( 'UserBundle:User' ) -> find( $UserID ) ;
-	
-
-		$FormData = $this -> Form -> getData( );
+		//$User = $this -> EntityManager -> getRepository( 'UserBundle:User' ) -> find( $UserID ) ;
 		
 		$Files = $Request -> files -> all( ) ;
 		$Dir = $Request -> server -> get( 'DOCUMENT_ROOT' ) . $Request -> getBasePath( ) . $this :: BASE_FILE_PATH ;
@@ -104,19 +127,19 @@ Class BillForm implements UploadInterface
 			$Bills -> setTripId( $this -> UID ); 
 			$Dir = $Dir . $this :: UPLOAD_TRIP_PATH ;
 			
-			$GlobalTrip = $User -> getGlobaltrip( );
-			$User -> setGlobaltrip( $GlobalTrip - $FormData[ 'amount' ] ) ;
+			// $GlobalTrip = $User -> getGlobaltrip( );
+			// $User -> setGlobaltrip( $GlobalTrip - $FormData[ 'amount' ] ) ;
 		}
 		else if ( $this -> CondOrder )
 		{
 			$Bills -> setOrderId( $this -> UID );
 			$Dir = $Dir . $this :: UPLOAD_ORDER_PATH ;
 			
-			$GlobalOrder = $User -> getGlobalorder( ) ;
-			$User -> setGlobalorder( $GlobalOrder - $FormData[ 'amount' ] ) ; 
+			// $GlobalOrder = $User -> getGlobalorder( ) ;
+			// $User -> setGlobalorder( $GlobalOrder - $FormData[ 'amount' ] ) ; 
 		}
 		
-		$this -> EntityManager -> flush( );
+		//$this -> EntityManager -> flush( );
 		
 		$Dir .= $this :: FOLDER_BASE_NAME . $this -> UID;
 		

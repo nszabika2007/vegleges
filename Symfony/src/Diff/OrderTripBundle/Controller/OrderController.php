@@ -34,9 +34,17 @@ class OrderController extends Controller
 	
 	private function init( $OrderID )
 	{
+		$UserID = $this -> get( 'UserHelper' ) -> Get_CurrentUser() -> getId() ;
 		$OrderRepository = $this -> getDoctrine() -> getRepository('OrderTripBundle:Orders');
 		$Orders = $OrderRepository -> findById( $OrderID );
-		$this -> OrderObj = $Orders[0];
+		if ( !isset( $Orders[0] ) or $Orders[0] -> getUserid() != $UserID )
+		{
+			$Request = Request::createFromGlobals();
+			$URL_invalid = 'http://' . $Request -> getHttpHost() . $this -> generateUrl( 'order_trip_homepage' ) ;
+			header("Location: $URL_invalid");
+			 die();
+		}	
+		$this -> OrderObj = $Orders[0]; 
 	}
 	
 	private function getProduct( $ProductID )
@@ -100,6 +108,8 @@ class OrderController extends Controller
 		$BillForm = $this -> get( 'BillForm' );
 		$BillForm -> Is_ForOrder( $this -> generateUrl( 'submit_order_bill' , array( 'OrderID' => $OrderID ) ) );
 		$BillForm -> Set_UID( $OrderID );
+		
+					
 		$FormB = $BillForm -> Generate_BillForm( ) ;
 		
 		return $FormB ;
@@ -202,9 +212,15 @@ class OrderController extends Controller
 	
 	public function OrderBillAction( $OrderID , Request $Request )
 	{
+		$this -> init( $OrderID );
 		$BillForm = $this -> get( 'BillForm' );
 		$BillForm -> Is_ForOrder( $this -> generateUrl( 'submit_order_bill' , array( 'OrderID' => $OrderID ) ) );
 		$BillForm -> Set_UID( $OrderID );
+		$BillForm -> ProvidedAmount = $this -> OrderObj -> getProvidedamount(  );
+		$BillForm -> SpentAmount = $this 	-> get( 'AmountHelper' )  
+									-> Is_ForOrder( ) 
+									-> AddID( $OrderID ) 
+									-> GetAmount( ) -> GetBillAmount( ) ;
 		$FormB = $BillForm -> Generate_BillForm( ) ;
 		
 		$BillForm -> HandleRequest( $Request );
@@ -214,20 +230,29 @@ class OrderController extends Controller
 	public function deleteAction( $OrderID )
 	{
 		$this -> init( $OrderID );
+		$this -> Load_UserObject();
 		$PathToOrderBundle = $this -> get( 'DIRHelper' ) -> SetUID( $OrderID ) -> Get_PathToOrderBundle( );
 		$this -> get( 'BillBundleDelete' ) -> IsForOrder( ) -> setID( $OrderID ) -> DeleteBills( );
 		if( file_exists($PathToOrderBundle) )
 			system( "rm -rf " . escapeshellarg( $PathToOrderBundle ) );
-		
+		$ProvidedAmount = $this -> OrderObj -> getProvidedamount( ) ;
 		 $em = $this->getDoctrine()->getEntityManager();
 	     $em->remove( $this -> OrderObj );
 	     $em->flush();
+		 
+		$em_user = $this->getDoctrine()->getEntityManager();
+		$User = $em_user -> getRepository( 'UserBundle:User' ) -> find( $this -> UserID ) ;
+		
+		$GlobalOrder = $User -> getGlobalorder( );
+		$User -> setGlobalorder( $GlobalOrder + $ProvidedAmount ) ;
+		$em_user -> flush();
 		 
 		return $this -> redirect( $this -> generateUrl( 'order_trip_homepage' ) );
 	}
 	
 	public function deleteProductAction( $ProductID ,$OrderID)
 	{
+		$this -> init( $OrderID );
 	 	$this ->getProduct( $ProductID );
 		$em = $this->getDoctrine()->getEntityManager();
 		$em->remove( $this -> ProductObj );
@@ -243,6 +268,7 @@ class OrderController extends Controller
 	public function addAction( $OrderID = null , Request $Request )
 	{
 		$OrderID= (int) $OrderID ;
+		$this -> init( $OrderID );
 		$RedirectURL = null ;
 		
 		$OrdersForm = $this -> get( 'OrdersForm' ) -> set_OrderID( $OrderID ) ;
