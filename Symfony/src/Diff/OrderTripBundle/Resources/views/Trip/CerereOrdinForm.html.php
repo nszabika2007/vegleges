@@ -11,6 +11,10 @@
       </div>
       <div class="modal-body">
         <?php echo $view['form']->form( $CerereOrdinForm ) ; ?>
+		<br/ >
+		<br/ >
+		<br/ >
+		<div class="alert alert-danger hide" id ="error"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

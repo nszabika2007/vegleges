@@ -19,6 +19,8 @@ Class CerereOrdinForm
 	
 	private $SessionHelper ;
 	
+	private $Defaults ; 
+	
 	function __construct( FormFactory $FormFactory , EntityManager $EntityManager ,  SessionHelper $SessionHelper )
 	{
 		$this -> FormBuilder = $FormFactory -> createBuilder( 'form' ) ;
@@ -30,13 +32,20 @@ Class CerereOrdinForm
 		$this -> ProductRepository = $EntityManager -> getRepository( 'OrderTripBundle:Cerereordins' );
 	}
 
+	public function Build_Defaults( $TripObject , $UserObject )
+	{
+		$this -> Defaults = new \stdClass( ) ;
+		$this -> Defaults -> Total = $TripObject -> getProvidedamount( ) ;
+		$this -> Defaults -> Destination = $TripObject -> getDestination( ) ;
+	}
 	
 	private function Build_Form( )
 	{
 	$this 	-> FormBuilder 
 				-> add( 'Destination' , 'text' , array( 
 								'label' => 'Destiantia Localitatea',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control' ) ,
+								'data'	=> @$this -> Defaults -> Destination
 							) )
 				-> add( 'Destination2' , 'text' , array( 
 								'label' => 'Destiantia Tara',
@@ -92,31 +101,32 @@ Class CerereOrdinForm
 							) )
 				-> add( 'Transportf' , 'text' , array( 
 								'label' => 'Transport',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control tranps' )
 							) )
 				-> add( 'Transport_internf' , 'text' , array( 
 								'label' => 'Transport intern',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control transp_intern' )
 							) )
 				-> add( 'Diurnaf' , 'text' , array( 
 								'label' => 'Diurna',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control diaurina' )
 							) )
 				-> add( 'Cazaref' , 'text' , array( 
 								'label' => 'Cazare',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control cazare' )
 							) )
 				-> add( 'Taxa_participaref' , 'text' , array( 
 								'label' => 'Taxa participare',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control taxa_participare' )
 							) )
 				-> add( 'cheltiueli_af' , 'text' , array( 
 								'label' => 'Alte cheltuieli',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control cheltuieli' )
 							) )
 				-> add( 'Totalf' , 'text' , array( 
 								'label' => 'Total',
-								'attr' 	=> array( 'class' => 'form-control' )
+								'attr' 	=> array( 'class' => 'form-control total' ) ,
+								'data'	=>	@$this -> Defaults -> Total
 							) )
 				-> add( 'datef' , 'text' , array( 
 								'label' => 'Data',
@@ -124,7 +134,7 @@ Class CerereOrdinForm
 							) )
 				-> add( 'Save' , 'submit' , array(
 								'attr'	=> array( 
-												'class' => 'btn btn-primary pull-right'
+												'class' => 'btn btn-primary pull-right calculate'
 												)
 							) ) ;
 	}

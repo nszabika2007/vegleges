@@ -65,7 +65,11 @@ class OrderController extends Controller
 		$OrdersForm = $this -> get( 'OrdersForm' );
 		$Form = $OrdersForm -> Generate_OrdersForm() ;
 		
-		$OrdersForm -> HandleRequest( $Request );
+		$OrderID = NULL ;
+		$OrderID = $OrdersForm -> HandleRequest( $Request );
+		
+		if ( $OrderID > 0 && $Request -> getMethod( ) == 'POST' )
+			return $this -> redirect( $this -> generateUrl( 'view_order' , array( 'OrderID' => $OrderID ) ) );
 		
 		$Orders = $OrderRepository -> findByUserid( $this -> UserID ,  array('id' => 'DESC'));
 		

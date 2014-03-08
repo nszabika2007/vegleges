@@ -2,6 +2,10 @@
  * 	Images that are going to be renderd to PDF .
  */
 
+ #error{
+	border:1px solid red;
+ }
+ 
 img.img-for-pdf
 {
 	max-width:100% ;

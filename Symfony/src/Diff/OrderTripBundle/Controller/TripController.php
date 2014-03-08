@@ -183,6 +183,8 @@ Class TripController extends Controller
 		
 		$CerereOrdinForm = $this -> get( 'CerereOrdinForm' );
 		
+		$CerereOrdinForm -> Build_Defaults( $this -> TripObject , $this -> UserObj ) ;
+		
 		$CerereOrdinFormm =$CerereOrdinForm -> Generate_TripForm ( 
 						$this -> generateUrl( 'trip_cerere' , array( 'TripID' => $TripID ) ) 
 															);

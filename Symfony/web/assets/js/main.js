@@ -29,4 +29,24 @@ $(document).ready(function(){
 	  	$( "#university" ).attr("readonly", false);
 	});
 	
+	$(".modal").draggable({
+		handle: ".modal-header"
+	});
+	
+	$(".calculate").click(function(event) {
+		var x1 =parseInt( $( ".tranps" ).val());
+		x1 += parseInt($( ".transp_intern" ).val());
+		x1 += parseInt($( ".diaurina" ).val());
+		x1 += parseInt($( ".cazare" ).val());
+		x1 += parseInt($( ".taxa_participare" ).val());
+		x1 += parseInt($( ".cheltuieli" ).val());
+		var x2 = parseInt($( ".total" ).val());
+		if(x1 != x2)
+		{
+			$( '#error' ).text( 'Please make sure that if the total is correct!' );
+			$( '#error' ).addClass('show');
+			event.preventDefault();
+		}
+	});
+	
 });
